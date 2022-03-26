@@ -156,8 +156,9 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     {
         $this->skipTest(__FUNCTION__);
 
-        $channel = new Dingtalk([ 'secret' => $this->secret ]);
-        $channel->setToken($this->token);
+        $channel = new Dingtalk();
+        $channel->setSecret($this->secret)
+            ->setToken($this->token);
         // var_dump($channel);
 
         $message = new DingtalkMessage('actionCard', $content, $title);

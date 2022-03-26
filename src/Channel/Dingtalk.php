@@ -16,7 +16,7 @@ use Pusher\Message;
 
 class Dingtalk extends \Pusher\Channel
 {
-    private string $secret;
+    private string $secret = '';
 
     protected string $base_url = 'https://oapi.dingtalk.com';
     protected string $uri_template = '%s/robot/send?access_token=%s&timestamp=%d&sign=%s';
@@ -24,7 +24,10 @@ class Dingtalk extends \Pusher\Channel
     public function __construct(array $config = [])
     {
         $this->client = new \GuzzleHttp\Client();
-        $this->secret = $config['secret'];
+
+        if (isset($config['secret'])) {
+            $this->secret = $config['secret'];
+        }
 
         parent::configureDefaults($config);
     }
@@ -41,4 +44,11 @@ class Dingtalk extends \Pusher\Channel
 
         return $this->client->request('POST', $request_uri, [ 'json' => $postData ]);
     }
+
+    public function setSecret(string $secret): self
+    {
+        $this->secret = $secret;
+        return $this;
+    }
+
 }
