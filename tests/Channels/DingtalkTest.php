@@ -74,7 +74,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
      *
      * @return void
      */
-    public function testTextMarkdownCases(string $msgtype, string $content, string $title = '', array $at): void
+    public function testTextMarkdownCases(string $msgtype, string $content, string $title = '', array $at = []): void
     {
         $this->skipTest(__FUNCTION__);
 
