@@ -39,7 +39,6 @@ class Channel implements ChannelInterface
         }
 
         $this->config = $default + $config;
-
         $this->setBaseURL($this->config['base_url']);
     }
 
@@ -50,7 +49,6 @@ class Channel implements ChannelInterface
         }
 
         $this->config['base_url'] = rtrim($base_url, '/');
-
         return $this;
     }
 

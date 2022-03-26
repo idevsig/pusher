@@ -27,6 +27,7 @@ class PushDeerTest extends TestCase
     public function testCases(string $text, string $desp = '', $type = '', $base_url = ''): void
     {
         $channel = new PushDeer();
+        $channel->setToken($this->token);
         // var_dump($channel);
 
         if ($base_url !== '') {
@@ -35,7 +36,6 @@ class PushDeerTest extends TestCase
         // var_dump($channel->getBaseURL());
 
         $message = new PushDeerMessage($text, $desp, $type);
-        $channel->setToken($this->token);
         $resp = $channel->requestJson($message);
         // var_dump($resp);
 

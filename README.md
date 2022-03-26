@@ -6,6 +6,7 @@ APP 推送通知
 |:---|:---|:---|:---|
 |**PushDeer**|http://pushdeer.com/|-|[cases](tests/Channels/PushDeerTest.php)
 |**Bark**(仅支持 `iOS`)|https://day.app/2021/06/barkfaq/|-|[cases](tests/Channels/BarkTest.php)
+|**钉钉群通知**|[https://open.dingtalk.com/](https://open.dingtalk.com/document/robots/customize-robot-security-settings)|-|[cases](tests/Channels/DingtalkTest.php)
 
 ## 环境
 - **PHP**: `"^8.0 || ^8.1"`

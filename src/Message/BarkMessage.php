@@ -15,13 +15,13 @@ use Pusher\Message;
 
 class BarkMessage extends Message
 {
-    private string $title; // 通知标题
-    private string $body;  // 通知内容
-    private int    $badge; // 图标旁边显示数字
-    private string $sound; // 通知提示音
-    private string $icon;  // 图标的 URL
-    private string $group; // 通知组
-    private string $url;   // 跳转 URL
+    private string $title = '';  // 通知标题
+    private string $body  = '';  // 通知内容
+    private int    $badge = 1;   // 图标旁边显示数字
+    private string $sound = '';  // 通知提示音
+    private string $icon  = '';  // 图标的 URL
+    private string $group = '';  // 通知组
+    private string $url   = '';  // 跳转 URL
 
     public function __construct(
         string $title, 

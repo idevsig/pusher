@@ -35,6 +35,7 @@ class BarkTest extends TestCase
         string $base_url = ''): void
     {
         $channel = new Bark();
+        $channel->setToken($this->token);
         // var_dump($channel);
 
         if ($base_url !== '') {
@@ -43,7 +44,6 @@ class BarkTest extends TestCase
         // var_dump($channel->getBaseURL());
 
         $message = new BarkMessage($title, $body, $badge, $sound, $icon, $group, $url);
-        $channel->setToken($this->token);
         $resp = $channel->requestJson($message);
         // var_dump($resp);
 

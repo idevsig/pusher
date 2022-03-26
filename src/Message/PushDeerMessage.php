@@ -15,9 +15,9 @@ use Pusher\Message;
 
 class PushDeerMessage extends Message
 {
-    private string $text; // 通知标题
-    private string $desp; // 通知内容
-    private string $type; // 通知类型 text,markdown,image
+    private string $text = ''; // 通知标题
+    private string $desp = ''; // 通知内容
+    private string $type = 'text'; // 通知类型 text,markdown,image
 
     public function __construct(string $text = '', string $desp = '', string $type = '')
     {
