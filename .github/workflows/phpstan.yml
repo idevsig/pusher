@@ -1,0 +1,66 @@
+name: "phpstan"
+
+on:
+  push:
+    paths-ignore:
+      - 'doc/**'
+  pull_request:
+    paths-ignore:
+      - 'doc/**'
+
+env:
+  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
+  SYMFONY_PHPUNIT_VERSION: ""
+
+jobs:
+  tests:
+    name: "PHPStan"
+
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+
+    strategy:
+      matrix:
+        include:
+          - php-version: "8.0"
+            experimental: false
+          - php-version: "8.1"
+            experimental: true
+      fail-fast: false
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          extensions: "intl, zip"
+          ini-values: "memory_limit=-1"
+          php-version: "${{ matrix.php-version }}"
+
+      - name: "Determine composer cache directory"
+        id: "determine-composer-cache-directory"
+        run: "echo \"::set-output name=directory::$(composer config cache-dir)\""
+
+      - name: "Cache dependencies installed with composer"
+        uses: "actions/cache@v3"
+        with:
+          path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
+          key: "php-${{ matrix.php-version }}-symfony-php-unit-version-${{ env.SYMFONY_PHPUNIT_VERSION }}-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-version }}-symfony-php-unit-version-${{ env.SYMFONY_PHPUNIT_VERSION }}"
+
+      - name: "Install highest dependencies"
+        if: "matrix.experimental == true"
+        run: "composer config platform --unset && composer update ${{ env.COMPOSER_FLAGS }}"
+
+      - name: "Install locked dependencies"
+        if: "matrix.experimental == false"
+        run: "composer config platform --unset && composer update ${{ env.COMPOSER_FLAGS }}"
+
+      - name: "Initialize PHPUnit sources"
+        run: "vendor/bin/phpunit tests"
+
+      - name: "Run PHPStan"
+        run: "vendor/bin/phpstan analyse src tests"

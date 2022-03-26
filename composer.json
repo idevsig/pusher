@@ -1,0 +1,27 @@
+{
+    "name": "jetsung/pusher",
+    "description": "A message push extension.",
+    "keywords": [ "pusher", "push message" ],
+    "homepage": "https://github.com/jetsung/pusher",
+    "require": {
+        "php": "^8.0 || ^8.1",
+        "guzzlehttp/guzzle": "^7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^3.6",
+        "phpstan/phpstan": "^1.4"
+    },
+    "license": "Apache-2.0",
+    "autoload": {
+        "psr-4": {
+            "Pusher\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jetsung Chan",
+            "email": "skiy@jetsung.com"
+        }
+    ]
+}
