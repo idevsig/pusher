@@ -78,8 +78,9 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     {
         $this->skipTest(__FUNCTION__);
 
-        $channel = new Dingtalk([ 'secret' => $this->secret ]);
-        $channel->setToken($this->token);
+        $channel = new Dingtalk();
+        $channel->setSecret($this->secret)
+            ->setToken($this->token);
         // var_dump($channel);
 
         $message = new DingtalkMessage($msgtype, $content, $title);
@@ -97,8 +98,9 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     {
         $this->skipTest(__FUNCTION__);
 
-        $channel = new Dingtalk([ 'secret' => $this->secret ]);
-        $channel->setToken($this->token);
+        $channel = new Dingtalk();
+        $channel->setSecret($this->secret)
+            ->setToken($this->token);
         // var_dump($channel);
 
         $message = new DingtalkMessage('link', '这个即将发布的新版本，创始人xx称它为红树林。而在此之前，每当面临重大升级，产品经理们都会取一个应景的代号，这一次，为什么是红树林', '时代的火车向前开');
@@ -115,8 +117,9 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     {
         $this->skipTest(__FUNCTION__);
 
-        $channel = new Dingtalk([ 'secret' => $this->secret ]);
-        $channel->setToken($this->token);
+        $channel = new Dingtalk();
+        $channel->setSecret($this->secret)
+            ->setToken($this->token);
         // var_dump($channel);
 
         $links = [
