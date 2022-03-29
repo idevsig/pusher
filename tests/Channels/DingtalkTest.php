@@ -20,7 +20,8 @@ class DingtalkTest extends TestCase
     private string $token = '18f7e22470ca8307b6bc382413dcc1b13a2a3603c4a264460c698b36eec3dfba';
     private string $secret = 'SEC5f0dd6237d0e3d253bb9db726822cc4dd79186bba482c0e3ad40ac0d3f19a50f';
 
-    const PASS = false;
+    ## 钉钉限制每分钟只能发 20 条信息，故跳过单元测试
+    const PASS = true;
 
     public function skipTest(string $func): void
     {
@@ -78,8 +79,9 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     {
         $this->skipTest(__FUNCTION__);
 
-        $channel = new Dingtalk([ 'secret' => $this->secret ]);
-        $channel->setToken($this->token);
+        $channel = new Dingtalk();
+        $channel->setSecret($this->secret)
+            ->setToken($this->token);
         // var_dump($channel);
 
         $message = new DingtalkMessage($msgtype, $content, $title);
@@ -97,8 +99,9 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     {
         $this->skipTest(__FUNCTION__);
 
-        $channel = new Dingtalk([ 'secret' => $this->secret ]);
-        $channel->setToken($this->token);
+        $channel = new Dingtalk();
+        $channel->setSecret($this->secret)
+            ->setToken($this->token);
         // var_dump($channel);
 
         $message = new DingtalkMessage('link', '这个即将发布的新版本，创始人xx称它为红树林。而在此之前，每当面临重大升级，产品经理们都会取一个应景的代号，这一次，为什么是红树林', '时代的火车向前开');
@@ -115,8 +118,9 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     {
         $this->skipTest(__FUNCTION__);
 
-        $channel = new Dingtalk([ 'secret' => $this->secret ]);
-        $channel->setToken($this->token);
+        $channel = new Dingtalk();
+        $channel->setSecret($this->secret)
+            ->setToken($this->token);
         // var_dump($channel);
 
         $links = [

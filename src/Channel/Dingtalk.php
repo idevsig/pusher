@@ -22,14 +22,9 @@ class Dingtalk extends \Pusher\Channel
     protected string $uri_template = '%s/robot/send?access_token=%s&timestamp=%d&sign=%s';
 
     public function __construct(array $config = [])
-    {
-        $this->client = new \GuzzleHttp\Client();
-
-        if (isset($config['secret'])) {
-            $this->secret = $config['secret'];
-        }
-
+    {        
         parent::configureDefaults($config);
+        $this->client = new \GuzzleHttp\Client();
     }
 
     public function request(Message $message): ResponseInterface

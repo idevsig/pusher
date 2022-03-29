@@ -21,9 +21,8 @@ class PushDeer extends \Pusher\Channel
 
     public function __construct(array $config = [])
     {
-        $this->client = new \GuzzleHttp\Client();
-
         parent::configureDefaults($config);
+        $this->client = new \GuzzleHttp\Client();
     }
 
     public function request(Message $message): ResponseInterface
