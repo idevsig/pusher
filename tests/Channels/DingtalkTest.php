@@ -39,7 +39,7 @@ class DingtalkTest extends TestCase
             'isAtAll'   => true,
         ];
 
-        $at2 = array_merge($at, ['isAtAll' => false]);
+        $at2 = array_merge($at, [ 'isAtAll' => false ]);
 
         return [
             ['text', 'TEXT 消息内容', '', $at], 
@@ -77,7 +77,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
      */
     public function testTextMarkdownCases(string $msgtype, string $content, string $title = '', array $at = []): void
     {
-        $this->skipTest(__FUNCTION__);
+        $this->skipTest(__METHOD__);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -97,7 +97,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
     public function testLinkCase(): void
     {
-        $this->skipTest(__FUNCTION__);
+        $this->skipTest(__METHOD__);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -116,7 +116,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
     public function testFeedCardCase(): void
     {
-        $this->skipTest(__FUNCTION__);
+        $this->skipTest(__METHOD__);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -158,7 +158,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         array $btns = [],
     ): void
     {
-        $this->skipTest(__FUNCTION__);
+        $this->skipTest(__METHOD__);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
