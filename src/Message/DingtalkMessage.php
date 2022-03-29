@@ -152,6 +152,15 @@ class DingtalkMessage extends Message
         return $this->btns;
     }
 
+    public function addBtn(string $title, string $actionURL): self
+    {
+        $this->btns[] = [
+            'title' => $title,
+            'actionURL' => $actionURL,
+        ];
+        return $this;
+    }
+
     public function setLinks(array $links): self
     {
         $this->links = $links;
@@ -161,6 +170,16 @@ class DingtalkMessage extends Message
     public function getLinks(): array
     {
         return $this->links;
+    }
+
+    public function addLink(string $title, string $messageURL, string $picURL): self
+    {
+        $this->links[] = [
+            'title' => $title, 
+            'messageURL' => $messageURL, 
+            'picURL' => $picURL,
+        ];
+        return $this;
     }
 
     public function generateParams(): self

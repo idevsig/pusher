@@ -21,12 +21,12 @@ class DingtalkTest extends TestCase
     private string $secret = 'SEC5f0dd6237d0e3d253bb9db726822cc4dd79186bba482c0e3ad40ac0d3f19a50f';
 
     ## 钉钉限制每分钟只能发 20 条信息，故跳过单元测试
-    const PASS = true;
+    const PASS = false;
 
-    public function skipTest(string $func): void
+    public function skipTest(string $func, bool $skip = false): void
     {
 
-        if (self::PASS) {
+        if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }
@@ -116,7 +116,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
     public function testFeedCardCase(): void
     {
-        $this->skipTest(__METHOD__);
+        $this->skipTest(__METHOD__, true);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -137,7 +137,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         ];
 
         $message = new DingtalkMessage('feedCard');
-        $message->setLinks($links);
+        $message->setLinks($links)
+            ->addLink('跳转到百度官网', 'https://baidu.com', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
         $resp = $channel->requestJson($message);
         // var_dump($resp);
@@ -158,7 +159,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         array $btns = [],
     ): void
     {
-        $this->skipTest(__METHOD__);
+        $this->skipTest(__METHOD__, true);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -169,7 +170,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $message->setBtnOrientation($btnOrientation);
 
         if (count($btns) > 0) {
-            $message->setBtns($btns);
+            $message->setBtns($btns)
+                ->addBtn('作者博客', 'https://jetsung.com');
         } 
         else
         {

@@ -96,6 +96,17 @@ class WeComMessage extends Message
         return $this->articles;
     }
 
+    public function addArticle(string $title, string $url, string $description = '', string $picurl = ''): self
+    {
+        $this->articles[] = [
+            'title' => $title,
+            'url' => $url,
+            'description' => $description,
+            'picurl' => $picurl,
+        ];
+        return $this;
+    }
+
     public function generateParams(): self
     {
         $this->params = [

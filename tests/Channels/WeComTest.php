@@ -140,10 +140,11 @@ class WeComTest extends TestCase
         ];
 
         $message = new WeComMessage('news');
-        $message->setArticles($articles);
+        $message->setArticles($articles)
+            ->addArticle('跳转到百度', 'https://baidu.com', '点击此链接，跳转到百度官网', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
         $resp = $channel->requestJson($message);
-        var_dump($resp);
+        // var_dump($resp);
 
         $this->assertEquals(0, $resp['errcode']);
     }
