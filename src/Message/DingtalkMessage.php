@@ -16,8 +16,8 @@ use Pusher\Message;
 class DingtalkMessage extends Message
 {
     private string $msgtype = 'text'; // 消息类型 text,link,markdown,actionCard,feedCard
-    private string $content = ''; // 通知内容
-    private string $title = '';   // 消息标题
+    private string $content = '';     // 通知内容
+    private string $title   = '';     // 消息标题
 
 
     // text,markdown 类型
