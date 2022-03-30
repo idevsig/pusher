@@ -21,7 +21,7 @@ class DingtalkTest extends TestCase
     private string $secret = 'SEC5f0dd6237d0e3d253bb9db726822cc4dd79186bba482c0e3ad40ac0d3f19a50f';
 
     ## 钉钉限制每分钟只能发 20 条信息，故跳过单元测试
-    const PASS = false;
+    const PASS = true;
 
     public function skipTest(string $func, bool $skip = false): void
     {
