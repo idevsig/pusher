@@ -8,6 +8,8 @@ APP 推送通知
 |**Bark**(仅支持 `iOS`)|https://day.app/2021/06/barkfaq/|-|[cases](tests/Channels/BarkTest.php)
 |**钉钉群机器人**|[https://open.dingtalk.com/](https://open.dingtalk.com/document/robots/customize-robot-security-settings)|-|[cases](tests/Channels/DingtalkTest.php)
 |**企业微信群机器人**|[https://developer.work.weixin.qq.com](https://developer.work.weixin.qq.com/document/path/91770?notreplace=true)|-|[cases](tests/Channels/WeComTest.php)
+|**Server酱**|[https://sct.ftqq.com/](https://sct.ftqq.com/)|-|[cases](tests/Channels/ServerChanTest.php)
+|**电子邮件**|-|-|[case](tests/Channels/MailerTest.php)
 
 ## 环境
 - **PHP**: `"^8.0 || ^8.1"`
@@ -24,12 +26,15 @@ composer require jetsung/pusher:dev-main
 - 钉钉群机器人
 - PushDeer
 - 企业微信群机器人
+- Server酱
+- 电子邮件
 
 ### 开发中
+
+### 未开发
 ```bash
 Chanify
 Discord
-邮件
 飞书群机器人
 Gitter
 Google Chat
@@ -42,7 +47,6 @@ Push
 PushPlus
 QQ 频道机器人
 Rocket Chat
-Server 酱
 Slack
 Telegram
 Webhook

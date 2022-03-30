@@ -18,8 +18,8 @@ class Channel implements ChannelInterface
 {
     public Client $client;
 
-    protected array $config;
-    protected string $base_url;
+    protected array $config = [];
+    protected string $base_url = '';
     protected string $token = '';
     
 
