@@ -19,6 +19,17 @@ class ServerChanTest extends TestCase
 {
     private string $token = 'SCT93860TKEl9jxBc5XvHg4pgXdJ9GcRs';
 
+    ## ServerChan 每天只能发 5 条信息，故跳过单元测试
+    const PASS = true;
+
+    public function skipTest(string $func, bool $skip = false): void
+    {
+
+        if (self::PASS || $skip) {
+            $this->markTestSkipped("skip ${func}");
+        }
+    }
+    
     /**
      * @dataProvider additionProvider
      *
@@ -26,13 +37,15 @@ class ServerChanTest extends TestCase
      */
     public function testCases(string $text, string $desp = ''): void
     {
+        $this->skipTest(__METHOD__);
+
         $channel = new ServerChan();
         $channel->setToken($this->token);
         // var_dump($channel);
 
         $message = new ServerChanMessage($text, $desp);
         $resp = $channel->requestJson($message);
-        // var_dump($resp);
+        var_dump($resp);
 
         $this->assertEquals(0, $resp['data']['errno']);   
     }
