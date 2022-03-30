@@ -171,7 +171,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
         if (count($btns) > 0) {
             $message->setBtns($btns)
-                ->addBtn('作者博客', 'https://jetsung.com');
+                ->addBtn('项目地址', 'https://github.com/jetsung/pusher');
         } 
         else
         {

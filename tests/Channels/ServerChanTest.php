@@ -45,7 +45,7 @@ class ServerChanTest extends TestCase
 
         $message = new ServerChanMessage($text, $desp);
         $resp = $channel->requestJson($message);
-        var_dump($resp);
+        // var_dump($resp);
 
         $this->assertEquals(0, $resp['data']['errno']);   
     }
@@ -53,7 +53,7 @@ class ServerChanTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ 'Title', '**This** is desp. [官网](https://jetsung.com)'],
+            [ 'Title', '**This** is desp. [项目地址](https://github.com/jetsung/pusher)'],
         ];
     }
 }

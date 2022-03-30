@@ -47,7 +47,7 @@ class PushDeerTest extends TestCase
     {
         return [
             [ 'This is text', 'This is desp', ''],
-            [ '## This is text', '**This** is desp', 'markdown'],
+            [ '## This is text', '**This** is desp. [项目地址](https://github.com/jetsung/pusher)', 'markdown'],
             [ 'http://www.pushdeer.com/images/2022-02-03-17-55-30.png', '', 'image'],
             [ '## This is text', '**This** is custom url.', 'markdown', 'https://api2.pushdeer.com/'],
         ];
