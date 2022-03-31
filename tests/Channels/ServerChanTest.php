@@ -33,7 +33,7 @@ class ServerChanTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ 'Title', '**This** is desp. [项目地址](https://github.com/jetsung/pusher)'],
+            [ 'Title', '**This** is desp. [项目地址](https://jihulab.com/jetsung/pusher)'],
         ];
     }
     

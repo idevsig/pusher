@@ -73,7 +73,13 @@ class BarkTest extends TestCase
         }
         // var_dump($channel->getBaseURL());
 
-        $message = new BarkMessage($title, $body, $badge, $sound, $icon, $group, $url);
+        $message = new BarkMessage($title, $body);
+        $message->setBadge($badge)
+            ->setCopy($body)
+            ->setSound($sound)
+            ->setIcon($icon)
+            ->setGroup($group)
+            ->setURL($url);
         
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());

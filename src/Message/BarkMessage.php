@@ -18,28 +18,16 @@ class BarkMessage extends Message
     private string $title = '';  // 通知标题
     private string $body  = '';  // 通知内容
     private int    $badge = 1;   // 图标旁边显示数字
+    private string $copy  = '';  // 复制文本
     private string $sound = '';  // 通知提示音
     private string $icon  = '';  // 图标的 URL
     private string $group = '';  // 通知组
     private string $url   = '';  // 跳转 URL
 
-    public function __construct(
-        string $title, 
-        string $body, 
-        int    $badge = 1, 
-        string $sound = '', 
-        string $icon = '',
-        string $group = '',
-        string $url = '',
-        )
+    public function __construct(string $title, string $body)
     {
         $this->title = $title;
         $this->body = $body;
-        $this->badge = $badge;
-        $this->sound = $sound;
-        $this->icon = $icon;
-        $this->group = $group;
-        $this->url = $url;
     }
 
     public function setTitle(string $title): self
@@ -64,7 +52,7 @@ class BarkMessage extends Message
         return $this->body;
     }
 
-    public function setBadge(string $badge): self
+    public function setBadge(int $badge): self
     {
         $this->badge = $badge;
         return $this;
@@ -73,6 +61,17 @@ class BarkMessage extends Message
     public function getBadge(): int
     {
         return $this->badge;
+    }
+
+    public function setCopy(string $copy): self
+    {
+        $this->copy = $copy;
+        return $this;
+    }
+
+    public function getCopy(): string
+    {
+        return $this->copy;
     }
 
     public function setSound(string $sound): self
