@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Psr\Http\Message\ResponseInterface;
 use Pusher\Message;
+use Pusher\Utils;
 
 class PushDeer extends \Pusher\Channel
 {
@@ -25,10 +26,17 @@ class PushDeer extends \Pusher\Channel
         $this->client = new \GuzzleHttp\Client();
     }
 
+    public function getStatus(): bool
+    {
+        $resp = Utils::strToArray($this->content);
+        $count = count($resp['content']['result']);
+        $this->status = $count !== 0;
+        return $this->status;
+    }
+    
     public function request(Message $message): ResponseInterface
     {
         $request_uri = sprintf($this->uri_template, $this->config['base_url']);
-
         $postData = $message->getParams() + ['pushkey' => $this->token];
 
         return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);

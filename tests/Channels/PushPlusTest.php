@@ -53,6 +53,7 @@ class PushPlusTest extends TestCase
     public function testCases(string $title, string $content, string $topic = '', string $template = ''): void
     {
         $this->skipTest(__METHOD__);
+        $this->timeSleep(10);
 
         $channel = new PushPlus();
         $channel->setToken($this->token);
@@ -61,11 +62,9 @@ class PushPlusTest extends TestCase
         $message = new PushPlusMessage($title, $content);
         $message->setTopic($topic)
             ->setTemplate($template);
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
 
-        $this->assertEquals(200, $resp['code']);   
-
-        $this->timeSleep(5);
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());
     }
+    
 }

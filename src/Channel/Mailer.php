@@ -136,6 +136,11 @@ class Mailer extends \Pusher\Channel
         return $this;
     }
 
+    public function getStatus(): bool
+    {
+        return $this->status;
+    }
+    
     public function send(Message $message): bool
     {
         $postData = $message->getParams();
@@ -144,13 +149,21 @@ class Mailer extends \Pusher\Channel
         $this->mail->AltBody = $postData['altBody'];
         // var_dump($this->mail);
 
-        return $this->mail->send();
+        $this->status = $this->mail->send();
+        return $this->status;
     }
 
-    public function requestJson(Message $message): array
+    public function requestContent(Message $message): string
+    {
+        $this->content = $this->send($message) ? 'success' : $this->mail->ErrorInfo;
+        return $this->content;
+    }
+
+    public function requestArray(Message $message): array
     {
         $resp = [];
-        if ($this->send($message)) {
+        $this->requestContent($message);
+        if ($this->status) {
             $resp = [
                 'code' => 0,
                 'message' => 'success',
@@ -162,10 +175,5 @@ class Mailer extends \Pusher\Channel
             ];
         }
         return $resp;
-    }
-
-    public function requestString(Message $message): string
-    {
-        return $this->send($message) ? 'success' : $this->mail->ErrorInfo;
     }
 }

@@ -29,28 +29,11 @@ class XizhiTest extends TestCase
             $this->markTestSkipped("skip ${func}");
         }
     }
-    
-    /**
-     * @dataProvider additionProvider
-     *
-     * @return void
-     */
-    public function testCases(string $title, string $content, string $type = 'send'): void
+
+    // 延时
+    public function timeSleep(int $time = 5): void
     {
-        $this->skipTest(__METHOD__);
-
-        $channel = new Xizhi();
-
-        $token = $type === 'send' ? $this->token_send : $this->token_channel;
-        $channel->setType($type)
-            ->setToken($token);
-        // var_dump($channel);
-
-        $message = new XizhiMessage($title, $content);
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(200, $resp['code']);   
+        sleep($time);
     }
 
     public function additionProvider(): array
@@ -60,4 +43,28 @@ class XizhiTest extends TestCase
             [ '频道推送', '**This** is 频道推送. [项目地址](https://github.com/jetsung/pusher)', 'channel'],
         ];
     }
+    
+    /**
+     * @dataProvider additionProvider
+     *
+     * @return void
+     */
+    public function testCases(string $title, string $content, string $type = 'send'): void
+    {
+        $this->skipTest(__METHOD__);
+        $this->timeSleep(5);
+
+        $token = $type === 'send' ? $this->token_send : $this->token_channel;
+
+        $channel = new Xizhi();
+        $channel->setType($type)
+            ->setToken($token);
+        // var_dump($channel);
+
+        $message = new XizhiMessage($title, $content);
+
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());
+    }
+
 }

@@ -13,6 +13,7 @@ namespace Pusher;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 class Channel implements ChannelInterface
 {
@@ -22,6 +23,8 @@ class Channel implements ChannelInterface
     protected string $base_url = '';
     protected string $token = '';
     
+    protected string $content = ''; // 请求结果正文
+    protected bool $status = false; // 请求状态
 
     public function configureDefaults(array $config): void
     {
@@ -73,18 +76,25 @@ class Channel implements ChannelInterface
         return $this->token;
     }
 
+    public function getStatus(): bool
+    {
+        return $this->status;
+    }
+
     public function request(Message $message): ResponseInterface
     {
         return $this->client->request('GET');
     }
 
-    public function requestJson(Message $message): array
+    public function requestContent(Message $message): string
     {
-        return Utils::toArray($this->request($message));
+        $this->content = $this->request($message)->getBody()->getContents();
+        return $this->content;
     }
 
-    public function requestString(Message $message): string
+    public function requestArray(Message $message): array
     {
-        return $this->request($message)->getBody()->getContents();
+        return Utils::strToArray($this->requestContent($message));
     }
+
 }

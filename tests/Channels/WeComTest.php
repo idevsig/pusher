@@ -17,7 +17,7 @@ use Pusher\Message\WeComMessage;
 
 class WeComTest extends TestCase
 {
-    private string $token = 'e20cef16-bc4c-48b3-a076-152771f33f8a';
+    private string $token = '2f441935-4dfe-4bcb-a590-d8eb25fc9e7d';
 
     const PASS = false;
 
@@ -27,6 +27,12 @@ class WeComTest extends TestCase
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
+    }
+
+    // 延时
+    public function timeSleep(int $time = 5): void
+    {
+        sleep($time);
     }
 
     public function additionProviderTextMarkdown(): array
@@ -63,9 +69,14 @@ class WeComTest extends TestCase
      *
      * @return void
      */
-    public function testTextMarkdownCases(string $msgtype, string $content, string $title = '', array $at = []): void
+    public function testTextMarkdownCases(string $msgtype, 
+        string $content, 
+        string $title = '', 
+        array $at = [],
+        ): void
     {
         $this->skipTest(__METHOD__);
+        $this->timeSleep(5);
 
         $channel = new WeCom();
         $channel->setToken($this->token);
@@ -75,10 +86,8 @@ class WeComTest extends TestCase
         $message->setMentionedList($at['mentionedList'])
             ->setMentionedMobileList($at['mentionedMobileList']);
 
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(0, $resp['errcode']);
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());
     }
 
     /**
@@ -89,6 +98,7 @@ class WeComTest extends TestCase
     public function testImageCase(string $md5, string $base64): void
     {
         $this->skipTest(__METHOD__);
+        $this->timeSleep(5);
 
         $channel = new WeCom();
         $channel->setToken($this->token);
@@ -98,15 +108,14 @@ class WeComTest extends TestCase
         $message->setImageBase64($base64)
             ->setImageMd5($md5);
 
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(0, $resp['errcode']);
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());
     }
 
     public function testNewsCase(): void
     {
         $this->skipTest(__METHOD__);
+        $this->timeSleep(5);
 
         $channel = new WeCom();
         $channel->setToken($this->token);
@@ -141,11 +150,10 @@ class WeComTest extends TestCase
 
         $message = new WeComMessage('news');
         $message->setArticles($articles)
-            ->addArticle('跳转到百度', 'https://baidu.com', '点击此链接，跳转到百度官网', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
+            ->addArticle('跳转到项目地址', 'https://jihulab.com/jetsung/pusher', '点击此链接，跳转到项目地址', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(0, $resp['errcode']);
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());
     }
+
 }

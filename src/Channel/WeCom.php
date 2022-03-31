@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Psr\Http\Message\ResponseInterface;
 use Pusher\Message;
+use Pusher\Utils;
 
 class WeCom extends \Pusher\Channel
 {
@@ -25,6 +26,13 @@ class WeCom extends \Pusher\Channel
     {        
         parent::configureDefaults($config);
         $this->client = new \GuzzleHttp\Client();
+    }
+
+    public function getStatus(): bool
+    {
+        $resp = Utils::strToArray($this->content);
+        $this->status = $resp['errcode'] === 0;
+        return $this->status;
     }
 
     public function request(Message $message): ResponseInterface

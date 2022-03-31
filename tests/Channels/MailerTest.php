@@ -50,10 +50,9 @@ class MailerTest extends TestCase
             ->addAddress('jetsung@outlook.com', 'Jetsung Chan'); 
 
         $message = new MailerMessage($subject, $body, $altBody);
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(0, $resp['code']);   
+        
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());
     }
 
     public function additionProvider(): array
@@ -63,4 +62,5 @@ class MailerTest extends TestCase
             [ '调试 Pusher 邮件发送功能（网页）', file_get_contents('https://getbootstrap.com/docs/5.1/examples/cover/'), '这里是纯文本格式的正文内容'],
         ];
     }
+    
 }

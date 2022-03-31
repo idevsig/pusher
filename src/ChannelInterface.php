@@ -12,6 +12,7 @@
 namespace Pusher;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 interface ChannelInterface
 {
@@ -27,9 +28,12 @@ interface ChannelInterface
 
     public function getToken(): string;
 
+    public function getStatus(): bool;
+
     public function request(Message $message): ResponseInterface;
 
-    public function requestJson(Message $message): array;
+    public function requestContent(Message $message): string;
 
-    public function requestString(Message $message): string;
+    public function requestArray(Message $message): array;
+
 }

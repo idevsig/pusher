@@ -29,6 +29,13 @@ class ServerChanTest extends TestCase
             $this->markTestSkipped("skip ${func}");
         }
     }
+
+    public function additionProvider(): array
+    {
+        return [
+            [ 'Title', '**This** is desp. [项目地址](https://github.com/jetsung/pusher)'],
+        ];
+    }
     
     /**
      * @dataProvider additionProvider
@@ -44,16 +51,9 @@ class ServerChanTest extends TestCase
         // var_dump($channel);
 
         $message = new ServerChanMessage($text, $desp);
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
 
-        $this->assertEquals(0, $resp['data']['errno']);   
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());
     }
 
-    public function additionProvider(): array
-    {
-        return [
-            [ 'Title', '**This** is desp. [项目地址](https://github.com/jetsung/pusher)'],
-        ];
-    }
 }

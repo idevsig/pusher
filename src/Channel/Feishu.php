@@ -15,30 +15,43 @@ use Psr\Http\Message\ResponseInterface;
 use Pusher\Message;
 use Pusher\Utils;
 
-class ServerChan extends \Pusher\Channel
+class Feishu extends \Pusher\Channel
 {
-    protected string $base_url = 'https://sctapi.ftqq.com';
-    protected string $uri_template = '%s/%s.send';
+    private string $secret = '';
+
+    protected string $base_url = 'https://open.feishu.cn';
+    protected string $uri_template = '%s/open-apis/bot/v2/hook/%s';
 
     public function __construct(array $config = [])
-    {
+    {        
         parent::configureDefaults($config);
         $this->client = new \GuzzleHttp\Client();
+    }
+
+    public function setSecret(string $secret): self
+    {
+        $this->secret = $secret;
+        return $this;
     }
 
     public function getStatus(): bool
     {
         $resp = Utils::strToArray($this->content);
-        $this->status = $resp['data']['errno'] === 0;
+        $this->status = $resp['StatusCode'] === 0;
         return $this->status;
     }
-
+    
     public function request(Message $message): ResponseInterface
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->token);
-        $postData = $message->getParams();
+        $timestamp = time();
+        $sign = Utils::generateSign($this->secret, $timestamp);
 
-        return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);
+        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->getToken());
+        $postData = $message->getParams();
+        $postData['timestamp'] = $timestamp;
+        $postData['sign'] = $sign;
+
+        return $this->client->request('POST', $request_uri, [ 'json' => $postData ]);
     }
 
 }

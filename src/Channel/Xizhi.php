@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Psr\Http\Message\ResponseInterface;
 use Pusher\Message;
+use Pusher\Utils;
 
 class Xizhi extends \Pusher\Channel
 {
@@ -36,6 +37,13 @@ class Xizhi extends \Pusher\Channel
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getStatus(): bool
+    {
+        $resp = Utils::strToArray($this->content);
+        $this->status = $resp['code'] === 200;
+        return $this->status;
     }
 
     public function request(Message $message): ResponseInterface

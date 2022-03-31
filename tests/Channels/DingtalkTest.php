@@ -69,8 +69,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         ];
 
         return [
-            [ $content, $title, '0', '阅读全文', 'https://www.dingtalk.com/' ], 
-            [ $content, $title, '1', '点击阅读全文', 'https://www.dingtalk.com/' ], 
+            [ $content, $title, '0', '查看项目', 'https://jihulab.com/jetsung/pusher' ], 
+            [ $content, $title, '1', '查看项目', 'https://jihulab.com/jetsung/pusher' ], 
             [ $content, $title, '0', '', '', $btns ], 
             [ $content, $title, '1', '', '', $btns ], 
         ];
@@ -84,6 +84,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     public function testTextMarkdownCases(string $msgtype, string $content, string $title = '', array $at = []): void
     {
         $this->skipTest(__METHOD__);
+        $this->timeSleep(10);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -95,17 +96,14 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
             ->setAtUserIds($at['atUserIds'])
             ->setIsAll($at['isAtAll']);
 
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(0, $resp['errcode']);
-
-        $this->timeSleep(10);
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());   
     }
 
-    public function testLinkCase(): void
+    public function testLinkCases(): void
     {
         $this->skipTest(__METHOD__);
+        $this->timeSleep(10);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -116,17 +114,14 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $message->setPicUrl('https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png')
             ->setMessageUrl('https://www.aliyun.com');
 
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(0, $resp['errcode']);       
-
-        $this->timeSleep(10);
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());        
     }
 
-    public function testFeedCardCase(): void
+    public function testFeedCardCases(): void
     {
         $this->skipTest(__METHOD__);
+        $this->timeSleep(10);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -135,8 +130,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
         $links = [
             [
-                'title'      => '百度',
-                'messageURL' => 'https://www.baidu.com',
+                'title'      => '百度搜索',
+                'messageURL' => 'https://baidu.com',
                 'picURL'     => 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
             ],
             [
@@ -148,14 +143,10 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
         $message = new DingtalkMessage('feedCard');
         $message->setLinks($links)
-            ->addLink('跳转到百度官网', 'https://baidu.com', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
+            ->addLink('跳转到项目地址', 'https://jihulab.com/jetsung/pusher', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(0, $resp['errcode']);    
-
-        $this->timeSleep(10);
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());   
     }
 
     /**
@@ -172,6 +163,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     ): void
     {
         $this->skipTest(__METHOD__);
+        $this->timeSleep(10);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -183,7 +175,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
         if (count($btns) > 0) {
             $message->setBtns($btns)
-                ->addBtn('项目地址', 'https://github.com/jetsung/pusher');
+                ->addBtn('项目地址', 'https://jihulab.com/jetsung/pusher');
         } 
         else
         {
@@ -191,13 +183,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
                 ->setSingleURL($singleURL);
         }
         
-
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(0, $resp['errcode']);   
-
-        $this->timeSleep(10);
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());   
     }
 
 }

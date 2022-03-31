@@ -19,6 +19,33 @@ class BarkTest extends TestCase
 {
     private string $token = 'PuUNrs3tmnqVQ54Q6iRLmg';
 
+    const PASS = false;
+
+    public function skipTest(string $func, bool $skip = false): void
+    {
+
+        if (self::PASS || $skip) {
+            $this->markTestSkipped("skip ${func}");
+        }
+    }
+
+    // 延时
+    public function timeSleep(int $time = 5): void
+    {
+        sleep($time);
+    }
+
+    public function additionProvider(): array
+    {
+        return [
+            [ 'This is text', 'This is desp'],
+            [ '自定义', '自定义声音和ICON', 1, 'bloom.caf', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'],
+            [ '标题222', '分组，内容222', 1, 'bloom.caf', '', 'group'],
+            [ '标题333', '分组，跳转到项目地址', 1, 'chime.caf', '', 'group', 'https://jihulab.com/jetsung/pusher'],
+            [ '标题444', '分组2，跳转到项目地址，自定义URL', 2, 'chime.caf', '', 'group2', 'https://jihulab.com/jetsung/pusher', 'https://api.day.app'],
+        ];
+    }
+
     /**
      * @dataProvider additionProvider
      *
@@ -34,6 +61,9 @@ class BarkTest extends TestCase
         string $url = '',
         string $base_url = ''): void
     {
+        $this->skipTest(__METHOD__);
+        $this->timeSleep(5);
+
         $channel = new Bark();
         $channel->setToken($this->token);
         // var_dump($channel);
@@ -44,20 +74,9 @@ class BarkTest extends TestCase
         // var_dump($channel->getBaseURL());
 
         $message = new BarkMessage($title, $body, $badge, $sound, $icon, $group, $url);
-        $resp = $channel->requestJson($message);
-        // var_dump($resp);
-
-        $this->assertEquals(200, $resp['code']);
+        
+        $channel->requestContent($message);
+        $this->assertTrue($channel->getStatus());
     }
 
-    public function additionProvider(): array
-    {
-        return [
-            [ 'This is text', 'This is desp'],
-            [ '标题', '内容', 1, 'bloom.caf', 'http://www.pushdeer.com/images/2022-02-03-17-55-30.png'],
-            [ '标题222', '分组，内容222', 1, 'bloom.caf', '', 'group'],
-            [ '标题333', '分组，跳转到百度', 1, 'chime.caf', '', 'group', 'https://www.baidu.com'],
-            [ '标题444', '分组2，跳转到百度，自定义URL', 2, 'chime.caf', '', 'group2', 'https://www.baidu.com', 'https://api.day.app'],
-        ];
-    }
 }
