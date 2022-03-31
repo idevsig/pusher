@@ -5,7 +5,7 @@ APP 推送通知
 |状态|平台|官网|文档|案例|
 |:---|:---|:---|:---|:---|
 |✔|**Bark** (仅支持 `iOS`)|[https://day.app/2021/06/barkfaq/](https://day.app/2021/06/barkfaq/)|-|[cases](tests/Channels/BarkTest.php)
-|✔|**Chanify**|[https://www.chanify.net/](https://www.chanify.net/)|-|
+|✔|**Chanify** (仅支持 `iOS`)|[https://www.chanify.net/](https://www.chanify.net/)|-| [cases](tests/Channels/ChanifyTest.php)
 |✔|**钉钉群机器人**|[https://open.dingtalk.com/](https://open.dingtalk.com/document/robots/customize-robot-security-settings)|-|[cases](tests/Channels/DingtalkTest.php)
 |✔|**飞书群机器人**|[https://open.feishu.cn/](https://www.feishu.cn/hc/zh-CN/articles/360024984973)|-|[cases](tests/Channels/FeishuTest.php)
 |✔|**电子邮件**|-|-|[cases](tests/Channels/MailerTest.php)
@@ -15,7 +15,7 @@ APP 推送通知
 |✔|**Server酱**|[https://sct.ftqq.com/](https://sct.ftqq.com/)|-|[cases](tests/Channels/ServerChanTest.php)
 |✔|**Showdoc**|[https://push.showdoc.com.cn/](https://push.showdoc.com.cn/)|-|
 |✔|**企业微信群机器人**|[https://developer.work.weixin.qq.com](https://developer.work.weixin.qq.com/document/path/91770?notreplace=true)|-|[cases](tests/Channels/WeComTest.php)
-|-|**WxPusher**|[WxPusher](https://wxpusher.zjiecode.com/)|-|
+|-|**WxPusher**|[https://wxpusher.zjiecode.com/](https://wxpusher.zjiecode.com/)|-|
 |✔|**息知**|[https://xz.qqoq.net/](https://xz.qqoq.net/)|-|[cases](tests/Channels/XizhiTest.php)
 
 ## 环境
