@@ -14,7 +14,6 @@ namespace Pusher\Tests\Channels;
 use PHPUnit\Framework\TestCase;
 use Pusher\Channel\QQBot;
 use Pusher\Message\QQBotMessage;
-use Pusher\Utils;
 
 class QQBotTest extends TestCase
 {

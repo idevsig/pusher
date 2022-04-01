@@ -38,7 +38,6 @@ class QQBot extends \Pusher\Channel
 
     public function getStatus(): bool
     {
-        var_dump($this->content);
         $resp = Utils::strToArray($this->content);
         $this->status = in_array($resp['code'], [ 200, 304023 ]) ?? false;
         return $this->status;
