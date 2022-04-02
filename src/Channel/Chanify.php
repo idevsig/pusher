@@ -30,6 +30,7 @@ class Chanify extends \Pusher\Channel
     {
         $resp = Utils::strToArray($this->content);
         $this->status = isset($resp['request-uid']) ? true : false;
+        $this->showResp();
         return $this->status;
     }
 

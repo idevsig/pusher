@@ -22,6 +22,8 @@ class Channel implements ChannelInterface
     protected array  $config = [];
     protected string $base_url = '';
     protected string $token = '';
+
+    protected bool $is_debug = false;
     
     protected string $content = ''; // 请求结果正文
     protected bool $status = false; // 请求状态
@@ -43,6 +45,11 @@ class Channel implements ChannelInterface
 
         $this->config = $default + $config;
         $this->setBaseURL($this->config['base_url']);
+    }
+
+    public function DEBUG(bool $is_debug = false): void
+    {
+        $this->is_debug = $is_debug;
     }
 
     public function setBaseURL(string $base_url): self
@@ -100,6 +107,13 @@ class Channel implements ChannelInterface
     public function requestArray(Message $message): array
     {
         return Utils::strToArray($this->requestContent($message));
+    }
+
+    public function showResp(): void
+    {
+        if (!$this->status && $this->is_debug) {
+            var_dump($this->content);
+        }       
     }
 
 }

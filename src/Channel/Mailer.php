@@ -138,6 +138,7 @@ class Mailer extends \Pusher\Channel
 
     public function getStatus(): bool
     {
+        $this->showResp();
         return $this->status;
     }
     

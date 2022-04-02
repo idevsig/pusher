@@ -38,6 +38,7 @@ class Feishu extends \Pusher\Channel
     {
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['StatusCode'] === 0;
+        $this->showResp();
         return $this->status;
     }
     

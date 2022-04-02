@@ -30,6 +30,7 @@ class Showdoc extends \Pusher\Channel
     {
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['error_code'] === 0;
+        $this->showResp();
         return $this->status;
     }
 

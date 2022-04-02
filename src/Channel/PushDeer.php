@@ -31,6 +31,7 @@ class PushDeer extends \Pusher\Channel
         $resp = Utils::strToArray($this->content);
         $count = count($resp['content']['result']);
         $this->status = $count !== 0;
+        $this->showResp();
         return $this->status;
     }
     

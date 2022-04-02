@@ -18,6 +18,8 @@ interface ChannelInterface
 {
     public function configureDefaults(array $config): void;
 
+    public function DEBUG(bool $is_debug): void;
+
     public function setBaseURL(string $base_url): self;
 
     public function getBaseURL(): string;
@@ -37,5 +39,7 @@ interface ChannelInterface
     public function requestContent(Message $message): string;
 
     public function requestArray(Message $message): array;
+
+    public function showResp(): void;
 
 }

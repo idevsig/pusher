@@ -32,6 +32,7 @@ class WeCom extends \Pusher\Channel
     {
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['errcode'] === 0;
+        $this->showResp();
         return $this->status;
     }
 

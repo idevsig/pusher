@@ -40,6 +40,7 @@ class QQBot extends \Pusher\Channel
     {
         $resp = Utils::strToArray($this->content);
         $this->status = in_array($resp['code'], [ 200, 304023 ]) ?? false;
+        $this->showResp();
         return $this->status;
     }
 

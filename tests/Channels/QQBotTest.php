@@ -35,15 +35,13 @@ class QQBotTest extends TestCase
         date_default_timezone_set('PRC');
         $now = date('H:i:s');
         $current_time = strtotime($now);
-        var_dump($now, 1648915200, $current_time, 1648947600);
         if (1648915200 <= $current_time && $current_time <= 1648947600) {
-            self::$PASS = false;
+            self::$PASS = true;
         }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }

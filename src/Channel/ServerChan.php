@@ -30,6 +30,7 @@ class ServerChan extends \Pusher\Channel
     {
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['data']['errno'] === 0;
+        $this->showResp();
         return $this->status;
     }
 

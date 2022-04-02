@@ -30,6 +30,7 @@ class WxPusher extends \Pusher\Channel
     {
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['code'] === 1000;
+        $this->showResp();
         return $this->status;
     }
 

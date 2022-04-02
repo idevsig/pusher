@@ -43,6 +43,7 @@ class Xizhi extends \Pusher\Channel
     {
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['code'] === 200;
+        $this->showResp();
         return $this->status;
     }
 
