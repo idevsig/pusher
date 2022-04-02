@@ -17,9 +17,14 @@ use Pusher\Message\WxPusherMessage;
 
 class WxPusherTest extends TestCase
 {
-    private string $token = 'AT_elhntVdMLl02iy5YB1wihgm5Ko9rmhiH';
+    private string $token = '';
 
     const PASS = false;
+
+    public function setUp(): void
+    {
+        $this->token = getenv('WxPusherToken');
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
@@ -77,7 +82,6 @@ class WxPusherTest extends TestCase
 
         $channel = new WxPusher();
         $channel->setToken($this->token);
-        // var_dump($channel);
 
         $message = new WxPusherMessage($content);
         $message->setSummary($summary)

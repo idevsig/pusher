@@ -17,16 +17,32 @@ use Pusher\Message\QQBotMessage;
 
 class QQBotTest extends TestCase
 {
-    private string $token = 'IHoXWmSmGtiTDasWtm8vqX9LARJY0k5r';
-    private string $appID = '102002742';
-    private string $channelID = '4616538';
+    private string $token = '';
+    private string $app_id = '';
+    private string $channel_id = '';
 
-    const PASS = false;
+    private static bool $PASS = false;
+
+    public function setUp(): void
+    {
+        $this->token = getenv('QQBotToken');
+        $this->app_id = getenv('QQBotAppId');
+        $this->channel_id = getenv('QQBotChannelId');
+
+        // 304022 PUSH_TIME 推送消息时间限制
+        // QQ 频道在晚上不可以推送消息
+        // 暂时设定为 00:00:00-09:00:00 不测试
+        date_default_timezone_set('PRC');
+        $current_time = strtotime(date('H:i:s'));
+        if (1648915200 <= $current_time && $current_time <= 1648947600) {
+            self::$PASS = false;
+        }
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
 
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }
@@ -43,11 +59,10 @@ class QQBotTest extends TestCase
         $this->timeSleep(10);
 
         $channel = new QQBot();
-        $channel->setAppID($this->appID)
-            ->setChannelID($this->channelID)
+        $channel->setAppID($this->app_id)
+            ->setChannelID($this->channel_id)
             ->Sandbox(true)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $message = new QQBotMessage('文本类型 content 的消息发送');
 
@@ -61,8 +76,8 @@ class QQBotTest extends TestCase
         $this->timeSleep(10);
 
         $channel = new QQBot();
-        $channel->setAppID($this->appID)
-            ->setChannelID($this->channelID)
+        $channel->setAppID($this->app_id)
+            ->setChannelID($this->channel_id)
             ->Sandbox(true)
             ->setToken($this->token);
         // var_dump($channel);
@@ -82,8 +97,8 @@ class QQBotTest extends TestCase
         $this->timeSleep(10);
 
         $channel = new QQBot();
-        $channel->setAppID($this->appID)
-            ->setChannelID($this->channelID)
+        $channel->setAppID($this->app_id)
+            ->setChannelID($this->channel_id)
             ->Sandbox(true)
             ->setToken($this->token);
         // var_dump($channel);
@@ -106,8 +121,8 @@ class QQBotTest extends TestCase
         $this->timeSleep(10);
 
         $channel = new QQBot();
-        $channel->setAppID($this->appID)
-            ->setChannelID($this->channelID)
+        $channel->setAppID($this->app_id)
+            ->setChannelID($this->channel_id)
             ->Sandbox(true)
             ->setToken($this->token);
         // var_dump($channel);
@@ -139,8 +154,8 @@ class QQBotTest extends TestCase
         $this->timeSleep(10);
 
         $channel = new QQBot();
-        $channel->setAppID($this->appID)
-            ->setChannelID($this->channelID)
+        $channel->setAppID($this->app_id)
+            ->setChannelID($this->channel_id)
             ->Sandbox(true)
             ->setToken($this->token);
         // var_dump($channel);
@@ -250,9 +265,8 @@ class QQBotTest extends TestCase
         $this->skipTest(__METHOD__, true);
 
         $channel = new QQBot();
-        $channel->setAppID($this->appID)
+        $channel->setAppID($this->app_id)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $resp = $channel->send('/users/@me/guilds', [], 'get');
 
@@ -276,9 +290,8 @@ class QQBotTest extends TestCase
         $this->assertNotEmpty($guildID);
 
         $channel = new QQBot();
-        $channel->setAppID($this->appID)
+        $channel->setAppID($this->app_id)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $resp = $channel->send(sprintf('/guilds/%s/channels', $guildID), [], 'get');
         $jsonData = json_decode($resp->getBody()->getContents(), true);

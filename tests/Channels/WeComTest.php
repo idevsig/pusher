@@ -17,9 +17,14 @@ use Pusher\Message\WeComMessage;
 
 class WeComTest extends TestCase
 {
-    private string $token = '2f441935-4dfe-4bcb-a590-d8eb25fc9e7d';
+    private string $token = '';
 
     const PASS = false;
+
+    public function setUp(): void
+    {
+        $this->token = getenv('WeComToken');
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
@@ -80,7 +85,6 @@ class WeComTest extends TestCase
 
         $channel = new WeCom();
         $channel->setToken($this->token);
-        // var_dump($channel);
 
         $message = new WeComMessage($msgtype, $content, $title);
         $message->setMentionedList($at['mentionedList'])
@@ -102,7 +106,6 @@ class WeComTest extends TestCase
 
         $channel = new WeCom();
         $channel->setToken($this->token);
-        // var_dump($channel);
 
         $message = new WeComMessage('image');
         $message->setImageBase64($base64)
@@ -119,7 +122,6 @@ class WeComTest extends TestCase
 
         $channel = new WeCom();
         $channel->setToken($this->token);
-        // var_dump($channel);
 
         $articles = [
             [ 

@@ -17,10 +17,15 @@ use Pusher\Message\ServerChanMessage;
 
 class ServerChanTest extends TestCase
 {
-    private string $token = 'SCT93860TKEl9jxBc5XvHg4pgXdJ9GcRs';
+    private string $token = '';
 
     ## ServerChan 每天只能发 5 条信息，故跳过单元测试
     const PASS = true;
+
+    public function setUp(): void
+    {
+        $this->token = getenv('ServerChanToken');
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
@@ -48,7 +53,6 @@ class ServerChanTest extends TestCase
 
         $channel = new ServerChan();
         $channel->setToken($this->token);
-        // var_dump($channel);
 
         $message = new ServerChanMessage($text, $desp);
 

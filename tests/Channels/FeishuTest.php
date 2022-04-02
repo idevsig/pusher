@@ -17,10 +17,16 @@ use Pusher\Message\FeishuMessage;
 
 class FeishuTest extends TestCase
 {
-    private string $token = '382cc6a4-3c61-4af8-9b40-53ff5eed1c26';
-    private string $secret = 'o9m9IIQORjq1TbkXQb65ef';
+    private string $token = '3';
+    private string $secret = '';
 
     const PASS = false;
+
+    public function setUp(): void
+    {
+        $this->token = getenv('FeishuToken');
+        $this->secret = getenv('FeishuSecret');
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
@@ -60,7 +66,6 @@ class FeishuTest extends TestCase
         $channel = new Feishu();
         $channel->setSecret($this->secret)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $message = new FeishuMessage($title);
         $message->setText($text);
@@ -77,7 +82,6 @@ class FeishuTest extends TestCase
         $channel = new Feishu();
         $channel->setSecret($this->secret)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $first_content = [
             [

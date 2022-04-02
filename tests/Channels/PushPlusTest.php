@@ -17,9 +17,14 @@ use Pusher\Message\PushPlusMessage;
 
 class PushPlusTest extends TestCase
 {
-    private string $token = '04805556670c4dd7803762050f1468e2';
+    private string $token = '';
 
     const PASS = false;
+
+    public function setUp(): void
+    {
+        $this->token = getenv('PushPlusToken');
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
@@ -40,7 +45,7 @@ class PushPlusTest extends TestCase
         return [
             [ '标题一', '一对一推送，<a href="https://github.com/jetsung/pusher" target="_blank">项目地址</a>'],
             [ '标题二', '一对多推送，<a href="https://github.com/jetsung/pusher" target="_blank">项目地址</a>', '001'],
-            [ '标题三 JSON', '{"code": 0, "message": "success"}', '001', 'json'],
+            [ '标题三 JSON', '{"标题": "这个是标题", "消息": "这个是消息内容"}', '001', 'json'],
             // [ '标题四 阿里云监控', '一对多推送，<a href="https://github.com/jetsung/pusher" target="_blank">项目地址</a>', '001', 'cloudMonitor'],
         ];
     }
@@ -57,7 +62,6 @@ class PushPlusTest extends TestCase
 
         $channel = new PushPlus();
         $channel->setToken($this->token);
-        // var_dump($channel);
 
         $message = new PushPlusMessage($title, $content);
         $message->setTopic($topic)

@@ -17,9 +17,14 @@ use Pusher\Message\ShowdocMessage;
 
 class ShowdocTest extends TestCase
 {
-    private string $token = 'da585f24eaa8f5bd78a76db012dd9fc71929009118';
+    private string $token = '';
 
     const PASS = false;
+
+    public function setUp(): void
+    {
+        $this->token = getenv('ShowdocToken');
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
@@ -59,7 +64,6 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
         $channel = new Showdoc();
         $channel->setToken($this->token);
-        // var_dump($channel);
 
         $message = new ShowdocMessage($title, $content);
 

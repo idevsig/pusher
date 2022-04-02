@@ -17,9 +17,18 @@ use Pusher\Message\BarkMessage;
 
 class BarkTest extends TestCase
 {
-    private string $token = 'PuUNrs3tmnqVQ54Q6iRLmg';
+    private string $token = '';
+    private string $customURL = '';
+    private string $customToken = '';
 
     const PASS = false;
+
+    public function setUp(): void
+    {
+        $this->token = getenv("BarkToken");
+        $this->customURL = getenv('BarkCustomURL');
+        $this->customToken = getenv('BarkCustomToken');
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
@@ -42,7 +51,7 @@ class BarkTest extends TestCase
             [ '自定义', '自定义声音和ICON', 1, 'bloom.caf', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'],
             [ '标题222', '分组，内容222', 1, 'bloom.caf', '', 'group'],
             [ '标题333', '分组，跳转到项目地址', 1, 'chime.caf', '', 'group', 'https://jihulab.com/jetsung/pusher'],
-            [ '标题444', '分组2，跳转到项目地址，自定义URL', 2, 'chime.caf', '', 'group2', 'https://jihulab.com/jetsung/pusher', 'https://api.day.app'],
+            'custom url' => [ '自定义 URL 标题', '分组2，跳转到项目地址，自定义URL', 2, 'chime.caf', '', 'group2', 'https://jihulab.com/jetsung/pusher', true ],
         ];
     }
 
@@ -59,19 +68,18 @@ class BarkTest extends TestCase
         string $icon = '',
         string $group = '',
         string $url = '',
-        string $base_url = ''): void
+        bool $is_custom = false): void
     {
         $this->skipTest(__METHOD__);
         $this->timeSleep(5);
 
         $channel = new Bark();
         $channel->setToken($this->token);
-        // var_dump($channel);
 
-        if ($base_url !== '') {
-            $channel->setBaseURL($base_url);
+        if ($is_custom) {
+            $channel->setBaseURL($this->customURL);
+            $channel->setToken($this->customToken);
         }
-        // var_dump($channel->getBaseURL());
 
         $message = new BarkMessage($title, $body);
         $message->setBadge($badge)

@@ -61,6 +61,34 @@ jobs:
 
       - name: "Initialize PHPUnit sources"
         run: "vendor/bin/phpunit tests"
+        env:
+          BarkCustomToken: ${{secrets.BARK_CUSTOM_TOKEN}}
+          BarkCustomURL: ${{secrets.BARK_CUSTOM_URL}}
+          BarkToken: ${{secrets.BARK_TOKEN}}
+          ChanifyCustomToken: ${{secrets.CHANIFY_CUSTOM_TOKEN}}
+          ChanifyCustomURL: ${{secrets.CHANIFY_CUSTOM_URL}}
+          ChanifyToken: ${{secrets.CHANIFY_TOKEN}}
+          DingtalkSecret: ${{secrets.DINGTALK_SECRET}}
+          DingtalkToken: ${{secrets.DINGTALK_TOKEN}}
+          FeishuSecret: ${{secrets.FEISHU_SECRET}}
+          FeishuToken: ${{secrets.FEISHU_TOKEN}}
+          PushDeerCustomToken: ${{secrets.PUSHDEER_CUSTOM_TOKEN}}
+          PushDeerCustomURL: ${{secrets.PUSHDEER_CUSTOM_URL}}
+          PushDeerToken: ${{secrets.PUSHDEER_TOKEN}}
+          PushPlusToken: ${{secrets.PUSHPLUS_TOKEN}}
+          QQBotAppId: ${{secrets.QQBOT_APP_ID}}
+          QQBotChannelId: ${{secrets.QQBOT_CHANNEL_ID}}
+          QQBotToken: ${{secrets.QQBOT_TOKEN}}
+          ServerChanToken: ${{secrets.SERVERCHAN_TOKEN}}
+          ShowdocToken: ${{secrets.SHOWDOC_TOKEN}}
+          SMTPFrom: ${{secrets.SMTP_FROM}}
+          SMTPHostPort: ${{secrets.SMTP_HOST_PORT}}
+          SMTPTo: ${{secrets.SMTP_TO}}
+          SMTPUser: ${{secrets.SMTP_USER}}
+          WeComToken: ${{secrets.WECOM_TOKEN}}
+          WxPusherToken: ${{secrets.WXPUSHER_TOKEN}}
+          XizhiChannelToken: ${{secrets.XIZHI_CHANNEL_TOKEN}}
+          XizhiToken: ${{secrets.XIZHI_TOKEN}}
 
       - name: "Run PHPStan"
         run: "vendor/bin/phpstan analyse src tests"

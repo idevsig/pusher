@@ -17,11 +17,17 @@ use Pusher\Message\XizhiMessage;
 
 class XizhiTest extends TestCase
 {
-    private string $token_send = 'XZ2ee7814d3d6030bd0090b389124c0761';
-    private string $token_channel = 'XZ39d813db544d0669e043c0bcb17fde4d';
+    private string $token = '';
+    private string $token_channel = '';
 
     const PASS = false;
 
+    public function setUp(): void
+    {
+        $this->token = getenv('XizhiToken');
+        $this->token_channel = getenv('XizhiChannelToken');
+    }
+    
     public function skipTest(string $func, bool $skip = false): void
     {
 
@@ -54,12 +60,11 @@ class XizhiTest extends TestCase
         $this->skipTest(__METHOD__);
         $this->timeSleep(5);
 
-        $token = $type === 'send' ? $this->token_send : $this->token_channel;
+        $token = $type === 'send' ? $this->token : $this->token_channel;
 
         $channel = new Xizhi();
         $channel->setType($type)
             ->setToken($token);
-        // var_dump($channel);
 
         $message = new XizhiMessage($title, $content);
 

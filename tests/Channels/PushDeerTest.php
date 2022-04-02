@@ -17,9 +17,18 @@ use Pusher\Message\PushDeerMessage;
 
 class PushDeerTest extends TestCase
 {
-    private string $token = 'PDU5530TH1sn4HMhMdIJjc8pMxpIMPKnGMTJcgvX';
+    private string $token = '';
+    private string $customURL = '';
+    private string $customToken = '';
 
     const PASS = false;
+
+    public function setUp(): void
+    {
+        $this->token = getenv('PushDeerToken');
+        $this->customURL = getenv('PushDeerCustomURL');
+        $this->customToken = getenv('PushDeerCustomToken');
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
@@ -41,7 +50,7 @@ class PushDeerTest extends TestCase
             [ 'This is text', 'This is desp', ''],
             [ '## Markdown', '**Markdown** 类型数据. [项目地址](https://jihulab.com/jetsung/pusher)', 'markdown'],
             [ 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png', '', 'image'],
-            [ '## 自定义', '**自定义 URL** 类型.', 'markdown', 'https://api2.pushdeer.com/'],
+            [ '## 自定义', '**自定义 URL** 类型.', 'markdown', true],
         ];
     }
 
@@ -50,19 +59,18 @@ class PushDeerTest extends TestCase
      *
      * @return void
      */
-    public function testCases(string $text, string $desp = '', $type = '', $base_url = ''): void
+    public function testCases(string $text, string $desp = '', string $type = '', bool $is_custom = false): void
     {
         $this->skipTest(__METHOD__);
         $this->timeSleep(10);
 
         $channel = new PushDeer();
         $channel->setToken($this->token);
-        // var_dump($channel);
 
-        if ($base_url !== '') {
-            $channel->setBaseURL($base_url);
+        if ($is_custom) {
+            $channel->setBaseURL($this->customURL);
+            $channel->setToken($this->customToken);
         }
-        // var_dump($channel->getBaseURL());
 
         $message = new PushDeerMessage($text, $desp, $type);
 

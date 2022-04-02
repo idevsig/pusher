@@ -17,11 +17,17 @@ use Pusher\Message\DingtalkMessage;
 
 class DingtalkTest extends TestCase
 {
-    private string $token = '18f7e22470ca8307b6bc382413dcc1b13a2a3603c4a264460c698b36eec3dfba';
-    private string $secret = 'SEC5f0dd6237d0e3d253bb9db726822cc4dd79186bba482c0e3ad40ac0d3f19a50f';
+    private string $token = '';
+    private string $secret = '';
 
-    ## 钉钉限制每分钟只能发 20 条信息，故跳过单元测试
+    ## 钉钉限制每分钟只能发 20 条信息
     const PASS = false;
+
+    public function setUp(): void
+    {
+        $this->token = getenv('DingtalkToken');
+        $this->secret = getenv('DingtalkSecret');
+    }
 
     public function skipTest(string $func, bool $skip = false): void
     {
@@ -84,7 +90,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     public function testTextMarkdownCases(string $msgtype, string $content, string $title = '', array $at = []): void
     {
         $this->skipTest(__METHOD__);
-        $this->timeSleep(10);
+        $this->timeSleep(20);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -103,7 +109,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     public function testLinkCases(): void
     {
         $this->skipTest(__METHOD__);
-        $this->timeSleep(10);
+        $this->timeSleep(20);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -121,7 +127,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     public function testFeedCardCases(): void
     {
         $this->skipTest(__METHOD__);
-        $this->timeSleep(10);
+        $this->timeSleep(20);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
@@ -163,7 +169,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
     ): void
     {
         $this->skipTest(__METHOD__);
-        $this->timeSleep(10);
+        $this->timeSleep(20);
 
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
