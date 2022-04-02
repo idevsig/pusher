@@ -28,6 +28,8 @@ interface ChannelInterface
 
     public function getToken(): string;
 
+    public function getContents(): string;
+
     public function getStatus(): bool;
 
     public function request(Message $message): ResponseInterface;

@@ -76,6 +76,11 @@ class Channel implements ChannelInterface
         return $this->token;
     }
 
+    public function getContents(): string
+    {
+        return $this->content;
+    }
+
     public function getStatus(): bool
     {
         return $this->status;

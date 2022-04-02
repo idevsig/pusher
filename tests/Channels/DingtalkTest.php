@@ -95,7 +95,6 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $message = new DingtalkMessage($msgtype, $content, $title);
         $message->setAtMobiles($at['atMobiles'])
@@ -103,7 +102,12 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
             ->setIsAll($at['isAtAll']);
 
         $channel->requestContent($message);
-        $this->assertTrue($channel->getStatus());   
+
+        $result = $channel->getStatus();
+        if (! $result) {
+            var_dump($channel->getContents());
+        }
+        $this->assertTrue($result);   
     }
 
     public function testLinkCases(): void
@@ -121,7 +125,12 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
             ->setMessageUrl('https://www.aliyun.com');
 
         $channel->requestContent($message);
-        $this->assertTrue($channel->getStatus());        
+
+        $result = $channel->getStatus();
+        if (! $result) {
+            var_dump($channel->getContents());
+        }
+        $this->assertTrue($result); 
     }
 
     public function testFeedCardCases(): void
@@ -152,7 +161,12 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
             ->addLink('跳转到项目地址', 'https://jihulab.com/jetsung/pusher', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
         $channel->requestContent($message);
-        $this->assertTrue($channel->getStatus());   
+
+        $result = $channel->getStatus();
+        if (! $result) {
+            var_dump($channel->getContents());
+        }
+        $this->assertTrue($result); 
     }
 
     /**
@@ -190,7 +204,12 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         }
         
         $channel->requestContent($message);
-        $this->assertTrue($channel->getStatus());   
+
+        $result = $channel->getStatus();
+        if (! $result) {
+            var_dump($channel->getContents());
+        }
+        $this->assertTrue($result); 
     }
 
 }
