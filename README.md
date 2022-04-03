@@ -14,6 +14,7 @@ APP 推送通知
 |✔|**QQ 频道机器人**|[https://bot.q.qq.com/wiki/](https://bot.q.qq.com/wiki/develop/api/openapi/message/post_messages.html)|-|[cases](tests/Channels/QQBotTest.php)
 |✔|**Server酱**|[https://sct.ftqq.com/](https://sct.ftqq.com/)|-|[cases](tests/Channels/ServerChanTest.php)
 |✔|**Showdoc**|[https://push.showdoc.com.cn/](https://push.showdoc.com.cn/)|-|[cases](tests/Channels/ShowdocTest.php)
+|✔|**Webhook**|-|-|[cases](tests/Channels/WebhookTest.php)
 |✔|**企业微信群机器人**|[https://developer.work.weixin.qq.com](https://developer.work.weixin.qq.com/document/path/91770?notreplace=true)|-|[cases](tests/Channels/WeComTest.php)
 |✔|**WxPusher**|[https://wxpusher.zjiecode.com/](https://wxpusher.zjiecode.com/)|-|[cases](tests/Channels/WxPusherTest.php)
 |✔|**息知**|[https://xz.qqoq.net/](https://xz.qqoq.net/)|-|[cases](tests/Channels/XizhiTest.php)
@@ -40,6 +41,5 @@ Push
 Rocket Chat
 Slack
 Telegram
-Webhook
 Zulip
 ```

@@ -86,29 +86,27 @@ class QQBot extends \Pusher\Channel
             ],
         ]));
         // echo $client->receive();
-        $resp = $this->req($request_uri, $postData);
+
+        $options = [ 
+            'headers' => [
+                'Authorization' => sprintf('Bot %s.%s', $this->appID, $this->token),
+            ],
+        ];
+        $resp = $this->send('POST_JSON', $request_uri, $postData, $options);
+
         $client->close();
         return $resp;
     }
 
     // 定制 POST 请求（比如获取频道列表，子频道列表等）
-    public function send(string $uri, array $postData, string $method = 'POST'): ResponseInterface
-    {
-        return $this->req(sprintf('%s%s', $this->config['base_url'], $uri), $postData, $method);
-    }
-
-    private function req(string $url, array $postData, string $method = 'POST'): ResponseInterface
+    public function req(string $uri, array $postData, string $method = 'POST'): ResponseInterface
     {
         $options = [ 
             'headers' => [
                 'Authorization' => sprintf('Bot %s.%s', $this->appID, $this->token),
             ],
         ];
-        if (strtoupper($method) === 'POST') {
-            $options['json'] = $postData;
-        }
-
-        return $this->client->request($method, $url, $options);
+        return $this->send($method, sprintf('%s%s', $this->config['base_url'], $uri), $postData, $options);
     }
 
 }

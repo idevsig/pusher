@@ -142,7 +142,7 @@ class Mailer extends \Pusher\Channel
         return $this->status;
     }
     
-    public function send(Message $message): bool
+    public function sendTo(Message $message): bool
     {
         $postData = $message->getParams();
         $this->mail->Subject = $postData['subject'];
@@ -156,7 +156,7 @@ class Mailer extends \Pusher\Channel
 
     public function requestContent(Message $message): string
     {
-        $this->content = $this->send($message) ? 'success' : $this->mail->ErrorInfo;
+        $this->content = $this->sendTo($message) ? 'success' : $this->mail->ErrorInfo;
         return $this->content;
     }
 

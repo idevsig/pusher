@@ -85,6 +85,9 @@ jobs:
           SMTPHostPort: ${{secrets.SMTP_HOST_PORT}}
           SMTPTo: ${{secrets.SMTP_TO}}
           SMTPUser: ${{secrets.SMTP_USER}}
+          WebhookTokenGet: ${{secrets.WEBHOOK_TOKEN_GET}}
+          WebhookTokenPost: ${{secrets.WEBHOOK_TOKEN_POST}}
+          WebhookTokenPostJSON: ${{secrets.WEBHOOK_TOKEN_POST_JSON}}
           WeComToken: ${{secrets.WECOM_TOKEN}}
           WxPusherToken: ${{secrets.WXPUSHER_TOKEN}}
           XizhiChannelToken: ${{secrets.XIZHI_CHANNEL_TOKEN}}

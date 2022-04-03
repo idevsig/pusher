@@ -34,6 +34,8 @@ interface ChannelInterface
 
     public function getStatus(): bool;
 
+    public function send(string $method = 'GET', string $uri, array $data = [], array $options = []): ResponseInterface;
+
     public function request(Message $message): ResponseInterface;
 
     public function requestContent(Message $message): string;

@@ -93,6 +93,20 @@ class Channel implements ChannelInterface
         return $this->status;
     }
 
+    public function send(string $method = 'GET', string $uri, array $data = [], array $options = []): ResponseInterface
+    {
+        $method = strtoupper($method);
+        if ($method === 'POST_JSON') {
+            $method = 'POST';
+            $options['json'] = $data;
+        } else if ($method === 'POST') {
+            $options['form_params'] = $data;
+        } else {
+            $method = 'GET';
+        } 
+        return $this->client->request($method, $uri, $options);
+    }
+
     public function request(Message $message): ResponseInterface
     {
         return $this->client->request('GET');

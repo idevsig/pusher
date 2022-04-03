@@ -29,17 +29,17 @@ class MailerTest extends TestCase
 
     public function setUp(): void
     {
-        list($this->host, $port) = explode(':', getenv('SMTPHostPort'));
+        list($this->host, $port) = explode(';', getenv('SMTPHostPort'));
         $this->port = (int)$port;
 
-        list($this->sender, $this->password) = explode(':', getenv('SMTPUser'));
+        list($this->sender, $this->password) = explode(';', getenv('SMTPUser'));
 
         $from = getenv('SMTPFrom');
         if ($from !== '') {
-            list($this->from_addr, $this->from_name) = explode(':', $from);
+            list($this->from_addr, $this->from_name) = explode(';', $from);
         }
 
-        $this->to_addr = explode(',', getenv('SMTPTo'));
+        $this->to_addr = explode(';', getenv('SMTPTo'));
 
     }
 
