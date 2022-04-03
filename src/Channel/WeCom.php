@@ -38,7 +38,7 @@ class WeCom extends \Pusher\Channel
 
     public function request(Message $message): ResponseInterface
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->getToken());
+        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->token);
         $postData = $message->getParams();
 
         return $this->client->request('POST', $request_uri, [ 'json' => $postData ]);

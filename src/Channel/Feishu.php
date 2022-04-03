@@ -44,13 +44,15 @@ class Feishu extends \Pusher\Channel
     
     public function request(Message $message): ResponseInterface
     {
-        $timestamp = time();
-        $sign = Utils::generateSign($this->secret, $timestamp);
-
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->getToken());
+        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->token);
         $postData = $message->getParams();
-        $postData['timestamp'] = $timestamp;
-        $postData['sign'] = $sign;
+
+        if ($this->secret !== '') {
+            $timestamp = time();
+            $sign = Utils::generateSign($this->secret, $timestamp);
+            $postData['timestamp'] = $timestamp;
+            $postData['sign'] = $sign;
+        }
 
         return $this->client->request('POST', $request_uri, [ 'json' => $postData ]);
     }

@@ -20,7 +20,7 @@ class Dingtalk extends \Pusher\Channel
     private string $secret = '';
 
     protected string $base_url = 'https://oapi.dingtalk.com';
-    protected string $uri_template = '%s/robot/send?access_token=%s&timestamp=%d&sign=%s';
+    protected string $uri_template = '%s/robot/send?access_token=%s';
 
     public function __construct(array $config = [])
     {        
@@ -44,10 +44,14 @@ class Dingtalk extends \Pusher\Channel
 
     public function request(Message $message): ResponseInterface
     {
-        $timestamp = time() * 1000;
-        $sign = Utils::generateSign($this->secret, $timestamp);
+        $param = '';
+        if ($this->secret !== '') {
+            $timestamp = time() * 1000;
+            $sign = Utils::generateSign($this->secret, $timestamp);
+            $param = sprintf('&timestamp=%d&sign=%s', $timestamp, $sign);
+        }
 
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->getToken(), $timestamp, $sign);
+        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->token) . $param;
         $postData = $message->getParams();
 
         return $this->client->request('POST', $request_uri, [ 'json' => $postData ]);

@@ -18,7 +18,7 @@ use Pusher\Utils;
 class Bark extends \Pusher\Channel
 {
     protected string $base_url = 'https://api.day.app';
-    protected string $uri_template = '%s/%s';
+    protected string $uri_template = '%s/push';
 
     public function __construct(array $config = [])
     {
@@ -36,10 +36,11 @@ class Bark extends \Pusher\Channel
 
     public function request(Message $message): ResponseInterface
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->getToken());
+        $request_uri = sprintf($this->uri_template, $this->config['base_url']);
         $postData = $message->getParams();
+        $postData['device_key'] = $this->token;
 
-        return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);
+        return $this->client->request('POST', $request_uri, [ 'json' => $postData]);
     }
 
 }

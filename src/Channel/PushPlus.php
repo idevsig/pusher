@@ -38,7 +38,7 @@ class PushPlus extends \Pusher\Channel
     {
         $request_uri = sprintf($this->uri_template, $this->config['base_url']);
         $postData = $message->getParams();
-        $postData['token'] = $this->getToken();
+        $postData['token'] = $this->token;
 
         return $this->client->request('POST', $request_uri, [ 'json' => $postData]);
     }
