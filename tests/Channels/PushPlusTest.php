@@ -19,7 +19,7 @@ class PushPlusTest extends TestCase
 {
     private string $token = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
@@ -28,12 +28,11 @@ class PushPlusTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }
-    
+
     // 延时
     public function timeSleep(int $time = 5): void
     {
@@ -70,5 +69,4 @@ class PushPlusTest extends TestCase
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-    
 }

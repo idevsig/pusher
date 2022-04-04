@@ -29,6 +29,7 @@ class PushDeerMessage extends Message
     public function setText(string $text): self
     {
         $this->text = $text;
+
         return $this;
     }
 
@@ -40,6 +41,7 @@ class PushDeerMessage extends Message
     public function setDesp(string $desp): self
     {
         $this->desp = $desp;
+
         return $this;
     }
 
@@ -51,6 +53,7 @@ class PushDeerMessage extends Message
     public function setType(string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -66,6 +69,7 @@ class PushDeerMessage extends Message
             'desp' => $this->desp,
             'type' => $this->type,
         ];
+
         return $this;
     }
 }

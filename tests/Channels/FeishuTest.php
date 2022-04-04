@@ -17,10 +17,10 @@ use Pusher\Message\FeishuMessage;
 
 class FeishuTest extends TestCase
 {
-    private string $token = '3';
+    private string $token = '';
     private string $secret = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
@@ -30,7 +30,6 @@ class FeishuTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -100,9 +99,9 @@ class FeishuTest extends TestCase
             ],
         ];
         $second_content = [
-            [ 
-                'tag' => 'img', 
-                'image_key' => 'img_7ea74629-9191-4176-998c-2e603c9c5e8g', 
+            [
+                'tag' => 'img',
+                'image_key' => 'img_7ea74629-9191-4176-998c-2e603c9c5e8g',
                 'width' => 300,
                 'height' => 300,
             ],
@@ -192,8 +191,8 @@ class FeishuTest extends TestCase
                         ],
                         'url' => 'https://jihulab.com/jetsung/pusher',
                         'type' => 'default',
-                        'value' => (object)[],
-                    ]
+                        'value' => (object) [],
+                    ],
                 ],
                 'tag' => 'action',
             ],
@@ -215,5 +214,4 @@ class FeishuTest extends TestCase
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-    
 }

@@ -21,7 +21,7 @@ class BarkTest extends TestCase
     private string $customURL = '';
     private string $customToken = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
@@ -32,7 +32,6 @@ class BarkTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -61,15 +60,15 @@ class BarkTest extends TestCase
      * @return void
      */
     public function testCases(
-        string $title, 
-        string $body, 
-        int    $badge = 1, 
-        string $sound = '', 
+        string $title,
+        string $body,
+        int    $badge = 1,
+        string $sound = '',
         string $icon = '',
         string $group = '',
         string $url = '',
-        bool $is_custom = false): void
-    {
+        bool $is_custom = false
+    ): void {
         $this->skipTest(__METHOD__);
         $this->timeSleep(5);
 
@@ -88,9 +87,8 @@ class BarkTest extends TestCase
             ->setIcon($icon)
             ->setGroup($group)
             ->setURL($url);
-        
+
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-
 }

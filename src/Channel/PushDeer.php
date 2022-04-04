@@ -32,9 +32,10 @@ class PushDeer extends \Pusher\Channel
         $count = count($resp['content']['result']);
         $this->status = $count !== 0;
         $this->showResp();
+
         return $this->status;
     }
-    
+
     public function request(Message $message): ResponseInterface
     {
         $request_uri = sprintf($this->uri_template, $this->config['base_url']);
@@ -42,5 +43,4 @@ class PushDeer extends \Pusher\Channel
 
         return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);
     }
-
 }

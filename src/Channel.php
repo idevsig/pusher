@@ -13,7 +13,6 @@ namespace Pusher;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 
 class Channel implements ChannelInterface
 {
@@ -24,7 +23,7 @@ class Channel implements ChannelInterface
     protected string $token = '';
 
     protected bool $is_debug = false;
-    
+
     protected string $content = ''; // 请求结果正文
     protected bool $status = false; // 请求状态
 
@@ -59,6 +58,7 @@ class Channel implements ChannelInterface
         }
 
         $this->config['base_url'] = rtrim($base_url, '/');
+
         return $this;
     }
 
@@ -75,6 +75,7 @@ class Channel implements ChannelInterface
     public function setToken(string $token): self
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -93,17 +94,18 @@ class Channel implements ChannelInterface
         return $this->status;
     }
 
-    public function send(string $method = 'GET', string $uri, array $data = [], array $options = []): ResponseInterface
+    public function send(string $method = 'GET', string $uri = '', array $data = [], array $options = []): ResponseInterface
     {
         $method = strtoupper($method);
         if ($method === 'POST_JSON') {
             $method = 'POST';
             $options['json'] = $data;
-        } else if ($method === 'POST') {
+        } elseif ($method === 'POST') {
             $options['form_params'] = $data;
         } else {
             $method = 'GET';
-        } 
+        }
+
         return $this->client->request($method, $uri, $options);
     }
 
@@ -115,6 +117,7 @@ class Channel implements ChannelInterface
     public function requestContent(Message $message): string
     {
         $this->content = $this->request($message)->getBody()->getContents();
+
         return $this->content;
     }
 
@@ -127,7 +130,6 @@ class Channel implements ChannelInterface
     {
         if (!$this->status && $this->is_debug) {
             var_dump($this->content);
-        }       
+        }
     }
-
 }

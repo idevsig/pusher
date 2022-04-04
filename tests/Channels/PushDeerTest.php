@@ -21,7 +21,7 @@ class PushDeerTest extends TestCase
     private string $customURL = '';
     private string $customToken = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
@@ -32,7 +32,6 @@ class PushDeerTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -77,5 +76,4 @@ class PushDeerTest extends TestCase
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-
 }

@@ -20,7 +20,7 @@ class ServerChanTest extends TestCase
     private string $token = '';
 
     ## ServerChan 每天只能发 5 条信息，故跳过单元测试
-    const PASS = true;
+    public const PASS = true;
 
     public function setUp(): void
     {
@@ -29,7 +29,6 @@ class ServerChanTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -41,7 +40,7 @@ class ServerChanTest extends TestCase
             [ 'Title', '**This** is desp. [项目地址](https://jihulab.com/jetsung/pusher)'],
         ];
     }
-    
+
     /**
      * @dataProvider additionProvider
      *
@@ -59,5 +58,4 @@ class ServerChanTest extends TestCase
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-
 }

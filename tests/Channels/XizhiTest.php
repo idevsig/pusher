@@ -20,17 +20,16 @@ class XizhiTest extends TestCase
     private string $token = '';
     private string $token_channel = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
         $this->token = getenv('XizhiToken');
         $this->token_channel = getenv('XizhiChannelToken');
     }
-    
+
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -49,7 +48,7 @@ class XizhiTest extends TestCase
             [ '频道推送', '**This** is 频道推送. [项目地址](https://github.com/jetsung/pusher)', 'channel'],
         ];
     }
-    
+
     /**
      * @dataProvider additionProvider
      *
@@ -71,5 +70,4 @@ class XizhiTest extends TestCase
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-
 }

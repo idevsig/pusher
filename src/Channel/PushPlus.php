@@ -31,9 +31,10 @@ class PushPlus extends \Pusher\Channel
         $resp = Utils::xmlToArray($this->content);
         $this->status = $resp['code'] === '200';
         $this->showResp();
+
         return $this->status;
     }
-    
+
     public function request(Message $message): ResponseInterface
     {
         $request_uri = sprintf($this->uri_template, $this->config['base_url']);
@@ -42,5 +43,4 @@ class PushPlus extends \Pusher\Channel
 
         return $this->client->request('POST', $request_uri, [ 'json' => $postData]);
     }
-
 }

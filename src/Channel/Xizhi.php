@@ -31,6 +31,7 @@ class Xizhi extends \Pusher\Channel
     public function setType(string $type = 'send'): self
     {
         $this->type = ($type === 'channel') ? 'channel' : 'send';
+
         return $this;
     }
 
@@ -44,6 +45,7 @@ class Xizhi extends \Pusher\Channel
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['code'] === 200;
         $this->showResp();
+
         return $this->status;
     }
 
@@ -54,5 +56,4 @@ class Xizhi extends \Pusher\Channel
 
         return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);
     }
-
 }

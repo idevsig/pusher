@@ -28,12 +28,14 @@ class Webhook extends \Pusher\Channel
     public function setMethod(string $method): self
     {
         $this->method = $method;
+
         return $this;
     }
 
     public function setOptions(array $options): self
     {
         $this->options = $options;
+
         return $this;
     }
 
@@ -42,8 +44,7 @@ class Webhook extends \Pusher\Channel
         $postData = $message->getParams();
 
         $resp = $this->send($this->method, $this->config['base_url'], $postData, $this->options);
+
         return $resp;
     }
-
-    
 }

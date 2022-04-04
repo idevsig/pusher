@@ -12,7 +12,6 @@
 namespace Pusher;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 
 interface ChannelInterface
 {
@@ -34,7 +33,7 @@ interface ChannelInterface
 
     public function getStatus(): bool;
 
-    public function send(string $method = 'GET', string $uri, array $data = [], array $options = []): ResponseInterface;
+    public function send(string $method, string $uri, array $data, array $options): ResponseInterface;
 
     public function request(Message $message): ResponseInterface;
 
@@ -43,5 +42,4 @@ interface ChannelInterface
     public function requestArray(Message $message): array;
 
     public function showResp(): void;
-
 }

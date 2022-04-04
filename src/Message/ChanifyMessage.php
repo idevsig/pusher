@@ -11,22 +11,21 @@
 
 namespace Pusher\Message;
 
-use PhpParser\Node\Expr\Cast\Object_;
 use Pusher\Message;
 
 class ChanifyMessage extends Message
 {
-    private string $title   = '';  // 通知标题
-    private string $text    = '';  // 通知内容
-    private string $copy    = '';  // 复制文本
+    private string $title = '';  // 通知标题
+    private string $text = '';  // 通知内容
+    private string $copy = '';  // 复制文本
     private int    $autocopy = 1;  // 自动复制
-    private int    $sound    = 1;  // 启用声音
+    private int    $sound = 1;  // 启用声音
     private int    $priority = 10; // 优先级
     // active: 点亮屏幕并可能播放声音。
     // passive: 不点亮屏幕或播放声音。
     // time-sensitive: 点亮屏幕并可能播放声音； 可能会在“请勿打扰”期间展示。
     private string $interruptionLevel = 'active'; // 通知时间的中断级别
-    private array $actions  = []; // 动作列表
+    private array $actions = []; // 动作列表
     private array $timeline = []; // Timeline 对象
 
     // 发送链接
@@ -38,12 +37,13 @@ class ChanifyMessage extends Message
     public function __construct(string $title = '', string $text = '')
     {
         $this->title = $title;
-        $this->text  = $text;
+        $this->text = $text;
     }
 
     public function setCopy(string $copy): self
     {
         $this->copy = $copy;
+
         return $this;
     }
 
@@ -55,6 +55,7 @@ class ChanifyMessage extends Message
     public function setSound(int $sound): self
     {
         $this->sound = $sound;
+
         return $this;
     }
 
@@ -66,6 +67,7 @@ class ChanifyMessage extends Message
     public function setPriority(int $priority): self
     {
         $this->priority = $priority;
+
         return $this;
     }
 
@@ -77,6 +79,7 @@ class ChanifyMessage extends Message
     public function setInterruptionLevel(string $interruptionLevel): self
     {
         $this->interruptionLevel = $interruptionLevel;
+
         return $this;
     }
 
@@ -86,8 +89,9 @@ class ChanifyMessage extends Message
     }
 
     public function setActions(array $actions): self
-    {  
+    {
         $this->actions = $actions;
+
         return $this;
     }
 
@@ -99,12 +103,14 @@ class ChanifyMessage extends Message
     public function addAction(string $action): self
     {
         $this->actions[] = $action;
+
         return $this;
     }
 
     public function setTimeline(array $timeline): self
     {
         $this->timeline = $timeline;
+
         return $this;
     }
 
@@ -116,6 +122,7 @@ class ChanifyMessage extends Message
     public function setLink(string $link): self
     {
         $this->link = $link;
+
         return $this;
     }
 
@@ -126,16 +133,13 @@ class ChanifyMessage extends Message
 
     public function generateParams(): self
     {
-        if ($this->link !== '') 
-        {
+        if ($this->link !== '') {
             $this->params = [
                 'sound' => $this->sound,
                 'priority' => $this->priority,
                 'link' => $this->link,
             ];
-        }
-        else
-        {
+        } else {
             $this->params = [
                 'title' => $this->title,
                 'text' => $this->text,
@@ -148,12 +152,13 @@ class ChanifyMessage extends Message
                 'timeline' => $this->timeline,
             ];
 
-            if (! empty($this->timeline)) {
+            if (!empty($this->timeline)) {
                 unset($this->params['actions']);
             } else {
                 unset($this->params['timeline']);
             }
         }
+
         return $this;
     }
 }

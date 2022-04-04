@@ -11,14 +11,13 @@
 
 namespace Pusher;
 
-use Psr\Http\Message\MessageInterface;
-
 class Utils
 {
     public static function generateSign(string $secret, int $timestamp): string
     {
         $stringToSign = sprintf("%s\n%s", $timestamp, $secret);
         $signData = hash_hmac('sha256', $stringToSign, $secret, true);
+
         return urlencode(base64_encode($signData));
     }
 
@@ -30,7 +29,7 @@ class Utils
     public static function xmlToArray(string $message): array
     {
         $xmlObj = simplexml_load_string($message);
+
         return json_decode(json_encode($xmlObj), true);
     }
-    
 }

@@ -15,18 +15,19 @@ use Pusher\Message;
 
 class ShowdocMessage extends Message
 {
-    private string $title   = ''; // 通知标题
+    private string $title = ''; // 通知标题
     private string $content = ''; // 通知内容
 
     public function __construct(string $title = '', string $content = '')
     {
         $this->title = $title;
-        $this->content  = $content;
+        $this->content = $content;
     }
 
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -38,6 +39,7 @@ class ShowdocMessage extends Message
     public function setContent(string $content): self
     {
         $this->content = $content;
+
         return $this;
     }
 
@@ -52,6 +54,7 @@ class ShowdocMessage extends Message
             'title' => $this->title,
             'content' => $this->content,
         ];
+
         return $this;
     }
 }

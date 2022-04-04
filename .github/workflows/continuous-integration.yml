@@ -1,0 +1,165 @@
+name: "Continuous Integration"
+
+on:
+  push:
+    paths-ignore:
+      - 'doc/**'
+  pull_request:
+    paths-ignore:
+      - 'doc/**'
+
+env:
+  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
+  COMPOSER_UPDATE_FLAGS: ""
+
+jobs:
+  tests:
+    name: "PHP Unit tests"
+
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+
+    strategy:
+      matrix:
+        include:
+          - php-version: "8.0"
+            os: "ubuntu-latest"
+            experimental: false
+          - php-version: "8.1"
+            os: "ubuntu-latest"
+            experimental: true
+      fail-fast: true
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          extensions: "intl, zip"
+          ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
+          php-version: "${{ matrix.php-version }}"
+          tools: composer
+          
+      - name: "Install locked dependencies"
+        if: "matrix.experimental == false"
+        run: "composer config platform --unset && composer install ${{ env.COMPOSER_FLAGS }}"
+
+      - name: "Install highest dependencies"
+        if: "matrix.experimental == true"
+        run: "composer config platform --unset && composer update ${{ env.COMPOSER_FLAGS }}"
+
+      - name: "Prepare git environment"
+        run: "git config --global user.name pusher && git config --global user.email pusher@example.com"
+
+      - name: "Run PHPUnit tests"
+        run: "vendor/bin/phpunit tests --verbose"
+        env:
+          BarkCustomToken: ${{secrets.BARK_CUSTOM_TOKEN}}
+          BarkCustomURL: ${{secrets.BARK_CUSTOM_URL}}
+          BarkToken: ${{secrets.BARK_TOKEN}}
+          ChanifyCustomToken: ${{secrets.CHANIFY_CUSTOM_TOKEN}}
+          ChanifyCustomURL: ${{secrets.CHANIFY_CUSTOM_URL}}
+          ChanifyToken: ${{secrets.CHANIFY_TOKEN}}
+          DingtalkSecret: ${{secrets.DINGTALK_SECRET}}
+          DingtalkToken: ${{secrets.DINGTALK_TOKEN}}
+          FeishuSecret: ${{secrets.FEISHU_SECRET}}
+          FeishuToken: ${{secrets.FEISHU_TOKEN}}
+          PushDeerCustomToken: ${{secrets.PUSHDEER_CUSTOM_TOKEN}}
+          PushDeerCustomURL: ${{secrets.PUSHDEER_CUSTOM_URL}}
+          PushDeerToken: ${{secrets.PUSHDEER_TOKEN}}
+          PushPlusToken: ${{secrets.PUSHPLUS_TOKEN}}
+          QQBotAppId: ${{secrets.QQBOT_APP_ID}}
+          QQBotChannelId: ${{secrets.QQBOT_CHANNEL_ID}}
+          QQBotToken: ${{secrets.QQBOT_TOKEN}}
+          ServerChanToken: ${{secrets.SERVERCHAN_TOKEN}}
+          ShowdocToken: ${{secrets.SHOWDOC_TOKEN}}
+          SMTPFrom: ${{secrets.SMTP_FROM}}
+          SMTPHostPort: ${{secrets.SMTP_HOST_PORT}}
+          SMTPTo: ${{secrets.SMTP_TO}}
+          SMTPUser: ${{secrets.SMTP_USER}}
+          WebhookTokenGet: ${{secrets.WEBHOOK_TOKEN_GET}}
+          WebhookTokenPost: ${{secrets.WEBHOOK_TOKEN_POST}}
+          WebhookTokenPostJSON: ${{secrets.WEBHOOK_TOKEN_POST_JSON}}
+          WeComToken: ${{secrets.WECOM_TOKEN}}
+          WxPusherToken: ${{secrets.WXPUSHER_TOKEN}}
+          XizhiChannelToken: ${{secrets.XIZHI_CHANNEL_TOKEN}}
+          XizhiToken: ${{secrets.XIZHI_TOKEN}}
+
+  validation:
+    name: "Composer validation"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          extensions: "intl, zip"
+          ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
+          php-version: "8.1"
+          tools: composer
+
+      - name: "Validate composer.json"
+        run: "composer validate --strict"
+
+  php-stan:
+    name: "PHPStan Analyse"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          extensions: "intl, zip"
+          ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
+          php-version: "8.1"
+          tools: composer
+
+      - name: "Install PHPStan"
+        run: "composer require --dev phpstan/phpstan"
+
+      - name: "Run PHPStan"
+        run: "vendor/bin/phpstan analyse src tests"
+
+  php-cs-fixer:
+    name: "PHP-CS-Fixer"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          extensions: "intl, zip"
+          ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
+          php-version: "8.1"
+          tools: composer
+
+      - name: "Install PHP-CS-Fixer"
+        run: "composer require --dev friendsofphp/php-cs-fixer"
+          
+      - name: "Run PHP-CS-Fixer"
+        run: "vendor/bin/php-cs-fixer fix --verbose"
+
+      - name: Commit changes
+        uses: github-actions-x/commit@v2.8
+        with:
+          commit-message: Fix styling
+          files: .
+          name: github-actions[bot]

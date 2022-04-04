@@ -27,12 +27,13 @@ class QQBotMessage extends Message
 
     public function __construct(string $content = '')
     {
-        $this->content  = $content;
+        $this->content = $content;
     }
 
     public function setContent(string $content): self
     {
         $this->content = $content;
+
         return $this;
     }
 
@@ -44,6 +45,7 @@ class QQBotMessage extends Message
     public function setEmbed(array $embed): self
     {
         $this->embed = $embed;
+
         return $this;
     }
 
@@ -55,6 +57,7 @@ class QQBotMessage extends Message
     public function setArk(array $ark): self
     {
         $this->ark = $ark;
+
         return $this;
     }
 
@@ -66,6 +69,7 @@ class QQBotMessage extends Message
     public function setImage(string $image): self
     {
         $this->image = $image;
+
         return $this;
     }
 
@@ -77,6 +81,7 @@ class QQBotMessage extends Message
     public function setMarkdown(array $markdown): self
     {
         $this->markdown = $markdown;
+
         return $this;
     }
 
@@ -88,6 +93,7 @@ class QQBotMessage extends Message
     public function setMessageReference(array $message): self
     {
         $this->messageReference = $message;
+
         return $this;
     }
 
@@ -99,6 +105,7 @@ class QQBotMessage extends Message
     public function setMsgID(string $msgID): self
     {
         $this->msgID = $msgID;
+
         return $this;
     }
 
@@ -115,24 +122,15 @@ class QQBotMessage extends Message
 
         ];
 
-        if (! empty($this->markdown))
-        {
+        if (!empty($this->markdown)) {
             $this->params['markdown'] = $this->markdown;
-        }
-        else if (! empty($this->image))
-        {
+        } elseif (!empty($this->image)) {
             $this->params['image'] = $this->image;
-        }
-        else if (! empty($this->embed))
-        {
+        } elseif (!empty($this->embed)) {
             $this->params['embed'] = $this->embed;
-        }
-        else if (! empty($this->ark))
-        {
+        } elseif (!empty($this->ark)) {
             $this->params['ark'] = $this->ark;
-        }
-        else if (! empty($this->messageReference)) 
-        {
+        } elseif (!empty($this->messageReference)) {
             $this->params['message_reference'] = $this->messageReference;
         }
 

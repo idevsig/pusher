@@ -89,7 +89,7 @@ class QQBotTest extends TestCase
         $this->assertTrue($channel->getStatus());
     }
 
-    // 不允许发送源文本 
+    // 不允许发送源文本
     // {"code":50056,"message":"raw markdown not allowed"}
     public function testMarkdownCases(): void
     {
@@ -103,10 +103,10 @@ class QQBotTest extends TestCase
             ->setToken($this->token);
         // var_dump($channel);
 
-//         $markdown = "![screenshot](https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png) 
-// ### 乔布斯 20 年前想打造的苹果咖啡厅 
-// Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划";
-        $markdown = '## 这是一个 Markdown 内容';        
+//         $markdown = "![screenshot](https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png)
+        // ### 乔布斯 20 年前想打造的苹果咖啡厅
+        // Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划";
+        $markdown = '## 这是一个 Markdown 内容';
 
         $message = new QQBotMessage();
         $message->setMarkdown([ 'content' => $markdown]);
@@ -139,14 +139,13 @@ class QQBotTest extends TestCase
                 [ 'name' => '😁继续努力' ],
             ],
         ];
- 
+
         $message = new QQBotMessage();
         $message->setEmbed($embed);
 
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-
 
     public function testArkCases(): void
     {
@@ -183,7 +182,7 @@ class QQBotTest extends TestCase
                         ],
                     ],
                     [
-                        'obj_kv' => 
+                        'obj_kv' =>
                         [
                         [
                             'key' => 'desc',
@@ -251,7 +250,7 @@ class QQBotTest extends TestCase
                 ],
             ],
         ];
- 
+
         $message = new QQBotMessage();
         $message->setArk($ark);
 
@@ -276,6 +275,7 @@ class QQBotTest extends TestCase
         if (count($jsonData) > 0) {
             return $jsonData[0]['id'];
         }
+
         return '';
     }
 
@@ -303,5 +303,4 @@ class QQBotTest extends TestCase
             echo "\n" . implode(',', array_column($jsonData, 'id'));
         }
     }
-
 }

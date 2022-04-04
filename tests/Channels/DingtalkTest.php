@@ -21,7 +21,7 @@ class DingtalkTest extends TestCase
     private string $secret = '';
 
     ## 钉钉限制每分钟只能发 20 条信息
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
@@ -31,7 +31,6 @@ class DingtalkTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -48,21 +47,20 @@ class DingtalkTest extends TestCase
         $at = [
             'atMobiles' => [],
             'atUserIds' => [ 'skiychan' ],
-            'isAtAll'   => true,
+            'isAtAll' => true,
         ];
 
         $at2 = array_merge($at, [ 'isAtAll' => false ]);
 
         return [
-            ['text', 'TEXT 消息内容', '', $at], 
-            ['text', 'TEXT 消息内容 no at all', '', $at2], 
-            ['markdown', "#### 杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", '首屏会话透出的展示内容', $at], 
+            ['text', 'TEXT 消息内容', '', $at],
+            ['text', 'TEXT 消息内容 no at all', '', $at2],
+            ['markdown', "#### 杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", '首屏会话透出的展示内容', $at],
         ];
     }
 
     public function additionProviderActionCard(): array
     {
-
         $content = "![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png) 
 ### 乔布斯 20 年前想打造的苹果咖啡厅 
 Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划";
@@ -75,10 +73,10 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         ];
 
         return [
-            [ $content, $title, '0', '查看项目', 'https://jihulab.com/jetsung/pusher' ], 
-            [ $content, $title, '1', '查看项目', 'https://jihulab.com/jetsung/pusher' ], 
-            [ $content, $title, '0', '', '', $btns ], 
-            [ $content, $title, '1', '', '', $btns ], 
+            [ $content, $title, '0', '查看项目', 'https://jihulab.com/jetsung/pusher' ],
+            [ $content, $title, '1', '查看项目', 'https://jihulab.com/jetsung/pusher' ],
+            [ $content, $title, '0', '', '', $btns ],
+            [ $content, $title, '1', '', '', $btns ],
         ];
     }
 
@@ -104,10 +102,10 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel->requestContent($message);
 
         $result = $channel->getStatus();
-        if (! $result) {
+        if (!$result) {
             var_dump($channel->getContents());
         }
-        $this->assertTrue($result);   
+        $this->assertTrue($result);
     }
 
     public function testLinkCases(): void
@@ -127,10 +125,10 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel->requestContent($message);
 
         $result = $channel->getStatus();
-        if (! $result) {
+        if (!$result) {
             var_dump($channel->getContents());
         }
-        $this->assertTrue($result); 
+        $this->assertTrue($result);
     }
 
     public function testFeedCardCases(): void
@@ -145,14 +143,14 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
         $links = [
             [
-                'title'      => '百度搜索',
+                'title' => '百度搜索',
                 'messageURL' => 'https://baidu.com',
-                'picURL'     => 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
+                'picURL' => 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
             ],
             [
-                'title'      => '360搜索',
+                'title' => '360搜索',
                 'messageURL' => 'https://so.com',
-                'picURL'     => 'https://p.ssl.qhimg.com/t012cdb572f41b93733.png',
+                'picURL' => 'https://p.ssl.qhimg.com/t012cdb572f41b93733.png',
             ],
         ];
 
@@ -163,10 +161,10 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel->requestContent($message);
 
         $result = $channel->getStatus();
-        if (! $result) {
+        if (!$result) {
             var_dump($channel->getContents());
         }
-        $this->assertTrue($result); 
+        $this->assertTrue($result);
     }
 
     /**
@@ -174,14 +172,14 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
      *
      * @return void
      */
-    public function testActionCardCases(string $content, 
-        string $title, 
+    public function testActionCardCases(
+        string $content,
+        string $title,
         string $btnOrientation,
         string $singleTitle,
         string $singleURL,
         array $btns = [],
-    ): void
-    {
+    ): void {
         $this->skipTest(__METHOD__);
         $this->timeSleep(20);
 
@@ -196,20 +194,17 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         if (count($btns) > 0) {
             $message->setBtns($btns)
                 ->addBtn('项目地址', 'https://jihulab.com/jetsung/pusher');
-        } 
-        else
-        {
+        } else {
             $message->setSingleTitle($singleTitle)
                 ->setSingleURL($singleURL);
         }
-        
+
         $channel->requestContent($message);
 
         $result = $channel->getStatus();
-        if (! $result) {
+        if (!$result) {
             var_dump($channel->getContents());
         }
-        $this->assertTrue($result); 
+        $this->assertTrue($result);
     }
-
 }

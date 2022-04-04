@@ -21,10 +21,10 @@ class ChanifyTest extends TestCase
     private string $customURL = '';
     private string $customToken = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
-    {  
+    {
         $this->token = getenv('ChanifyToken');
         $this->customURL = getenv('ChanifyCustomURL');
         $this->customToken = getenv('ChanifyCustomToken');
@@ -32,7 +32,6 @@ class ChanifyTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -49,12 +48,13 @@ class ChanifyTest extends TestCase
         $content = "不支持 Markdown 和 HTML。
 Pusher 项目地址：https://jihulab.com/jetsung/pusher  
 ";
+
         return [
             [ '这里是标题', $content],
             [ '文本，自定义 URL', $content, true],
         ];
     }
-    
+
     /**
      * @dataProvider additionProvider
      *
@@ -144,5 +144,4 @@ Pusher 项目地址：https://jihulab.com/jetsung/pusher
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-
 }

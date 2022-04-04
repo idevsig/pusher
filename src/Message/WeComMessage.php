@@ -17,7 +17,7 @@ class WeComMessage extends Message
 {
     private string $msgtype = 'text'; // 消息类型 text,markdown,image,news
     private string $content = '';     // 通知内容
-    private string $title   = '';     // 消息标题
+    private string $title = '';     // 消息标题
 
     // text 类型
     private array $mentionedList = [];       // userid 的列表，提醒群中的指定成员(@某个成员)，@all表示提醒所有人
@@ -25,25 +25,25 @@ class WeComMessage extends Message
 
     // image 类型
     private string $imageBase64 = ''; // 图片内容的 base64 编码（不可换行，不带图片识别头）：base64 -w 0 pic.jpg > encode.log
-    private string $imageMd5    = ''; // 图片内容（base64编码前）的md5值：md5sum pic.jpg
+    private string $imageMd5 = ''; // 图片内容（base64编码前）的md5值：md5sum pic.jpg
 
     // news 类型
     private array $articles = []; // 图文消息，一个图文消息支持1到8条图文
 
     public function __construct(
-        string $msgtype = 'text', 
-        string $content = '', 
-        string $title   = '',
-        )
-    {
+        string $msgtype = 'text',
+        string $content = '',
+        string $title = '',
+    ) {
         $this->msgtype = $msgtype;
         $this->content = $content;
-        $this->title   = $title;
+        $this->title = $title;
     }
 
     public function setMentionedList(array $list): self
     {
         $this->mentionedList = $list;
+
         return $this;
     }
 
@@ -55,6 +55,7 @@ class WeComMessage extends Message
     public function setMentionedMobileList(array $list): self
     {
         $this->mentionedMobileList = $list;
+
         return $this;
     }
 
@@ -66,6 +67,7 @@ class WeComMessage extends Message
     public function setImageBase64(string $base64): self
     {
         $this->imageBase64 = $base64;
+
         return $this;
     }
 
@@ -77,6 +79,7 @@ class WeComMessage extends Message
     public function setImageMd5(string $md5): self
     {
         $this->imageMd5 = $md5;
+
         return $this;
     }
 
@@ -88,6 +91,7 @@ class WeComMessage extends Message
     public function setArticles(array $articles): self
     {
         $this->articles = $articles;
+
         return $this;
     }
 
@@ -104,6 +108,7 @@ class WeComMessage extends Message
             'description' => $description,
             'picurl' => $picurl,
         ];
+
         return $this;
     }
 
@@ -115,11 +120,11 @@ class WeComMessage extends Message
 
         $params = [];
 
-        switch($this->msgtype) {
+        switch ($this->msgtype) {
             case 'markdown':
                 $params = [
                     'markdown' => [
-                        'content'  => $this->content,
+                        'content' => $this->content,
                     ],
                 ];
                 break;
@@ -130,7 +135,7 @@ class WeComMessage extends Message
                         'base64' => $this->imageBase64,
                         'md5' => $this->imageMd5,
                     ],
-                ]; 
+                ];
                 break;
 
             case 'news':
@@ -142,7 +147,7 @@ class WeComMessage extends Message
                 break;
 
             case 'text':
-            default: 
+            default:
                 $params = [
                     'text' => [
                         'content' => $this->content,

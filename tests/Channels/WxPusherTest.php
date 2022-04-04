@@ -19,7 +19,7 @@ class WxPusherTest extends TestCase
 {
     private string $token = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
@@ -28,7 +28,6 @@ class WxPusherTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -69,7 +68,7 @@ class WxPusherTest extends TestCase
             ],
         ];
     }
-    
+
     /**
      * @dataProvider additionProvider
      *
@@ -93,5 +92,4 @@ class WxPusherTest extends TestCase
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-
 }

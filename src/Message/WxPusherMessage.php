@@ -21,16 +21,17 @@ class WxPusherMessage extends Message
     private int $contentType = 1; // 内容类型 1表示文字  2表示html(只发送body标签内部的数据即可，不包括body标签) 3表示markdown
     private array $topicIds = []; // 发送目标的topicId，是一个数组！！！，也就是群发，使用uids单发的时候， 可以不传。
     private array $uids = [];     // 发送目标的UID，是一个数组。注意uids和topicIds可以同时填写，也可以只填写一个。
-    private string $url = '';     // 原文链接，可选参数 
+    private string $url = '';     // 原文链接，可选参数
 
     public function __construct(string $content = '')
     {
-        $this->content  = $content;
+        $this->content = $content;
     }
 
     public function setContent(string $content): self
     {
         $this->content = $content;
+
         return $this;
     }
 
@@ -42,8 +43,9 @@ class WxPusherMessage extends Message
     public function setSummary(string $summary): self
     {
         $this->summary = $summary;
+
         return $this;
-    } 
+    }
 
     public function getSummary(): string
     {
@@ -53,6 +55,7 @@ class WxPusherMessage extends Message
     public function setContentType(int $contentType): self
     {
         $this->contentType = $contentType;
+
         return $this;
     }
 
@@ -64,6 +67,7 @@ class WxPusherMessage extends Message
     public function setTopicIds(array $topicIds): self
     {
         $this->topicIds = $topicIds;
+
         return $this;
     }
 
@@ -75,6 +79,7 @@ class WxPusherMessage extends Message
     public function setUids(array $uids): self
     {
         $this->uids = $uids;
+
         return $this;
     }
 
@@ -86,6 +91,7 @@ class WxPusherMessage extends Message
     public function setURL(string $url): self
     {
         $this->url = $url;
+
         return $this;
     }
 
@@ -104,6 +110,7 @@ class WxPusherMessage extends Message
             'uids' => $this->uids,
             'url' => $this->url,
         ];
+
         return $this;
     }
 }

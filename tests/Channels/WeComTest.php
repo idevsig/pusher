@@ -19,7 +19,7 @@ class WeComTest extends TestCase
 {
     private string $token = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
@@ -28,7 +28,6 @@ class WeComTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -51,10 +50,10 @@ class WeComTest extends TestCase
         $at3 = array_merge($at, [ 'mentionedMobileList' => [ '@all' ] ]);
 
         return [
-            ['text', 'TEXT 消息内容', '', $at], 
-            ['text', 'TEXT 消息内容 at all uid', '', $at2], 
-            ['text', 'TEXT 消息内容 at all mobile', '', $at3], 
-            ['markdown', "#### 杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://p.qpic.cn/pic_wework/3887590517/1e18b50e1f1517a6328199454b42c9501fe22d7ddcc2457d/0)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", '', $at], 
+            ['text', 'TEXT 消息内容', '', $at],
+            ['text', 'TEXT 消息内容 at all uid', '', $at2],
+            ['text', 'TEXT 消息内容 at all mobile', '', $at3],
+            ['markdown', "#### 杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://p.qpic.cn/pic_wework/3887590517/1e18b50e1f1517a6328199454b42c9501fe22d7ddcc2457d/0)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", '', $at],
         ];
     }
 
@@ -66,7 +65,6 @@ class WeComTest extends TestCase
         return [
             [ $md5, $base64 ],
         ];
-    
     }
 
     /**
@@ -74,12 +72,12 @@ class WeComTest extends TestCase
      *
      * @return void
      */
-    public function testTextMarkdownCases(string $msgtype, 
-        string $content, 
-        string $title = '', 
+    public function testTextMarkdownCases(
+        string $msgtype,
+        string $content,
+        string $title = '',
         array $at = [],
-        ): void
-    {
+    ): void {
         $this->skipTest(__METHOD__);
         $this->timeSleep(5);
 
@@ -124,25 +122,25 @@ class WeComTest extends TestCase
         $channel->setToken($this->token);
 
         $articles = [
-            [ 
+            [
                 'title' => '中秋节礼品领取',
                 'description' => '今年中秋节公司有豪礼相送',
                 'url' => 'https://www.qq.com',
                 'picurl' => 'http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png',
             ],
-            [ 
+            [
                 'title' => '三月三',
                 'description' => '农历三月三，亦称“上巳节”，是中华民族的传统节日，其中以汉族、壮族、苗族、瑶族为典型。三月初三在我国西南地区的一些少数民族地区，仍是一个隆重而盛大的节日。',
                 'url' => 'https://baike.baidu.com/item/%E4%B8%89%E6%9C%88%E4%B8%89/4101',
                 'picurl' => 'https://bkimg.cdn.bcebos.com/pic/b58f8c5494eef01fb500d200e7fe9925bd317ddb?x-bce-process=image/resize,m_lfit,w_536,limit_1/format,f_jpg',
             ],
-            [ 
+            [
                 'title' => '端午节',
                 'description' => '五月初五即端午节，是古老的中国传统节日。据统计，端午节的名称在中国所有传统节日当中叫法最多，达二十多个。唐代至汉代常用的名称是“五月五日”，唐以后，端午便取代“五月五日”等别称，成为主流的称呼。节日民俗主要有祈福纳祥、压邪攘灾等活动形式。每年端午节前后，诸多特色节庆活动在全国各地展开，内容丰富多彩，热闹喜庆，节味浓郁。端午节在传承发展中杂揉了多地多种民俗为一体，民俗繁多复杂，在全国各地有着不同称呼，生动反映各地端午习俗有同也有异。',
                 'url' => 'https://baike.baidu.com/item/%E4%BA%94%E6%9C%88%E5%88%9D%E4%BA%94/5441802?fr=aladdin',
                 'picurl' => '',
             ],
-            [ 
+            [
                 'title' => '中元节',
                 'description' => '中元节，是道教名称，民间世俗称为七月半、七月十四、祭祖节，佛教则称为盂兰盆节。 [1]  节日习俗主要有祭祖、放河灯、祀亡魂、焚纸锭、祭祀土地等。它的诞生可追溯到上古时代的祖灵崇拜以及相关时祭。七月乃吉祥月、孝亲月，七月半是民间初秋庆贺丰收、酬谢大地的节日，有若干农作物成熟，民间按例要祀祖，用新稻米等祭供，向祖先报告秋成。该节是追怀先人的一种文化传统节日，其文化核心是敬祖尽孝。',
                 'url' => 'https://baike.baidu.com/item/%E4%B8%AD%E5%85%83%E8%8A%82/22411?fromtitle=%E4%B8%83%E6%9C%88%E5%8D%81%E5%9B%9B&fromid=7440806&fr=aladdin',
@@ -157,5 +155,4 @@ class WeComTest extends TestCase
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-
 }

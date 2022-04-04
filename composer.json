@@ -7,12 +7,7 @@
         "php": "^8.0 || ^8.1",
         "guzzlehttp/guzzle": "^7.4",
         "phpmailer/phpmailer": "^6.6",
-        "textalk/websocket": "1.5.7"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "friendsofphp/php-cs-fixer": "^3.6",
-        "phpstan/phpstan": "^1.4"
+        "textalk/websocket": "^1.5"
     },
     "license": "Apache-2.0",
     "autoload": {
@@ -25,5 +20,10 @@
             "name": "Jetsung Chan",
             "email": "skiy@jetsung.com"
         }
-    ]
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "phpstan/phpstan": "v1.4.6"
+    }
 }

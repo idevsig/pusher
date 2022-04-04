@@ -16,7 +16,7 @@ use Pusher\Message;
 class FeishuMessage extends Message
 {
     private string $msgType = 'text'; // 消息类型 text,post,image,share_chat,interactive
-    private string $title   = '';     // 消息标题
+    private string $title = '';     // 消息标题
 
     // text 文本类型
     private string $text = '';
@@ -27,7 +27,7 @@ class FeishuMessage extends Message
     // image 图片类型
     private string $imageKey = ''; // 图片的唯一标识
 
-    // share_chat "分享群名片"类型 
+    // share_chat "分享群名片"类型
     private string $shareChatID = ''; // 群名片 ID
 
     // interactive "消息卡片"类型
@@ -37,17 +37,17 @@ class FeishuMessage extends Message
     private array $interactiveHeader = []; // 卡片标题
 
     public function __construct(
-        string $msg_type = 'text', 
-        string $title   = '',
-        )
-    {
+        string $msg_type = 'text',
+        string $title = '',
+    ) {
         $this->msgType = $msg_type;
-        $this->title   = $title;
+        $this->title = $title;
     }
 
     public function setText(string $text): self
     {
         $this->text = $text;
+
         return $this;
     }
 
@@ -59,6 +59,7 @@ class FeishuMessage extends Message
     public function setContents(array $contents): self
     {
         $this->contents = $contents;
+
         return $this;
     }
 
@@ -70,12 +71,14 @@ class FeishuMessage extends Message
     public function addContent(array $content): self
     {
         $this->contents[] = $content;
+
         return $this;
     }
 
     public function setImageKey(string $key): self
     {
         $this->imageKey = $key;
+
         return $this;
     }
 
@@ -87,6 +90,7 @@ class FeishuMessage extends Message
     public function setShareChatID(string $shareChatID): self
     {
         $this->shareChatID = $shareChatID;
+
         return $this;
     }
 
@@ -98,6 +102,7 @@ class FeishuMessage extends Message
     public function setInteractiveElements(array $elements): self
     {
         $this->interactiveElements = $elements;
+
         return $this;
     }
 
@@ -109,6 +114,7 @@ class FeishuMessage extends Message
     public function setInteractiveI18nElements(array $elements): self
     {
         $this->interactiveI18nElements = $elements;
+
         return $this;
     }
 
@@ -120,6 +126,7 @@ class FeishuMessage extends Message
     public function setInteractiveHeader(array $header): self
     {
         $this->interactiveHeader = $header;
+
         return $this;
     }
 
@@ -131,6 +138,7 @@ class FeishuMessage extends Message
     public function setInteractiveConfig(array $config): self
     {
         $this->interactiveConfig = $config;
+
         return $this;
     }
 
@@ -147,7 +155,7 @@ class FeishuMessage extends Message
 
         $params = [];
 
-        switch($this->msgType) {
+        switch ($this->msgType) {
             case 'post':
                 $params = [
                     'content' => [
@@ -188,11 +196,11 @@ class FeishuMessage extends Message
                 ];
                 empty($this->interactiveElements) || $params['card']['elements'] = $this->interactiveElements;
                 empty($this->interactiveI18nElements) || $params['card']['i18n_elements'] = $this->interactiveI18nElements;
-   
+
                 break;
 
             case 'text':
-            default: 
+            default:
                 $params = [
                     'content' => [
                         'text' => $this->text,

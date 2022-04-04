@@ -15,20 +15,21 @@ use Pusher\Message;
 
 class PushPlusMessage extends Message
 {
-    private string $title    = ''; // 通知标题
-    private string $content  = ''; // 通知内容
+    private string $title = ''; // 通知标题
+    private string $content = ''; // 通知内容
     private string $template = ''; // 发送消息模板, html,json,cloudMonitor 阿里云监控报警定制模板 (该平台不支持)
-    private string $topic    = ''; // 群组编码
+    private string $topic = ''; // 群组编码
 
     public function __construct(string $title = '', string $content = '')
     {
         $this->title = $title;
-        $this->content  = $content;
+        $this->content = $content;
     }
 
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -40,6 +41,7 @@ class PushPlusMessage extends Message
     public function setContent(string $content): self
     {
         $this->content = $content;
+
         return $this;
     }
 
@@ -51,6 +53,7 @@ class PushPlusMessage extends Message
     public function setTemplate(string $template): self
     {
         $this->template = $template;
+
         return $this;
     }
 
@@ -62,6 +65,7 @@ class PushPlusMessage extends Message
     public function setTopic(string $topic): self
     {
         $this->topic = $topic;
+
         return $this;
     }
 
@@ -78,6 +82,7 @@ class PushPlusMessage extends Message
             'template' => $this->template,
             'topic' => $this->topic,
         ];
+
         return $this;
     }
 }

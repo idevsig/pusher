@@ -16,19 +16,20 @@ use Pusher\Message;
 class MailerMessage extends Message
 {
     private string $subject = ''; // 主题
-    private string $body    = ''; // 内容
+    private string $body = ''; // 内容
     private string $altBody = ''; // 非 HTML 邮件客户端的纯文本正文
 
     public function __construct(string $subject = '', string $body = '', string $altBody = '')
     {
         $this->subject = $subject;
-        $this->body  = $body;
+        $this->body = $body;
         $this->altBody = $altBody;
     }
 
     public function setSubject(string $subject): self
     {
         $this->subject = $subject;
+
         return $this;
     }
 
@@ -40,6 +41,7 @@ class MailerMessage extends Message
     public function setBody(string $body): self
     {
         $this->body = $body;
+
         return $this;
     }
 
@@ -51,6 +53,7 @@ class MailerMessage extends Message
     public function setAltBody(string $altBody): self
     {
         $this->altBody = $altBody;
+
         return $this;
     }
 
@@ -66,6 +69,7 @@ class MailerMessage extends Message
             'body' => $this->body,
             'altBody' => $this->altBody,
         ];
+
         return $this;
     }
 }

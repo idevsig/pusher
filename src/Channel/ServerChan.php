@@ -31,6 +31,7 @@ class ServerChan extends \Pusher\Channel
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['data']['errno'] === 0;
         $this->showResp();
+
         return $this->status;
     }
 
@@ -41,5 +42,4 @@ class ServerChan extends \Pusher\Channel
 
         return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);
     }
-
 }

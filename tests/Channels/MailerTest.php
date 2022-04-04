@@ -17,20 +17,20 @@ use Pusher\Message\MailerMessage;
 
 class MailerTest extends TestCase
 {
-    private string $host      = '';
-    private int    $port      =  0;
-    private string $sender    = '';
-    private string $password  = '';
+    private string $host = '';
+    private int    $port = 0;
+    private string $sender = '';
+    private string $password = '';
     private string $from_addr = '';
     private string $from_name = '';
-    private array  $to_addr   = [];
+    private array  $to_addr = [];
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
         list($this->host, $port) = explode(';', getenv('SMTPHostPort'));
-        $this->port = (int)$port;
+        $this->port = (int) $port;
 
         list($this->sender, $this->password) = explode(';', getenv('SMTPUser'));
 
@@ -40,17 +40,15 @@ class MailerTest extends TestCase
         }
 
         $this->to_addr = explode(';', getenv('SMTPTo'));
-
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }
-    
+
     public function additionProvider(): array
     {
         return [
@@ -80,17 +78,16 @@ class MailerTest extends TestCase
             $channel->setFrom($this->from_addr, $this->from_name);
         }
 
-        if (! empty($this->to_addr)) {
+        if (!empty($this->to_addr)) {
             foreach ($this->to_addr as $addr) {
                 $user = explode(':', $addr);
-                $channel->addAddress($user[0], $user[1]); 
+                $channel->addAddress($user[0], $user[1]);
             }
         }
 
         $message = new MailerMessage($subject, $body, $altBody);
-        
+
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-    
 }

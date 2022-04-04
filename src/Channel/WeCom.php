@@ -23,7 +23,7 @@ class WeCom extends \Pusher\Channel
     protected string $uri_template = '%s/cgi-bin/webhook/send?key=%s';
 
     public function __construct(array $config = [])
-    {        
+    {
         parent::configureDefaults($config);
         $this->client = new \GuzzleHttp\Client();
     }
@@ -33,6 +33,7 @@ class WeCom extends \Pusher\Channel
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['errcode'] === 0;
         $this->showResp();
+
         return $this->status;
     }
 
@@ -43,5 +44,4 @@ class WeCom extends \Pusher\Channel
 
         return $this->client->request('POST', $request_uri, [ 'json' => $postData ]);
     }
-
 }

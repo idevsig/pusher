@@ -31,6 +31,7 @@ class Showdoc extends \Pusher\Channel
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['error_code'] === 0;
         $this->showResp();
+
         return $this->status;
     }
 
@@ -41,5 +42,4 @@ class Showdoc extends \Pusher\Channel
 
         return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);
     }
-
 }

@@ -19,7 +19,7 @@ class ShowdocTest extends TestCase
 {
     private string $token = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
@@ -28,7 +28,6 @@ class ShowdocTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -46,12 +45,12 @@ class ShowdocTest extends TestCase
 ### 乔布斯 20 年前想打造的苹果咖啡厅 
 Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划。
 **[项目地址](https://github.com/jetsung/pusher)**";
-    
+
         return [
             [ '这个是标题', $markdown],
         ];
     }
-    
+
     /**
      * @dataProvider additionProvider
      *
@@ -70,5 +69,4 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel->requestContent($message);
         $this->assertTrue($channel->getStatus());
     }
-
 }

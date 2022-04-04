@@ -31,6 +31,7 @@ class Bark extends \Pusher\Channel
         $resp = Utils::strToArray($this->content);
         $this->status = $resp['code'] === 200;
         $this->showResp();
+
         return $this->status;
     }
 
@@ -42,5 +43,4 @@ class Bark extends \Pusher\Channel
 
         return $this->client->request('POST', $request_uri, [ 'json' => $postData]);
     }
-
 }

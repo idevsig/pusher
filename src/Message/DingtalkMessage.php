@@ -17,8 +17,7 @@ class DingtalkMessage extends Message
 {
     private string $msgtype = 'text'; // 消息类型 text,link,markdown,actionCard,feedCard
     private string $content = '';     // 通知内容
-    private string $title   = '';     // 消息标题
-
+    private string $title = '';     // 消息标题
 
     // text,markdown 类型
     private array $atMobiles = [];    // 被@人的手机号
@@ -27,14 +26,14 @@ class DingtalkMessage extends Message
 
     // link 类型
     private string $messageUrl = '';  // M, 点击消息跳转的URL
-    private string $picUrl     = '';  // 图片URL
+    private string $picUrl = '';  // 图片URL
 
     // ActionCard 类型
     private string $btnOrientation = '0'; // 排列方向 0：按钮竖直排列,1：按钮横向排列
 
     ///（整体跳转）
     private string $singleTitle = '';    // M, 单个按钮的标题
-    private string $singleURL   = '';    // M, 点击消息跳转的URL
+    private string $singleURL = '';    // M, 点击消息跳转的URL
 
     ///（独立跳转）
     private array $btns = [];  // M, 按钮列表 [{'title', 'actionURL'}, {'title', 'actionURL'}]
@@ -43,19 +42,19 @@ class DingtalkMessage extends Message
     private array $links = []; // M, 链接列表 [{'title', 'messageURL', 'picURL'}, {'title', 'messageURL', 'picURL'}]
 
     public function __construct(
-        string $msgtype = 'text', 
-        string $content = '', 
-        string $title   = '',
-        )
-    {
+        string $msgtype = 'text',
+        string $content = '',
+        string $title = '',
+    ) {
         $this->msgtype = $msgtype;
         $this->content = $content;
-        $this->title   = $title;
+        $this->title = $title;
     }
 
     public function setAtMobiles(array $mobile): self
     {
         $this->atMobiles = $mobile;
+
         return $this;
     }
 
@@ -67,6 +66,7 @@ class DingtalkMessage extends Message
     public function setAtUserIds(array $users): self
     {
         $this->atUserIds = $users;
+
         return $this;
     }
 
@@ -78,6 +78,7 @@ class DingtalkMessage extends Message
     public function setIsAll(bool $all): self
     {
         $this->isAtAll = $all;
+
         return $this;
     }
 
@@ -89,6 +90,7 @@ class DingtalkMessage extends Message
     public function setMessageUrl(string $messageUrl): self
     {
         $this->messageUrl = $messageUrl;
+
         return $this;
     }
 
@@ -100,6 +102,7 @@ class DingtalkMessage extends Message
     public function setPicUrl(string $picUrl): self
     {
         $this->picUrl = $picUrl;
+
         return $this;
     }
 
@@ -111,6 +114,7 @@ class DingtalkMessage extends Message
     public function setBtnOrientation(string $btnOrientation): self
     {
         $this->btnOrientation = $btnOrientation;
+
         return $this;
     }
 
@@ -122,6 +126,7 @@ class DingtalkMessage extends Message
     public function setSingleTitle(string $singleTitle): self
     {
         $this->singleTitle = $singleTitle;
+
         return $this;
     }
 
@@ -133,10 +138,11 @@ class DingtalkMessage extends Message
     public function setSingleURL(string $singleURL): self
     {
         $this->singleURL = $singleURL;
+
         return $this;
     }
 
-    public function getSingleURL(): string 
+    public function getSingleURL(): string
     {
         return $this->singleURL;
     }
@@ -144,6 +150,7 @@ class DingtalkMessage extends Message
     public function setBtns(array $btns): self
     {
         $this->btns = $btns;
+
         return $this;
     }
 
@@ -158,12 +165,14 @@ class DingtalkMessage extends Message
             'title' => $title,
             'actionURL' => $actionURL,
         ];
+
         return $this;
     }
 
     public function setLinks(array $links): self
     {
         $this->links = $links;
+
         return $this;
     }
 
@@ -175,10 +184,11 @@ class DingtalkMessage extends Message
     public function addLink(string $title, string $messageURL, string $picURL): self
     {
         $this->links[] = [
-            'title' => $title, 
-            'messageURL' => $messageURL, 
+            'title' => $title,
+            'messageURL' => $messageURL,
             'picURL' => $picURL,
         ];
+
         return $this;
     }
 
@@ -190,12 +200,12 @@ class DingtalkMessage extends Message
 
         $params = [];
 
-        switch($this->msgtype) {
+        switch ($this->msgtype) {
             case 'link':
                 $params = [
                     'link' => [
-                        'title'  => $this->title,
-                        'text'   => $this->content,
+                        'title' => $this->title,
+                        'text' => $this->content,
                         'picUrl' => $this->picUrl,
                         'messageUrl' => $this->messageUrl,
                     ],
@@ -206,12 +216,12 @@ class DingtalkMessage extends Message
                 $params = [
                     'markdown' => [
                         'title' => $this->title,
-                        'text'  => $this->content,
+                        'text' => $this->content,
                     ],
                     'at' => [
                         'atMobiles' => $this->atMobiles,
                         'atUserIds' => $this->atUserIds,
-                        'isAtAll'   => $this->isAtAll,
+                        'isAtAll' => $this->isAtAll,
                     ],
                 ];
                 break;
@@ -220,21 +230,19 @@ class DingtalkMessage extends Message
                 $params = [
                     'actionCard' => [
                         'title' => $this->title,
-                        'text'  => $this->content,
+                        'text' => $this->content,
                         'btnOrientation' => $this->btnOrientation,
                     ],
                 ];
 
                 if (count($this->btns) > 0) {
                     $params['actionCard']['btns'] = $this->btns;
-                }
-                else
-                {
+                } else {
                     $params['actionCard']['singleTitle'] = $this->singleTitle;
                     $params['actionCard']['singleURL'] = $this->singleURL;
                 }
                 break;
-            
+
             case 'feedCard':
                 $params = [
                     'feedCard' => [
@@ -244,7 +252,7 @@ class DingtalkMessage extends Message
                 break;
 
             case 'text':
-            default: 
+            default:
                 $params = [
                     'text' => [
                         'content' => $this->content,
@@ -252,12 +260,13 @@ class DingtalkMessage extends Message
                     'at' => [
                         'atMobiles' => $this->atMobiles,
                         'atUserIds' => $this->atUserIds,
-                        'isAtAll'   => $this->isAtAll,
+                        'isAtAll' => $this->isAtAll,
                     ],
                 ];
         }
 
         $this->params += $params;
+
         return $this;
     }
 }

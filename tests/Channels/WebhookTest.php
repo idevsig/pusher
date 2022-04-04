@@ -21,7 +21,7 @@ class WebhookTest extends TestCase
     private string $post_token = '';
     private string $post_json_token = '';
 
-    const PASS = false;
+    public const PASS = false;
 
     public function setUp(): void
     {
@@ -32,7 +32,6 @@ class WebhookTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-
         if (self::PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
@@ -72,18 +71,17 @@ class WebhookTest extends TestCase
         if ($method === 'POST_JSON') {
             list($url, $token) = explode(';', $this->post_json_token);
             $data['token'] = $token;
-        } else if ($method === 'POST') {
+        } elseif ($method === 'POST') {
             list($url, $token) = explode(';', $this->post_token);
             $data['token'] = $token;
         } else {
             $url = sprintf('%s&%s', $this->get_token, http_build_query($data));
         }
         $channel->setBaseURL($url);
- 
+
         $message = new WebhookMessage($data);
 
         $resp = $channel->request($message);
         $this->assertEquals(200, $resp->getStatusCode());
     }
-
 }

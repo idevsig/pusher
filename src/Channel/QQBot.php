@@ -41,6 +41,7 @@ class QQBot extends \Pusher\Channel
         $resp = Utils::strToArray($this->content);
         $this->status = in_array($resp['code'], [ 200, 304023 ]) ?? false;
         $this->showResp();
+
         return $this->status;
     }
 
@@ -52,18 +53,21 @@ class QQBot extends \Pusher\Channel
         } else {
             $this->config['base_url'] = $this->base_url;
         }
+
         return $this;
     }
 
     public function setAppID(string $appID): self
     {
         $this->appID = $appID;
+
         return $this;
     }
 
     public function setChannelID(string $channelID): self
     {
         $this->channelID = $channelID;
+
         return $this;
     }
 
@@ -87,7 +91,7 @@ class QQBot extends \Pusher\Channel
         ]));
         // echo $client->receive();
 
-        $options = [ 
+        $options = [
             'headers' => [
                 'Authorization' => sprintf('Bot %s.%s', $this->appID, $this->token),
             ],
@@ -95,18 +99,19 @@ class QQBot extends \Pusher\Channel
         $resp = $this->send('POST_JSON', $request_uri, $postData, $options);
 
         $client->close();
+
         return $resp;
     }
 
     // 定制 POST 请求（比如获取频道列表，子频道列表等）
     public function req(string $uri, array $postData, string $method = 'POST'): ResponseInterface
     {
-        $options = [ 
+        $options = [
             'headers' => [
                 'Authorization' => sprintf('Bot %s.%s', $this->appID, $this->token),
             ],
         ];
+
         return $this->send($method, sprintf('%s%s', $this->config['base_url'], $uri), $postData, $options);
     }
-
 }

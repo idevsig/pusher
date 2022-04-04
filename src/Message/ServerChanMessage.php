@@ -21,12 +21,13 @@ class ServerChanMessage extends Message
     public function __construct(string $title = '', string $desp = '')
     {
         $this->title = $title;
-        $this->desp  = $desp;
+        $this->desp = $desp;
     }
 
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -38,6 +39,7 @@ class ServerChanMessage extends Message
     public function setDesp(string $desp): self
     {
         $this->desp = $desp;
+
         return $this;
     }
 
@@ -52,6 +54,7 @@ class ServerChanMessage extends Message
             'title' => $this->title,
             'desp' => $this->desp,
         ];
+
         return $this;
     }
 }

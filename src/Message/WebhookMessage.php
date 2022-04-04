@@ -23,6 +23,7 @@ class WebhookMessage extends Message
     public function setParams(array $params): self
     {
         $this->params = $params;
+
         return $this;
     }
 
