@@ -3,8 +3,8 @@ name: "Continuous Integration"
 on:
   push:
     paths:
-      - 'src'
-      - 'tests'
+      - 'src/**'
+      - 'tests/**'
 
   pull_request:
     paths:
