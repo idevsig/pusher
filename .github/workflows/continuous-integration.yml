@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/**'
       - 'tests/**'
+      - 'composer.json'
 
   pull_request:
     paths:

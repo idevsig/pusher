@@ -44,8 +44,8 @@ class XizhiTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ '单点推送', '**This** is 单点推送. [项目地址](https://github.com/jetsung/pusher)'],
-            [ '频道推送', '**This** is 频道推送. [项目地址](https://github.com/jetsung/pusher)', 'channel'],
+            [ '单点推送', '此消息为单点推送. [项目地址](https://github.com/jetsung/pusher)'],
+            [ '频道推送', '此消息为频道推送. [项目地址](https://github.com/jetsung/pusher)', 'channel'],
         ];
     }
 
