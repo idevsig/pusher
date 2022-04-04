@@ -11,21 +11,21 @@
 
 namespace Pusher\Channel;
 
-use Psr\Http\Message\ResponseInterface;
+use Exception;
 use Pusher\Message;
 use Pusher\Utils;
 
 class Xizhi extends \Pusher\Channel
 {
-    protected string $base_url = 'https://xizhi.qqoq.net';
-    protected string $uri_template = '%s/%s.%s';
-
     private string $type = 'send'; // 推送类型：单点.send，频道.channel
+    private string $uri_template = '%s/%s.%s';
+
+    protected string $default_url = 'https://xizhi.qqoq.net';
+    protected string $method = 'POST';
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
-        $this->client = new \GuzzleHttp\Client();
     }
 
     public function setType(string $type = 'send'): self
@@ -40,20 +40,24 @@ class Xizhi extends \Pusher\Channel
         return $this->type;
     }
 
-    public function getStatus(): bool
+    public function doCheck(Message $message): self
     {
-        $resp = Utils::strToArray($this->content);
-        $this->status = $resp['code'] === 200;
-        $this->showResp();
+        $this->params = $message->getParams();
+        $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token, $this->type);
 
-        return $this->status;
+        return $this;
     }
 
-    public function request(Message $message): ResponseInterface
+    public function doAfter(): self
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->token, $this->type);
-        $postData = $message->getParams();
+        try {
+            $resp = Utils::strToArray($this->content);
+            $this->status = $resp['code'] === 200;
+        } catch (Exception $e) {
+            $this->error_message = $e->getMessage();
+            $this->status = false;
+        }
 
-        return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);
+        return $this;
     }
 }

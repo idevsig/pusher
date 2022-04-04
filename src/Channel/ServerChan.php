@@ -11,35 +11,40 @@
 
 namespace Pusher\Channel;
 
-use Psr\Http\Message\ResponseInterface;
+use Exception;
 use Pusher\Message;
 use Pusher\Utils;
 
 class ServerChan extends \Pusher\Channel
 {
-    protected string $base_url = 'https://sctapi.ftqq.com';
-    protected string $uri_template = '%s/%s.send';
+    private string $uri_template = '%s/%s.send';
+
+    protected string $default_url = 'https://sctapi.ftqq.com';
+    protected string $method = 'POST';
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
-        $this->client = new \GuzzleHttp\Client();
     }
 
-    public function getStatus(): bool
+    public function doCheck(Message $message): self
     {
-        $resp = Utils::strToArray($this->content);
-        $this->status = $resp['data']['errno'] === 0;
-        $this->showResp();
+        $this->params = $message->getParams();
+        $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token);
 
-        return $this->status;
+        return $this;
     }
 
-    public function request(Message $message): ResponseInterface
+    public function doAfter(): self
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->token);
-        $postData = $message->getParams();
+        try {
+            $resp = Utils::strToArray($this->content);
+            $this->status = $resp['data']['errno'] === 0;
+        } catch (Exception $e) {
+            $this->error_message = $e->getMessage();
+            $this->status = false;
+        }
 
-        return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);
+        return $this;
     }
 }

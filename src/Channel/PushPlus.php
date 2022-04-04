@@ -11,36 +11,41 @@
 
 namespace Pusher\Channel;
 
-use Psr\Http\Message\ResponseInterface;
+use Exception;
 use Pusher\Message;
 use Pusher\Utils;
 
 class PushPlus extends \Pusher\Channel
 {
-    protected string $base_url = 'https://pushplus.hxtrip.com';
-    protected string $uri_template = '%s/send';
+    private string $uri_template = '%s/send';
+
+    protected string $default_url = 'https://pushplus.hxtrip.com';
+    protected string $method = 'JSON';
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
-        $this->client = new \GuzzleHttp\Client();
     }
 
-    public function getStatus(): bool
+    public function doCheck(Message $message): self
     {
-        $resp = Utils::xmlToArray($this->content);
-        $this->status = $resp['code'] === '200';
-        $this->showResp();
+        $this->params = $message->getParams();
+        $this->params['token'] = $this->token;
+        $this->request_url = sprintf($this->uri_template, $this->config['url']);
 
-        return $this->status;
+        return $this;
     }
 
-    public function request(Message $message): ResponseInterface
+    public function doAfter(): self
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url']);
-        $postData = $message->getParams();
-        $postData['token'] = $this->token;
+        try {
+            $resp = Utils::xmlToArray($this->content);
+            $this->status = $resp['code'] === '200';
+        } catch (Exception $e) {
+            $this->error_message = $e->getMessage();
+            $this->status = false;
+        }
 
-        return $this->client->request('POST', $request_uri, [ 'json' => $postData]);
+        return $this;
     }
 }

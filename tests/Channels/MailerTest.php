@@ -87,7 +87,7 @@ class MailerTest extends TestCase
 
         $message = new MailerMessage($subject, $body, $altBody);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

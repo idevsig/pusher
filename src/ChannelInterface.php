@@ -11,35 +11,39 @@
 
 namespace Pusher;
 
-use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Psr7\Response;
 
 interface ChannelInterface
 {
     public function configureDefaults(array $config): void;
 
-    public function DEBUG(bool $is_debug): void;
+    public function setURL(string $base_url): self;
 
-    public function setBaseURL(string $base_url): self;
-
-    public function getBaseURL(): string;
-
-    public function generateURI(): string;
+    public function getURL(): string;
 
     public function setToken(string $token): self;
 
     public function getToken(): string;
 
+    public function setMethod(string $method): self;
+
+    public function setOptions(array $options): self;
+
+    public function getResponse(): Response;
+
     public function getContents(): string;
 
     public function getStatus(): bool;
 
-    public function send(string $method, string $uri, array $data, array $options): ResponseInterface;
+    public function getErrMessage(): string;
 
-    public function request(Message $message): ResponseInterface;
+    public function doCheck(Message $message): self;
 
-    public function requestContent(Message $message): string;
+    public function doAfter(): self;
+
+    public function send(string $method, string $uri, array $data, array $options): Response;
+
+    public function request(Message $message): string;
 
     public function requestArray(Message $message): array;
-
-    public function showResp(): void;
 }

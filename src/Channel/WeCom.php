@@ -11,37 +11,40 @@
 
 namespace Pusher\Channel;
 
-use Psr\Http\Message\ResponseInterface;
+use Exception;
 use Pusher\Message;
 use Pusher\Utils;
 
 class WeCom extends \Pusher\Channel
 {
-    private string $secret = '';
+    private string $uri_template = '%s/cgi-bin/webhook/send?key=%s';
 
-    protected string $base_url = 'https://qyapi.weixin.qq.com';
-    protected string $uri_template = '%s/cgi-bin/webhook/send?key=%s';
+    protected string $default_url = 'https://qyapi.weixin.qq.com';
+    protected string $method = 'JSON';
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
-        $this->client = new \GuzzleHttp\Client();
     }
 
-    public function getStatus(): bool
+    public function doCheck(Message $message): self
     {
-        $resp = Utils::strToArray($this->content);
-        $this->status = $resp['errcode'] === 0;
-        $this->showResp();
+        $this->params = $message->getParams();
+        $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token);
 
-        return $this->status;
+        return $this;
     }
 
-    public function request(Message $message): ResponseInterface
+    public function doAfter(): self
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->token);
-        $postData = $message->getParams();
+        try {
+            $resp = Utils::strToArray($this->content);
+            $this->status = $resp['errcode'] === 0;
+        } catch (Exception $e) {
+            $this->error_message = $e->getMessage();
+            $this->status = false;
+        }
 
-        return $this->client->request('POST', $request_uri, [ 'json' => $postData ]);
+        return $this;
     }
 }

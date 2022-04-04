@@ -89,7 +89,7 @@ class WxPusherTest extends TestCase
             ->setUids($uids)
             ->setURL($url);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

@@ -48,7 +48,7 @@ class WebhookTest extends TestCase
         return [
             [ 'get', [ 'text' => '[PushDeer]这个是 WebHook 消息内容。' ]],
             [ 'post', [ 'text' => '[Chanify]这个是 WebHook 消息内容。' ]],
-            [ 'post_json', [ 'title' => '这个是 POST_JSON 标题', 'content' => '[PushPlus]这个是 WebHook 消息内容。' ]],
+            [ 'json', [ 'title' => '这个是 POST_JSON 标题', 'content' => '[PushPlus]这个是 WebHook 消息内容。' ]],
         ];
     }
 
@@ -68,7 +68,7 @@ class WebhookTest extends TestCase
         $channel->setMethod($method);
 
         $token = '';
-        if ($method === 'POST_JSON') {
+        if ($method === 'JSON') {
             list($url, $token) = explode(';', $this->post_json_token);
             $data['token'] = $token;
         } elseif ($method === 'POST') {
@@ -77,11 +77,37 @@ class WebhookTest extends TestCase
         } else {
             $url = sprintf('%s&%s', $this->get_token, http_build_query($data));
         }
-        $channel->setBaseURL($url);
+        $channel->setReqURL($url);
 
         $message = new WebhookMessage($data);
 
-        $resp = $channel->request($message);
-        $this->assertEquals(200, $resp->getStatusCode());
+        $channel->request($message);
+        $this->assertEquals(200, $channel->getResponse()->getStatusCode());
+    }
+
+    public function testQQBotCases(): void
+    {
+        $this->skipTest(__METHOD__);
+        $this->timeSleep(10);
+
+        $token = getenv('QQBotToken');
+        $app_id = getenv('QQBotAppId');
+
+        $options = [
+            'headers' => [
+                'Authorization' => sprintf('Bot %s.%s', $app_id, $token),
+            ],
+        ];
+
+        $uri = 'https://sandbox.api.sgroup.qq.com/users/@me/guilds';
+        $channel = new Webhook();
+        $channel->setReqURL($uri)
+            ->setMethod('get')
+            ->setOptions($options);
+
+        $message = new WebhookMessage();
+
+        $channel->request($message);
+        $this->assertEquals(200, $channel->getResponse()->getStatusCode());
     }
 }

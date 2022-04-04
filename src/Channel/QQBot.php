@@ -11,48 +11,40 @@
 
 namespace Pusher\Channel;
 
-use Psr\Http\Message\ResponseInterface;
+use Exception;
 use Pusher\Message;
 use Pusher\Utils;
+use WebSocket\Client;
 
 class QQBot extends \Pusher\Channel
 {
-    protected string $uri_template = '%s/channels/%s/messages';
+    private string $uri_template = '%s/channels/%s/messages';
 
-    protected string $base_url = 'https://api.sgroup.qq.com';
-    protected string $sandbox_base_url = 'https://sandbox.api.sgroup.qq.com'; // 沙箱
+    protected string $default_url = 'https://api.sgroup.qq.com';
+    protected string $method = 'JSON';
 
-    private string $wss_url = 'wss://api.sgroup.qq.com/websocket';
-    private string $wss_shanbox_url = 'wss://sandbox.api.sgroup.qq.com/websocket';
+    private Client $wsClient;
 
     private string $appID = '';     // APP ID
     private string $channelID = ''; // 子频道 ID
+    private string $wss_url = 'wss://api.sgroup.qq.com/websocket';
+    private string $req_uri = '';
 
-    private bool $sandbox = false; // 沙箱模式
+    // 沙盒模式
+    private bool $sandbox = false;
+    private string $req_sandbox_url = 'https://sandbox.api.sgroup.qq.com';
+    private string $wss_sandbox_url = 'wss://sandbox.api.sgroup.qq.com/websocket';
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
-        $this->client = new \GuzzleHttp\Client();
-    }
-
-    public function getStatus(): bool
-    {
-        $resp = Utils::strToArray($this->content);
-        $this->status = in_array($resp['code'], [ 200, 304023 ]) ?? false;
-        $this->showResp();
-
-        return $this->status;
     }
 
     public function Sandbox(bool $sandbox = false): self
     {
         $this->sandbox = $sandbox;
-        if ($sandbox) {
-            $this->config['base_url'] = $this->sandbox_base_url;
-        } else {
-            $this->config['base_url'] = $this->base_url;
-        }
+        $url = $this->sandbox ? $this->req_sandbox_url : $this->default_url;
+        $this->setURL($url);
 
         return $this;
     }
@@ -71,47 +63,67 @@ class QQBot extends \Pusher\Channel
         return $this;
     }
 
-    public function request(Message $message): ResponseInterface
+    public function setReqURL(string $uri): self
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->channelID);
-        $postData = $message->getParams();
+        $this->req_uri = $uri;
 
-        $wssURL = $this->wss_url;
-        if ($this->sandbox) {
-            $wssURL = $this->wss_shanbox_url;
-        }
-        $client = new \WebSocket\Client($wssURL);
-        // $client->text("Hello WebSocket.org!");
-        $client->text(json_encode([
-            'op' => 2,
-            'd' => [
-                'token' => sprintf('Bot %s.%s', $this->appID, $this->token),
-                'intents' => 0 | 1 << 9,
-            ],
-        ]));
-        // echo $client->receive();
-
-        $options = [
-            'headers' => [
-                'Authorization' => sprintf('Bot %s.%s', $this->appID, $this->token),
-            ],
-        ];
-        $resp = $this->send('POST_JSON', $request_uri, $postData, $options);
-
-        $client->close();
-
-        return $resp;
+        return $this;
     }
 
-    // 定制 POST 请求（比如获取频道列表，子频道列表等）
-    public function req(string $uri, array $postData, string $method = 'POST'): ResponseInterface
+    public function doCheck(Message $message): self
     {
-        $options = [
+        if ($this->req_uri !== '') {
+            $this->request_url = $this->config['url'] . $this->req_uri;
+            $this->req_uri = '';
+        } else {
+            $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->channelID);
+        }
+
+        // 非 GET 请求，需要连接 WS
+        if ($this->method !== 'GET') {
+            $wssURL = $this->sandbox ? $this->wss_sandbox_url : $this->wss_url;
+            $this->wsClient = new \WebSocket\Client($wssURL);
+            // $client->text("Hello WebSocket.org!");
+            $this->wsClient->text(json_encode([
+                'op' => 2,
+                'd' => [
+                    'token' => sprintf('Bot %s.%s', $this->appID, $this->token),
+                    'intents' => 0 | 1 << 9,
+                ],
+            ]));
+            // echo $client->receive();
+
+            $this->params = $message->getParams();
+        }
+
+        $this->options = [
             'headers' => [
                 'Authorization' => sprintf('Bot %s.%s', $this->appID, $this->token),
             ],
         ];
 
-        return $this->send($method, sprintf('%s%s', $this->config['base_url'], $uri), $postData, $options);
+        return $this;
+    }
+
+    public function doAfter(): self
+    {
+        if (isset($this->wsClient) && $this->wsClient->isConnected()) {
+            $this->wsClient->close();
+        }
+
+        try {
+            $resp = Utils::strToArray($this->content);
+
+            if ($this->method !== 'GET') {
+                $this->status = in_array($resp['code'], [ 200, 304023 ]) ?? false;
+            } else {
+                $this->status = $this->response->getStatusCode() === 200 ?? false;
+            }
+        } catch (Exception $e) {
+            $this->error_message = $e->getMessage();
+            $this->status = false;
+        }
+
+        return $this;
     }
 }

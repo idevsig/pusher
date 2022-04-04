@@ -69,7 +69,7 @@ class FeishuTest extends TestCase
         $message = new FeishuMessage($title);
         $message->setText($text);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -123,7 +123,7 @@ class FeishuTest extends TestCase
             ->addContent($third_content)
             ->addContent($second_content);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -139,7 +139,7 @@ class FeishuTest extends TestCase
         $message = new FeishuMessage('image');
         $message->setImageKey('img_7ea74629-9191-4176-998c-2e603c9c5e8g');
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -160,7 +160,7 @@ class FeishuTest extends TestCase
         $message = new FeishuMessage('share_chat');
         $message->setShareChatID('此功能暂不可用');
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -211,7 +211,7 @@ class FeishuTest extends TestCase
             ])
             ->setInteractiveElements($elements);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

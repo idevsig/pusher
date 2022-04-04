@@ -88,7 +88,7 @@ class WeComTest extends TestCase
         $message->setMentionedList($at['mentionedList'])
             ->setMentionedMobileList($at['mentionedMobileList']);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -109,7 +109,7 @@ class WeComTest extends TestCase
         $message->setImageBase64($base64)
             ->setImageMd5($md5);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -152,7 +152,7 @@ class WeComTest extends TestCase
         $message->setArticles($articles)
             ->addArticle('跳转到项目地址', 'https://jihulab.com/jetsung/pusher', '点击此链接，跳转到项目地址', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

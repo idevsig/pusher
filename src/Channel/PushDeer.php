@@ -11,36 +11,42 @@
 
 namespace Pusher\Channel;
 
-use Psr\Http\Message\ResponseInterface;
+use Exception;
 use Pusher\Message;
 use Pusher\Utils;
 
 class PushDeer extends \Pusher\Channel
 {
-    protected string $base_url = 'https://api2.pushdeer.com';
-    protected string $uri_template = '%s/message/push';
+    private string $uri_template = '%s/message/push';
+
+    protected string $default_url = 'https://api2.pushdeer.com';
+    protected string $method = 'POST';
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
-        $this->client = new \GuzzleHttp\Client();
     }
 
-    public function getStatus(): bool
+    public function doCheck(Message $message): self
     {
-        $resp = Utils::strToArray($this->content);
-        $count = count($resp['content']['result']);
-        $this->status = $count !== 0;
-        $this->showResp();
+        $this->params = $message->getParams();
+        $this->params['pushkey'] = $this->token;
+        $this->request_url = sprintf($this->uri_template, $this->config['url']);
 
-        return $this->status;
+        return $this;
     }
 
-    public function request(Message $message): ResponseInterface
+    public function doAfter(): self
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url']);
-        $postData = $message->getParams() + ['pushkey' => $this->token];
+        try {
+            $resp = Utils::strToArray($this->content);
+            $count = count($resp['content']['result']);
+            $this->status = $count !== 0;
+        } catch (Exception $e) {
+            $this->error_message = $e->getMessage();
+            $this->status = false;
+        }
 
-        return $this->client->request('POST', $request_uri, [ 'form_params' => $postData]);
+        return $this;
     }
 }

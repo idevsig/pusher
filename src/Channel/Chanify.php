@@ -11,36 +11,40 @@
 
 namespace Pusher\Channel;
 
-use Psr\Http\Message\ResponseInterface;
+use Exception;
 use Pusher\Message;
 use Pusher\Utils;
 
 class Chanify extends \Pusher\Channel
 {
-    protected string $base_url = 'https://api.chanify.net';
-    protected string $uri_template = '%s/v1/sender/%s';
+    private string $uri_template = '%s/v1/sender/%s';
+
+    protected string $default_url = 'https://api.chanify.net';
+    protected string $method = 'JSON';
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
-        $this->client = new \GuzzleHttp\Client();
     }
 
-    public function getStatus(): bool
+    public function doCheck(Message $message): self
     {
-        $resp = Utils::strToArray($this->content);
-        $this->status = isset($resp['request-uid']) ? true : false;
-        $this->showResp();
+        $this->params = $message->getParams();
+        $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token);
 
-        return $this->status;
+        return $this;
     }
 
-    public function request(Message $message): ResponseInterface
+    public function doAfter(): self
     {
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->token);
-        $postData = $message->getParams();
-        // $postData['token'] = $this->token;
+        try {
+            $resp = Utils::strToArray($this->content);
+            $this->status = isset($resp['request-uid']) ? true : false;
+        } catch (Exception $e) {
+            $this->error_message = $e->getMessage();
+            $this->status = false;
+        }
 
-        return $this->client->request('POST', $request_uri, [ 'json' => $postData]);
+        return $this;
     }
 }

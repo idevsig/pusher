@@ -11,6 +11,7 @@
 
 namespace Pusher\Channel;
 
+use Exception;
 use Pusher\Message;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -152,29 +153,26 @@ class Mailer extends \Pusher\Channel
         return $this;
     }
 
-    public function getStatus(): bool
-    {
-        $this->showResp();
-
-        return $this->status;
-    }
-
     public function sendTo(Message $message): bool
     {
         $postData = $message->getParams();
         $this->mail->Subject = $postData['subject'];
         $this->mail->Body = $postData['body'];
         $this->mail->AltBody = $postData['altBody'];
-        // var_dump($this->mail);
 
         $this->status = $this->mail->send();
 
         return $this->status;
     }
 
-    public function requestContent(Message $message): string
+    public function request(Message $message): string
     {
-        $this->content = $this->sendTo($message) ? 'success' : $this->mail->ErrorInfo;
+        try {
+            $this->content = $this->sendTo($message) ? 'success' : 'fail';
+        } catch (Exception $e) {
+            $this->error_message = $this->mail->ErrorInfo;
+            $this->content = 'fail';
+        }
 
         return $this->content;
     }
@@ -182,7 +180,7 @@ class Mailer extends \Pusher\Channel
     public function requestArray(Message $message): array
     {
         $resp = [];
-        $this->requestContent($message);
+        $this->request($message);
         if ($this->status) {
             $resp = [
                 'code' => 0,

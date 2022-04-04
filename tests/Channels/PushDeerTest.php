@@ -67,13 +67,13 @@ class PushDeerTest extends TestCase
         $channel->setToken($this->token);
 
         if ($is_custom) {
-            $channel->setBaseURL($this->customURL);
-            $channel->setToken($this->customToken);
+            $channel->setURL($this->customURL)
+                ->setToken($this->customToken);
         }
 
         $message = new PushDeerMessage($text, $desp, $type);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

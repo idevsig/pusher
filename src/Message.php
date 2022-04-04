@@ -15,6 +15,13 @@ class Message implements MessageInterface
 {
     protected array $params;
 
+    public function Data(array $data): self
+    {
+        $this->params = $data;
+
+        return $this;
+    }
+
     public function generateParams(): self
     {
         return $this;

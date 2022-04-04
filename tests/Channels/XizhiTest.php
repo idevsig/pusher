@@ -67,7 +67,7 @@ class XizhiTest extends TestCase
 
         $message = new XizhiMessage($title, $content);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

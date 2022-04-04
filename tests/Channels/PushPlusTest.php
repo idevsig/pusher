@@ -66,7 +66,7 @@ class PushPlusTest extends TestCase
         $message->setTopic($topic)
             ->setTemplate($template);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

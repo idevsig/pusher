@@ -99,13 +99,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
             ->setAtUserIds($at['atUserIds'])
             ->setIsAll($at['isAtAll']);
 
-        $channel->requestContent($message);
-
-        $result = $channel->getStatus();
-        if (!$result) {
-            var_dump($channel->getContents());
-        }
-        $this->assertTrue($result);
+        $channel->request($message);
+        $this->assertTrue($channel->getStatus());
     }
 
     public function testLinkCases(): void
@@ -122,13 +117,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $message->setPicUrl('https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png')
             ->setMessageUrl('https://www.aliyun.com');
 
-        $channel->requestContent($message);
-
-        $result = $channel->getStatus();
-        if (!$result) {
-            var_dump($channel->getContents());
-        }
-        $this->assertTrue($result);
+        $channel->request($message);
+        $this->assertTrue($channel->getStatus());
     }
 
     public function testFeedCardCases(): void
@@ -139,7 +129,6 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $links = [
             [
@@ -158,13 +147,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $message->setLinks($links)
             ->addLink('跳转到项目地址', 'https://jihulab.com/jetsung/pusher', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
-        $channel->requestContent($message);
-
-        $result = $channel->getStatus();
-        if (!$result) {
-            var_dump($channel->getContents());
-        }
-        $this->assertTrue($result);
+        $channel->request($message);
+        $this->assertTrue($channel->getStatus());
     }
 
     /**
@@ -186,7 +170,6 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $message = new DingtalkMessage('actionCard', $content, $title);
         $message->setBtnOrientation($btnOrientation);
@@ -199,12 +182,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
                 ->setSingleURL($singleURL);
         }
 
-        $channel->requestContent($message);
-
-        $result = $channel->getStatus();
-        if (!$result) {
-            var_dump($channel->getContents());
-        }
-        $this->assertTrue($result);
+        $channel->request($message);
+        $this->assertTrue($channel->getStatus());
     }
 }

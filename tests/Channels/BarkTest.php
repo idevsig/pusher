@@ -76,8 +76,8 @@ class BarkTest extends TestCase
         $channel->setToken($this->token);
 
         if ($is_custom) {
-            $channel->setBaseURL($this->customURL);
-            $channel->setToken($this->customToken);
+            $channel->setURL($this->customURL)
+                ->setToken($this->customToken);
         }
 
         $message = new BarkMessage($title, $body);
@@ -88,7 +88,7 @@ class BarkTest extends TestCase
             ->setGroup($group)
             ->setURL($url);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

@@ -69,13 +69,13 @@ Pusher 项目地址：https://jihulab.com/jetsung/pusher
         $channel->setToken($this->token);
 
         if ($is_custom) {
-            $channel->setBaseURL($this->customURL);
+            $channel->setURL($this->customURL);
             $channel->setToken($this->customToken);
         }
 
         $message = new ChanifyMessage($title, $text);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -92,7 +92,7 @@ Pusher 项目地址：https://jihulab.com/jetsung/pusher
             ->setPriority(10)
             ->setLink('https://jihulab.com/jetsung/pusher');
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -112,7 +112,7 @@ Pusher 项目地址：https://jihulab.com/jetsung/pusher
             ->setActions(['动作名称1|https://www.baidu.com/?1', '动作名称2|https://www.baidu.com.com/?2'])
             ->addAction('动作名称3|https://www.baidu.com.com/?3');
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -141,7 +141,7 @@ Pusher 项目地址：https://jihulab.com/jetsung/pusher
             ->setInterruptionLevel('time-sensitive')
             ->setTimeline($timeline);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

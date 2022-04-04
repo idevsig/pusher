@@ -55,24 +55,24 @@ class QQBotTest extends TestCase
 
     public function testContentCases(): void
     {
-        $this->skipTest(__METHOD__, false);
+        $this->skipTest(__METHOD__);
         $this->timeSleep(10);
 
         $channel = new QQBot();
         $channel->setAppID($this->app_id)
             ->setChannelID($this->channel_id)
-            ->Sandbox(true)
+            ->Sandbox(false)
             ->setToken($this->token);
 
         $message = new QQBotMessage('文本类型 content 的消息发送');
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
     public function testImageCases(): void
     {
-        $this->skipTest(__METHOD__, false);
+        $this->skipTest(__METHOD__);
         $this->timeSleep(10);
 
         $channel = new QQBot();
@@ -80,12 +80,11 @@ class QQBotTest extends TestCase
             ->setChannelID($this->channel_id)
             ->Sandbox(true)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $message = new QQBotMessage();
         $message->setImage('https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -101,7 +100,6 @@ class QQBotTest extends TestCase
             ->setChannelID($this->channel_id)
             ->Sandbox(true)
             ->setToken($this->token);
-        // var_dump($channel);
 
 //         $markdown = "![screenshot](https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png)
         // ### 乔布斯 20 年前想打造的苹果咖啡厅
@@ -111,13 +109,13 @@ class QQBotTest extends TestCase
         $message = new QQBotMessage();
         $message->setMarkdown([ 'content' => $markdown]);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
     public function testEmbedCases(): void
     {
-        $this->skipTest(__METHOD__, false);
+        $this->skipTest(__METHOD__);
         $this->timeSleep(10);
 
         $channel = new QQBot();
@@ -125,7 +123,6 @@ class QQBotTest extends TestCase
             ->setChannelID($this->channel_id)
             ->Sandbox(true)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $embed = [
             'title' => '这个是标题：Embed',
@@ -143,13 +140,13 @@ class QQBotTest extends TestCase
         $message = new QQBotMessage();
         $message->setEmbed($embed);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
     public function testArkCases(): void
     {
-        $this->skipTest(__METHOD__, false);
+        $this->skipTest(__METHOD__);
         $this->timeSleep(10);
 
         $channel = new QQBot();
@@ -157,7 +154,6 @@ class QQBotTest extends TestCase
             ->setChannelID($this->channel_id)
             ->Sandbox(true)
             ->setToken($this->token);
-        // var_dump($channel);
 
         $ark = [
             'template_id' => 23,
@@ -254,7 +250,7 @@ class QQBotTest extends TestCase
         $message = new QQBotMessage();
         $message->setArk($ark);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 
@@ -264,15 +260,19 @@ class QQBotTest extends TestCase
         $this->skipTest(__METHOD__, true);
 
         $channel = new QQBot();
-        $channel->setAppID($this->app_id)
+        $channel->setReqURL('/users/@me/guilds')
+            ->setAppID($this->app_id)
+            ->setMethod('GET')
             ->setToken($this->token);
 
-        $resp = $channel->send('/users/@me/guilds', [], 'get');
+        $message = new QQBotMessage();
+        $channel->request($message);
+        $this->assertTrue($channel->getStatus());
 
-        $this->assertEquals(200, $resp->getStatusCode());
-
-        $jsonData = json_decode($resp->getBody()->getContents(), true);
+        $jsonData = json_decode($channel->getContents(), true);
         if (count($jsonData) > 0) {
+            var_dump($jsonData[0]);
+
             return $jsonData[0]['id'];
         }
 
@@ -290,15 +290,17 @@ class QQBotTest extends TestCase
         $this->assertNotEmpty($guildID);
 
         $channel = new QQBot();
-        $channel->setAppID($this->app_id)
+        $channel->setReqURL(sprintf('/guilds/%s/channels', $guildID))
+            ->setAppID($this->app_id)
+            ->setMethod('GET')
             ->setToken($this->token);
 
-        $resp = $channel->send(sprintf('/guilds/%s/channels', $guildID), [], 'get');
-        $jsonData = json_decode($resp->getBody()->getContents(), true);
+        $message = new QQBotMessage();
+        $channel->request($message);
 
-        // print_r($jsonData);
-        $this->assertEquals(200, $resp->getStatusCode());
+        $this->assertTrue($channel->getStatus());
 
+        $jsonData = json_decode($channel->getContents(), true);
         if (count($jsonData) > 0) {
             echo "\n" . implode(',', array_column($jsonData, 'id'));
         }

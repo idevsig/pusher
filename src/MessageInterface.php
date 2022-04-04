@@ -13,6 +13,8 @@ namespace Pusher;
 
 interface MessageInterface
 {
+    public function Data(array $data): self;
+
     public function generateParams(): self;
 
     public function getParams(): array;

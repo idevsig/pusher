@@ -55,7 +55,7 @@ class ServerChanTest extends TestCase
 
         $message = new ServerChanMessage($text, $desp);
 
-        $channel->requestContent($message);
+        $channel->request($message);
         $this->assertTrue($channel->getStatus());
     }
 }

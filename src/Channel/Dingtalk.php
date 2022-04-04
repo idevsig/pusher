@@ -11,21 +11,21 @@
 
 namespace Pusher\Channel;
 
-use Psr\Http\Message\ResponseInterface;
+use Exception;
 use Pusher\Message;
 use Pusher\Utils;
 
 class Dingtalk extends \Pusher\Channel
 {
     private string $secret = '';
+    private string $uri_template = '%s/robot/send?access_token=%s';
 
-    protected string $base_url = 'https://oapi.dingtalk.com';
-    protected string $uri_template = '%s/robot/send?access_token=%s';
+    protected string $default_url = 'https://oapi.dingtalk.com';
+    protected string $method = 'JSON';
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
-        $this->client = new \GuzzleHttp\Client();
     }
 
     public function setSecret(string $secret): self
@@ -35,27 +35,32 @@ class Dingtalk extends \Pusher\Channel
         return $this;
     }
 
-    public function getStatus(): bool
+    public function doCheck(Message $message): self
     {
-        $resp = Utils::strToArray($this->content);
-        $this->status = $resp['errcode'] === 0;
-        $this->showResp();
+        $this->params = $message->getParams();
 
-        return $this->status;
-    }
-
-    public function request(Message $message): ResponseInterface
-    {
-        $param = '';
+        $uri = '';
         if ($this->secret !== '') {
             $timestamp = time() * 1000;
             $sign = Utils::generateSign($this->secret, $timestamp);
-            $param = sprintf('&timestamp=%d&sign=%s', $timestamp, $sign);
+            $uri = sprintf('&timestamp=%d&sign=%s', $timestamp, $sign);
         }
 
-        $request_uri = sprintf($this->uri_template, $this->config['base_url'], $this->token) . $param;
-        $postData = $message->getParams();
+        $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token) . $uri;
 
-        return $this->client->request('POST', $request_uri, [ 'json' => $postData ]);
+        return $this;
+    }
+
+    public function doAfter(): self
+    {
+        try {
+            $resp = Utils::strToArray($this->content);
+            $this->status = $resp['errcode'] === 0;
+        } catch (Exception $e) {
+            $this->error_message = $e->getMessage();
+            $this->status = false;
+        }
+
+        return $this;
     }
 }
