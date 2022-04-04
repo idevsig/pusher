@@ -2,11 +2,14 @@ name: "Continuous Integration"
 
 on:
   push:
-    paths-ignore:
-      - 'doc/**'
+    paths:
+      - 'src'
+      - 'tests'
+
   pull_request:
-    paths-ignore:
-      - 'doc/**'
+    paths:
+      - 'src'
+      - 'tests'
 
 env:
   COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
