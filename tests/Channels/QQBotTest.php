@@ -33,9 +33,11 @@ class QQBotTest extends TestCase
         // QQ 频道在晚上不可以推送消息
         // 暂时设定为 00:00:00-09:00:00 不测试
         date_default_timezone_set('PRC');
-        $now = date('H:i:s');
-        $current_time = strtotime($now);
-        if (1648915200 <= $current_time && $current_time <= 1648947600) {
+        $day = date('Y-m-d');
+        $current_time = time();
+        $zero_clock = strtotime($day . ' 00:00:00');
+        $nine_clock = strtotime($day . ' 09:00:00');
+        if ($zero_clock <= $current_time && $current_time <= $nine_clock) {
             self::$PASS = true;
         }
     }
