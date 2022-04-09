@@ -71,6 +71,7 @@ jobs:
           DingtalkToken: ${{secrets.DINGTALK_TOKEN}}
           FeishuSecret: ${{secrets.FEISHU_SECRET}}
           FeishuToken: ${{secrets.FEISHU_TOKEN}}
+          NowPushToken: ${{secrets.NOWPUSH_TOKEN}}
           PushDeerCustomToken: ${{secrets.PUSHDEER_CUSTOM_TOKEN}}
           PushDeerCustomURL: ${{secrets.PUSHDEER_CUSTOM_URL}}
           PushDeerToken: ${{secrets.PUSHDEER_TOKEN}}

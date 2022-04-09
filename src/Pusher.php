@@ -13,4 +13,7 @@ namespace Pusher;
 
 class Pusher
 {
+    public const METHOD_GET = 'GET';
+    public const METHOD_POST = 'POST';
+    public const METHOD_JSON = 'JSON';
 }

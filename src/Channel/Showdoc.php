@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 
 class Showdoc extends \Pusher\Channel
@@ -20,7 +21,7 @@ class Showdoc extends \Pusher\Channel
     private string $uri_template = '%s/server/api/push/%s';
 
     protected string $default_url = 'https://push.showdoc.com.cn';
-    protected string $method = 'POST';
+    protected string $method = Pusher::METHOD_POST;
 
     public function __construct(array $config = [])
     {

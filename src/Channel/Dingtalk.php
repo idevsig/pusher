@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 
 class Dingtalk extends \Pusher\Channel
@@ -21,7 +22,7 @@ class Dingtalk extends \Pusher\Channel
     private string $uri_template = '%s/robot/send?access_token=%s';
 
     protected string $default_url = 'https://oapi.dingtalk.com';
-    protected string $method = 'JSON';
+    protected string $method = Pusher::METHOD_JSON;
 
     public function __construct(array $config = [])
     {

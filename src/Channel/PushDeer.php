@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 
 class PushDeer extends \Pusher\Channel
@@ -20,7 +21,7 @@ class PushDeer extends \Pusher\Channel
     private string $uri_template = '%s/message/push';
 
     protected string $default_url = 'https://api2.pushdeer.com';
-    protected string $method = 'POST';
+    protected string $method = Pusher::METHOD_POST;
 
     public function __construct(array $config = [])
     {

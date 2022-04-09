@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 
 class ServerChan extends \Pusher\Channel
@@ -20,7 +21,7 @@ class ServerChan extends \Pusher\Channel
     private string $uri_template = '%s/%s.send';
 
     protected string $default_url = 'https://sctapi.ftqq.com';
-    protected string $method = 'POST';
+    protected string $method = Pusher::METHOD_POST;
 
     public function __construct(array $config = [])
     {

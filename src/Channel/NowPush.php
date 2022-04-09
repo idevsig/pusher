@@ -16,11 +16,11 @@ use Pusher\Message;
 use Pusher\Pusher;
 use Pusher\Utils;
 
-class Techulus extends \Pusher\Channel
+class NowPush extends \Pusher\Channel
 {
-    private string $uri_template = '%s/api/v1/notify/%s';
+    private string $uri_template = '%s/v3/sendMessage';
 
-    protected string $default_url = 'https://push.techulus.com';
+    protected string $default_url = 'https://www.api.nowpush.app';
     protected string $method = Pusher::METHOD_JSON;
 
     public function __construct(array $config = [])
@@ -31,7 +31,13 @@ class Techulus extends \Pusher\Channel
     public function doCheck(Message $message): self
     {
         $this->params = $message->getParams();
-        $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token);
+        $this->request_url = sprintf($this->uri_template, $this->config['url']);
+
+        $this->options = [
+            'headers' => [
+                'Authorization' => sprintf('Bearer %s', $this->token),
+            ],
+        ];
 
         return $this;
     }
@@ -40,7 +46,7 @@ class Techulus extends \Pusher\Channel
     {
         try {
             $resp = Utils::strToArray($this->content);
-            $this->status = $resp['success'] ? true : false;
+            $this->status = !$resp['isError'];
         } catch (Exception $e) {
             $this->error_message = $e->getMessage();
             $this->status = false;

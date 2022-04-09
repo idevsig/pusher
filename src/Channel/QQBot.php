@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 use WebSocket\Client;
 
@@ -21,7 +22,7 @@ class QQBot extends \Pusher\Channel
     private string $uri_template = '%s/channels/%s/messages';
 
     protected string $default_url = 'https://api.sgroup.qq.com';
-    protected string $method = 'JSON';
+    protected string $method = Pusher::METHOD_JSON;
 
     private Client $wsClient;
 

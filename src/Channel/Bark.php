@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 
 class Bark extends \Pusher\Channel
@@ -20,7 +21,7 @@ class Bark extends \Pusher\Channel
     private string $uri_template = '%s/push';
 
     protected string $default_url = 'https://api.day.app';
-    protected string $method = 'JSON';
+    protected string $method = Pusher::METHOD_JSON;
 
     public function __construct(array $config = [])
     {

@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 
 class Feishu extends \Pusher\Channel
@@ -21,7 +22,7 @@ class Feishu extends \Pusher\Channel
     private string $uri_template = '%s/open-apis/bot/v2/hook/%s';
 
     protected string $default_url = 'https://open.feishu.cn';
-    protected string $method = 'JSON';
+    protected string $method = Pusher::METHOD_JSON;
 
     public function __construct(array $config = [])
     {

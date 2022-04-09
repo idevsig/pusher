@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 
 class Xizhi extends \Pusher\Channel
@@ -21,16 +22,19 @@ class Xizhi extends \Pusher\Channel
     private string $uri_template = '%s/%s.%s';
 
     protected string $default_url = 'https://xizhi.qqoq.net';
-    protected string $method = 'POST';
+    protected string $method = Pusher::METHOD_POST;
+
+    public const TYPE_SEND = 'send';
+    public const TYPE_CHANNEL = 'channel';
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
     }
 
-    public function setType(string $type = 'send'): self
+    public function setType(string $type = self::TYPE_SEND): self
     {
-        $this->type = ($type === 'channel') ? 'channel' : 'send';
+        $this->type = ($type === self::TYPE_CHANNEL) ? self::TYPE_CHANNEL : self::TYPE_SEND;
 
         return $this;
     }

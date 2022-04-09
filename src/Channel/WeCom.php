@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 
 class WeCom extends \Pusher\Channel
@@ -20,7 +21,7 @@ class WeCom extends \Pusher\Channel
     private string $uri_template = '%s/cgi-bin/webhook/send?key=%s';
 
     protected string $default_url = 'https://qyapi.weixin.qq.com';
-    protected string $method = 'JSON';
+    protected string $method = Pusher::METHOD_JSON;
 
     public function __construct(array $config = [])
     {

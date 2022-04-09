@@ -22,7 +22,7 @@ class Channel implements ChannelInterface
     protected string $request_url = ''; // 请求 URL (已拼接的最终 URL)
     protected string $token = ''; // Token
 
-    protected string $method = 'GET';    // 请求方式：GET,POST,JSON (POST)
+    protected string $method = Pusher::METHOD_GET;    // 请求方式：GET,POST,JSON (POST)
     protected array  $params = [];       // 请求数据
     protected array  $options = [];       // 选项，比如 proxy,headers,cookies
 
@@ -84,8 +84,8 @@ class Channel implements ChannelInterface
     public function setMethod(string $method = 'GET'): self
     {
         $method = strtoupper($method);
-        if (!in_array($method, [ 'GET', 'POST', 'JSON'])) {
-            $method = 'GET';
+        if (!in_array($method, [ Pusher::METHOD_GET, Pusher::METHOD_POST, Pusher::METHOD_JSON])) {
+            $method = Pusher::METHOD_GET;
         }
         $this->method = $method;
 
@@ -133,16 +133,16 @@ class Channel implements ChannelInterface
         return $this;
     }
 
-    public function send(string $method = 'GET', string $uri = '', array $data = [], array $options = []): Response
+    public function send(string $method = Pusher::METHOD_GET, string $uri = '', array $data = [], array $options = []): Response
     {
         $method = strtoupper($method);
-        if ($method === 'JSON') {
-            $method = 'POST';
+        if ($method === Pusher::METHOD_JSON) {
+            $method = Pusher::METHOD_POST;
             $options['json'] = $data;
-        } elseif ($method === 'POST') {
+        } elseif ($method === Pusher::METHOD_POST) {
             $options['form_params'] = $data;
         } else {
-            $method = 'GET';
+            $method = Pusher::METHOD_GET;
         }
 
         // var_dump($method, $uri, $options);

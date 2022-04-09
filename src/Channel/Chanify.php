@@ -13,6 +13,7 @@ namespace Pusher\Channel;
 
 use Exception;
 use Pusher\Message;
+use Pusher\Pusher;
 use Pusher\Utils;
 
 class Chanify extends \Pusher\Channel
@@ -20,7 +21,7 @@ class Chanify extends \Pusher\Channel
     private string $uri_template = '%s/v1/sender/%s';
 
     protected string $default_url = 'https://api.chanify.net';
-    protected string $method = 'JSON';
+    protected string $method = Pusher::METHOD_JSON;
 
     public function __construct(array $config = [])
     {
