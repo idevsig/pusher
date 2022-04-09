@@ -81,6 +81,7 @@ jobs:
           QQBotToken: ${{secrets.QQBOT_TOKEN}}
           ServerChanToken: ${{secrets.SERVERCHAN_TOKEN}}
           ShowdocToken: ${{secrets.SHOWDOC_TOKEN}}
+          TechulusToken: ${{secrets.TECHULUS_TOKEN}}
           SMTPFrom: ${{secrets.SMTP_FROM}}
           SMTPHostPort: ${{secrets.SMTP_HOST_PORT}}
           SMTPTo: ${{secrets.SMTP_TO}}
