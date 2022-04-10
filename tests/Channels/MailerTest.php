@@ -25,14 +25,20 @@ class MailerTest extends TestCase
     private string $from_name = '';
     private array  $to_addr = [];
 
-    public const PASS = false;
+    private static bool $PASS = false;
 
     public function setUp(): void
     {
+        list($sender, $password) = explode(';', getenv('SMTPUser'));
+        if ($sender && $password) {
+            $this->sender = $sender;
+            $this->password = $password;
+        } else {
+            self::$PASS = true;
+        }
+
         list($this->host, $port) = explode(';', getenv('SMTPHostPort'));
         $this->port = (int) $port;
-
-        list($this->sender, $this->password) = explode(';', getenv('SMTPUser'));
 
         $from = getenv('SMTPFrom');
         if ($from !== '') {
@@ -44,7 +50,7 @@ class MailerTest extends TestCase
 
     public function skipTest(string $func, bool $skip = false): void
     {
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }

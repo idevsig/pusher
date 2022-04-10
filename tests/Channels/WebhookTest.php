@@ -21,18 +21,25 @@ class WebhookTest extends TestCase
     private string $post_token = '';
     private string $post_json_token = '';
 
-    public const PASS = false;
+    private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $this->get_token = getenv('WebhookTokenGet');
-        $this->post_token = getenv('WebhookTokenPost');
-        $this->post_json_token = getenv('WebhookTokenPostJSON');
+        $get_token = getenv('WebhookTokenGet');
+        $post_token = getenv('WebhookTokenPost');
+        $post_json_token = getenv('WebhookTokenPostJSON');
+        if ($get_token && $post_token && $post_json_token) {
+            $this->get_token = $get_token;
+            $this->post_token = $post_token;
+            $this->post_json_token = $post_json_token;
+        } else {
+            self::$PASS = true;
+        }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }

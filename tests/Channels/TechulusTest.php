@@ -20,16 +20,19 @@ class TechulusTest extends TestCase
     private string $token = '';
 
     ## 每月只能发 30 条信息，故跳过单元测试
-    public const PASS = true;
+    private static bool $PASS = true;
 
     public function setUp(): void
     {
-        $this->token = getenv('TechulusToken');
+        $token = getenv('TechulusToken');
+        if ($token) {
+            $this->token = $token;
+        }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }

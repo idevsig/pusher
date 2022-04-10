@@ -72,6 +72,7 @@ jobs:
           FeishuSecret: ${{secrets.FEISHU_SECRET}}
           FeishuToken: ${{secrets.FEISHU_TOKEN}}
           NowPushToken: ${{secrets.NOWPUSH_TOKEN}}
+          PushBackToken: ${{secrets.PUSHBACK_TOKEN}}
           PushDeerCustomToken: ${{secrets.PUSHDEER_CUSTOM_TOKEN}}
           PushDeerCustomURL: ${{secrets.PUSHDEER_CUSTOM_URL}}
           PushDeerToken: ${{secrets.PUSHDEER_TOKEN}}

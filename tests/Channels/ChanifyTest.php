@@ -21,18 +21,21 @@ class ChanifyTest extends TestCase
     private string $customURL = '';
     private string $customToken = '';
 
-    public const PASS = false;
+    private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $this->token = getenv('ChanifyToken');
-        $this->customURL = getenv('ChanifyCustomURL');
-        $this->customToken = getenv('ChanifyCustomToken');
+        $token = getenv('ChanifyToken');
+        if ($token) {
+            $this->token = $token;
+            $this->customURL = getenv('ChanifyCustomURL');
+            $this->customToken = getenv('ChanifyCustomToken');
+        }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }

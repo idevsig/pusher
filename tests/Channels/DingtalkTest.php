@@ -21,17 +21,23 @@ class DingtalkTest extends TestCase
     private string $secret = '';
 
     ## 钉钉限制每分钟只能发 20 条信息
-    public const PASS = false;
+    private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $this->token = getenv('DingtalkToken');
-        $this->secret = getenv('DingtalkSecret');
+        $token = getenv('DingtalkToken');
+        $secret = getenv('DingtalkSecret');
+        if ($token && $secret) {
+            $this->token = $token;
+            $this->secret = $secret;
+        } else {
+            self::$PASS = true;
+        }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }

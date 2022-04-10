@@ -20,17 +20,21 @@ class XizhiTest extends TestCase
     private string $token = '';
     private string $token_channel = '';
 
-    public const PASS = false;
+    private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $this->token = getenv('XizhiToken');
-        $this->token_channel = getenv('XizhiChannelToken');
+        $token = getenv('XizhiToken');
+        $token_channel = getenv('XizhiChannelToken');
+        if ($token && $token_channel) {
+            $this->token = $token;
+            $this->token_channel = $token_channel;
+        }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }

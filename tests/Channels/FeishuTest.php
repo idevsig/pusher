@@ -20,17 +20,23 @@ class FeishuTest extends TestCase
     private string $token = '';
     private string $secret = '';
 
-    public const PASS = false;
+    private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $this->token = getenv('FeishuToken');
-        $this->secret = getenv('FeishuSecret');
+        $token = getenv('FeishuToken');
+        $secret = getenv('FeishuSecret');
+        if ($token && $secret) {
+            $this->token = $token;
+            $this->secret = $secret;
+        } else {
+            self::$PASS = true;
+        }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }

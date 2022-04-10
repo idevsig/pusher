@@ -12,10 +12,10 @@
 namespace Pusher\Tests\Channels;
 
 use PHPUnit\Framework\TestCase;
-use Pusher\Channel\Showdoc;
-use Pusher\Message\ShowdocMessage;
+use Pusher\Channel\PushBack;
+use Pusher\Message\PushBackMessage;
 
-class ShowdocTest extends TestCase
+class PushBackTest extends TestCase
 {
     private string $token = '';
 
@@ -23,9 +23,11 @@ class ShowdocTest extends TestCase
 
     public function setUp(): void
     {
-        $token = getenv('ShowdocToken');
+        $token = getenv('PushBackToken');
         if ($token) {
             $this->token = $token;
+        } else {
+            self::$PASS = true;
         }
     }
 
@@ -36,21 +38,11 @@ class ShowdocTest extends TestCase
         }
     }
 
-    // 延时
-    public function timeSleep(int $time = 5): void
-    {
-        sleep($time);
-    }
-
     public function additionProvider(): array
     {
-        $markdown = "![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png) 
-### 乔布斯 20 年前想打造的苹果咖啡厅 
-Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划。
-**[项目地址](https://github.com/jetsung/pusher)**";
-
         return [
-            [ '这个是标题', $markdown],
+            [ 'Title User', '[用户方式]本[项目地址](https://jihulab.com/jetsung/pusher)', 'User_1856', '左侧', '右侧', '回复些消息'],
+            [ 'Title Channel', '[通道方式]本[项目地址](https://jihulab.com/jetsung/pusher)', 'Channel_2420', '左侧', '右侧', '回复些消息'],
         ];
     }
 
@@ -59,15 +51,18 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
      *
      * @return void
      */
-    public function testCases(string $title, string $content): void
+    public function testCases(string $title, string $body = '', string $id = '', string $action1 = '', string $action2 = '', string $reply = ''): void
     {
         $this->skipTest(__METHOD__);
-        $this->timeSleep(5);
 
-        $channel = new Showdoc();
+        $channel = new PushBack();
         $channel->setToken($this->token);
 
-        $message = new ShowdocMessage($title, $content);
+        $message = new PushBackMessage($title, $body);
+        $message->setID($id)
+            ->setAction1($action1)
+            ->setAction2($action2)
+            ->setReply($reply);
 
         $channel->request($message);
         $this->assertTrue($channel->getStatus());

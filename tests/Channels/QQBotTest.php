@@ -25,9 +25,14 @@ class QQBotTest extends TestCase
 
     public function setUp(): void
     {
-        $this->token = getenv('QQBotToken');
-        $this->app_id = getenv('QQBotAppId');
-        $this->channel_id = getenv('QQBotChannelId');
+        $token = getenv('QQBotToken');
+        if ($token) {
+            $this->token = $token;
+            $this->app_id = getenv('QQBotAppId');
+            $this->channel_id = getenv('QQBotChannelId');
+        } else {
+            self::$PASS = true;
+        }
 
         // 304022 PUSH_TIME 推送消息时间限制
         // QQ 频道在晚上不可以推送消息

@@ -21,18 +21,21 @@ class BarkTest extends TestCase
     private string $customURL = '';
     private string $customToken = '';
 
-    public const PASS = false;
+    private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $this->token = getenv("BarkToken");
-        $this->customURL = getenv('BarkCustomURL');
-        $this->customToken = getenv('BarkCustomToken');
+        $token = getenv("BarkToken");
+        if ($token) {
+            $this->token = $token;
+            $this->customURL = getenv('BarkCustomURL');
+            $this->customToken = getenv('BarkCustomToken');
+        }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }

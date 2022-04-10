@@ -19,16 +19,21 @@ class PushPlusTest extends TestCase
 {
     private string $token = '';
 
-    public const PASS = false;
+    private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $this->token = getenv('PushPlusToken');
+        $token = getenv('PushPlusToken');
+        if ($token) {
+            $this->token = $token;
+        } else {
+            self::$PASS = true;
+        }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
-        if (self::PASS || $skip) {
+        if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
     }
