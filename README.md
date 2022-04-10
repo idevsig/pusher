@@ -11,6 +11,7 @@ APP 推送通知
 |✔|**电子邮件**|[https://github.com/phpmailer/phpmailer](https://github.com/phpmailer/phpmailer)|CN|-|[cases](tests/Channels/MailerTest.php)
 |✔|**NowPush**|[https://www.nowpush.app/](https://nowpush.io/api-docs/)|US|-|[cases](tests/Channels/NowPushTest.php)
 |✔|**PushBack**|[https://pushback.io/](https://pushback.io/docs/getting-started)|US|-|[cases](tests/Channels/PushBackTest.php)
+|✔|**Pushover**|[https://pushover.net/](https://pushover.net/api#messages)|US|-|[cases](tests/Channels/PushoverTest.php)
 |✔|**PushDeer**|http://pushdeer.com/|CN|-|[cases](tests/Channels/PushDeerTest.php)
 |✔|**PushPlus**|[https://pushplus.hxtrip.com/](https://pushplus.hxtrip.com/)|CN|-|[cases](tests/Channels/PushPlusTest.php)
 |✔|**QQ 频道机器人**|[https://bot.q.qq.com/wiki/](https://bot.q.qq.com/wiki/develop/api/openapi/message/post_messages.html)|CN|-|[cases](tests/Channels/QQBotTest.php)
@@ -36,7 +37,6 @@ composer require jetsung/pusher:dev-main
 
 ## TODO
 ```bash
-Pushover
 Pushbullet
 
 Discord

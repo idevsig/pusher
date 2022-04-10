@@ -38,6 +38,12 @@ class NowPushTest extends TestCase
         }
     }
 
+    // 延时
+    public function timeSleep(int $time = 5): void
+    {
+        sleep($time);
+    }
+
     public function additionProvider(): array
     {
         return [
@@ -56,6 +62,7 @@ class NowPushTest extends TestCase
     public function testCases(string $message_type, string $note = '', string $device_type = '', string $url = ''): void
     {
         $this->skipTest(__METHOD__);
+        $this->timeSleep(10);
 
         $channel = new NowPush();
         $channel->setToken($this->token);
