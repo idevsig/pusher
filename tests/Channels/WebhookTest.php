@@ -14,6 +14,7 @@ namespace Pusher\Tests\Channels;
 use PHPUnit\Framework\TestCase;
 use Pusher\Channel\Webhook;
 use Pusher\Message\WebhookMessage;
+use Pusher\Pusher;
 
 class WebhookTest extends TestCase
 {
@@ -53,9 +54,9 @@ class WebhookTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ 'get', [ 'text' => '[PushDeer]这个是 WebHook 消息内容。' ]],
-            [ 'post', [ 'text' => '[Chanify]这个是 WebHook 消息内容。' ]],
-            [ 'json', [ 'title' => '这个是 POST_JSON 标题', 'content' => '[PushPlus]这个是 WebHook 消息内容。' ]],
+            [ Pusher::METHOD_GET, [ 'text' => '[PushDeer]这个是 WebHook 消息内容。' ]],
+            [ Pusher::METHOD_POST, [ 'text' => '[Chanify]这个是 WebHook 消息内容。' ]],
+            [ Pusher::METHOD_JSON, [ 'title' => '这个是 POST_JSON 标题', 'content' => '[PushPlus]这个是 WebHook 消息内容。' ]],
         ];
     }
 
@@ -75,10 +76,10 @@ class WebhookTest extends TestCase
         $channel->setMethod($method);
 
         $token = '';
-        if ($method === 'JSON') {
+        if ($method === Pusher::METHOD_JSON) {
             list($url, $token) = explode(';', $this->post_json_token);
             $data['token'] = $token;
-        } elseif ($method === 'POST') {
+        } elseif ($method === Pusher::METHOD_POST) {
             list($url, $token) = explode(';', $this->post_token);
             $data['token'] = $token;
         } else {
@@ -109,7 +110,7 @@ class WebhookTest extends TestCase
         $uri = 'https://sandbox.api.sgroup.qq.com/users/@me/guilds';
         $channel = new Webhook();
         $channel->setReqURL($uri)
-            ->setMethod('get')
+            ->setMethod(Pusher::METHOD_GET)
             ->setOptions($options);
 
         $message = new WebhookMessage();

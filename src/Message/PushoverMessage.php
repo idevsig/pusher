@@ -16,29 +16,17 @@ use Pusher\Message;
 class PushoverMessage extends Message
 {
     private string $message = ''; // 通知内容
-
     private string $title = '';   // 通知标题
+
     private string $device = '';  // 设备名称
 
     private bool $html = false; // 是否支持 HTML
     private string $url = ''; // 链接
 
-    public function __construct(string $title = '', string $message = '')
+    public function __construct(string $message = '', string $title = '')
     {
-        $this->title = $title;
         $this->message = $message;
-    }
-
-    public function setTitle(string $title): self
-    {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
     }
 
     public function setMessage(string $message): self
@@ -51,6 +39,18 @@ class PushoverMessage extends Message
     public function getMessage(): string
     {
         return $this->message;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function setHtml(bool $enable): self

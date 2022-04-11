@@ -56,7 +56,7 @@ class TechulusTest extends TestCase
         $channel = new Techulus();
         $channel->setToken($this->token);
 
-        $message = new TechulusMessage($text, $body);
+        $message = new TechulusMessage($body, $text);
         $message->setLink($link)
             ->setImage($image);
 

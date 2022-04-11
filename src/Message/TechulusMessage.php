@@ -15,27 +15,16 @@ use Pusher\Message;
 
 class TechulusMessage extends Message
 {
-    private string $title = ''; // 通知标题
     private string $body = '';  // 通知内容
+    private string $title = ''; // 通知标题
+
     private string $link = '';  // 通知链接
     private string $image = ''; // 通知图片
 
-    public function __construct(string $title = '', string $body = '')
+    public function __construct(string $body = '', string $title = '')
     {
-        $this->title = $title;
         $this->body = $body;
-    }
-
-    public function setTitle(string $title): self
-    {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
     }
 
     public function setBody(string $body): self
@@ -48,6 +37,18 @@ class TechulusMessage extends Message
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function setLink(string $link): self

@@ -15,27 +15,31 @@ use Pusher\Message;
 
 class PushDeerMessage extends Message
 {
-    private string $text = ''; // 通知标题
-    private string $desp = ''; // 通知内容
-    private string $type = 'text'; // 通知类型 text,markdown,image
+    public const TYPE_TEXT = 'text';
+    public const TYPE_MARKDOWN = 'markdown';
+    public const TYPE_IMAGE = 'image';
 
-    public function __construct(string $text = '', string $desp = '', string $type = '')
+    private string $type = ''; // 通知类型 text,markdown,image
+    private string $desp = ''; // 通知内容
+    private string $text = ''; // 通知标题
+
+    public function __construct(string $type = '', string $desp = '', string $text = '')
     {
-        $this->text = $text;
+        $this->type = $this->filter_message_type($type);
         $this->desp = $desp;
-        $this->type = $type;
+        $this->text = $text;
     }
 
-    public function setText(string $text): self
+    public function setType(string $type): self
     {
-        $this->text = $text;
+        $this->type = $this->filter_message_type($type);
 
         return $this;
     }
 
-    public function getText(): string
+    public function getType(): string
     {
-        return $this->text;
+        return $this->type;
     }
 
     public function setDesp(string $desp): self
@@ -50,16 +54,16 @@ class PushDeerMessage extends Message
         return $this->desp;
     }
 
-    public function setType(string $type): self
+    public function setText(string $text): self
     {
-        $this->type = $type;
+        $this->text = $text;
 
         return $this;
     }
 
-    public function getType(): string
+    public function getText(): string
     {
-        return $this->type;
+        return $this->text;
     }
 
     public function generateParams(): self
@@ -71,5 +75,12 @@ class PushDeerMessage extends Message
         ];
 
         return $this;
+    }
+
+    private function filter_message_type(string $type): string
+    {
+        $type = strtolower($type);
+
+        return in_array($type, [ self::TYPE_TEXT, self::TYPE_MARKDOWN, self::TYPE_IMAGE ]) ? $type : self::TYPE_TEXT;
     }
 }

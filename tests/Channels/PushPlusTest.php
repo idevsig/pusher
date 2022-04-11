@@ -67,7 +67,7 @@ class PushPlusTest extends TestCase
         $channel = new PushPlus();
         $channel->setToken($this->token);
 
-        $message = new PushPlusMessage($title, $content);
+        $message = new PushPlusMessage($content, $title);
         $message->setTopic($topic)
             ->setTemplate($template);
 

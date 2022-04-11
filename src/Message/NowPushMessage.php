@@ -15,7 +15,12 @@ use Pusher\Message;
 
 class NowPushMessage extends Message
 {
+    public const TYPE_NOTE = 'nowpush_note';
+    public const TYPE_IMG = 'nowpush_img';
+    public const TYPE_LINK = 'nowpush_link';
+
     private string $message_type = ''; // 消息类型
+
     private string $note = '';  // 消息内容
     private string $device_type = ''; // 消息来自设备类型
     private string $url = ''; // 链接
@@ -89,6 +94,6 @@ class NowPushMessage extends Message
     {
         $type = strtolower($type);
 
-        return in_array($type, [ 'nowpush_note', 'nowpush_img', 'nowpush_link' ]) ? $type : 'nowpush_note';
+        return in_array($type, [ self::TYPE_NOTE, self::TYPE_IMG, self::TYPE_LINK ]) ? $type : self::TYPE_NOTE;
     }
 }

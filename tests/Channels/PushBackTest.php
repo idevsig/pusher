@@ -58,7 +58,7 @@ class PushBackTest extends TestCase
         $channel = new PushBack();
         $channel->setToken($this->token);
 
-        $message = new PushBackMessage($title, $body);
+        $message = new PushBackMessage($body, $title);
         $message->setID($id)
             ->setAction1($action1)
             ->setAction2($action2)

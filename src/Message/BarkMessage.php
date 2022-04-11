@@ -16,30 +16,18 @@ use Pusher\Message;
 class BarkMessage extends Message
 {
     private string $title = '';  // 通知标题
-    private string $body = '';  // 通知内容
+    private string $body = '';   // 通知内容
     private int    $badge = 1;   // 图标旁边显示数字
-    private string $copy = '';  // 复制文本
+    private string $copy = '';   // 复制文本
     private string $sound = '';  // 通知提示音
-    private string $icon = '';  // 图标的 URL
+    private string $icon = '';   // 图标的 URL
     private string $group = '';  // 通知组
-    private string $url = '';  // 跳转 URL
+    private string $url = '';    // 跳转 URL
 
-    public function __construct(string $title, string $body)
+    public function __construct(string $body = '', string $title = '')
     {
-        $this->title = $title;
         $this->body = $body;
-    }
-
-    public function setTitle(string $title): self
-    {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
     }
 
     public function setBody(string $body): self
@@ -52,6 +40,18 @@ class BarkMessage extends Message
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function setBadge(int $badge): self
@@ -129,8 +129,8 @@ class BarkMessage extends Message
     public function generateParams(): self
     {
         $this->params = [
-            'title' => $this->title,
             'body' => $this->body,
+            'title' => $this->title,
             'badge' => $this->badge,
             'sound' => $this->sound,
             'icon' => $this->icon,

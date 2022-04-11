@@ -67,7 +67,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel = new Showdoc();
         $channel->setToken($this->token);
 
-        $message = new ShowdocMessage($title, $content);
+        $message = new ShowdocMessage($content, $title);
 
         $channel->request($message);
         $this->assertTrue($channel->getStatus());

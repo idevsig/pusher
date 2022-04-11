@@ -76,7 +76,7 @@ class PushoverTest extends TestCase
             $channel->setUser($this->user_key);
         }
 
-        $message = new PushoverMessage($title, $message);
+        $message = new PushoverMessage($message, $title);
         $message->setDevice($device)
             ->setHtml($html)
             ->setURL($url);

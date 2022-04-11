@@ -31,13 +31,34 @@ class ChanifyMessage extends Message
     // 发送链接
     private string $link = '';
 
-    // 发送图片
-    private string $image = '';
+    public function __construct(string $text = '', string $title = '')
+    {
+        $this->text = $text;
+        $this->title = $title;
+    }
 
-    public function __construct(string $title = '', string $text = '')
+    public function setText(string $text): self
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    public function setTitle(string $title): self
     {
         $this->title = $title;
-        $this->text = $text;
+
+        return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function setCopy(string $copy): self

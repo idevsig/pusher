@@ -19,10 +19,10 @@ class MailerMessage extends Message
     private string $body = ''; // 内容
     private string $altBody = ''; // 非 HTML 邮件客户端的纯文本正文
 
-    public function __construct(string $subject = '', string $body = '', string $altBody = '')
+    public function __construct(string $body = '', string $subject = '', string $altBody = '')
     {
-        $this->subject = $subject;
         $this->body = $body;
+        $this->subject = $subject;
         $this->altBody = $altBody;
     }
 

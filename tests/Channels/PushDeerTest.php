@@ -51,10 +51,10 @@ class PushDeerTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ 'This is text', 'This is desp', ''],
-            [ '## Markdown', '**Markdown** 类型数据. [项目地址](https://jihulab.com/jetsung/pusher)', 'markdown'],
-            [ 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png', '', 'image'],
-            [ '## 自定义', '**自定义 URL** 类型.', 'markdown', true],
+            [ '', 'This is text', 'This is desp' ],
+            [ PushDeerMessage::TYPE_MARKDOWN, '## Markdown', '**Markdown** 类型数据. [项目地址](https://jihulab.com/jetsung/pusher)' ],
+            [ PushDeerMessage::TYPE_IMAGE,  'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png', '' ],
+            [ PushDeerMessage::TYPE_TEXT, '## 自定义', '**自定义 URL** 类型.', true ],
         ];
     }
 
@@ -63,7 +63,7 @@ class PushDeerTest extends TestCase
      *
      * @return void
      */
-    public function testCases(string $text, string $desp = '', string $type = '', bool $is_custom = false): void
+    public function testCases(string $type = '', string $text = '', string $desp = '', bool $is_custom = false): void
     {
         $this->skipTest(__METHOD__);
         $this->timeSleep(10);
@@ -76,7 +76,7 @@ class PushDeerTest extends TestCase
                 ->setToken($this->customToken);
         }
 
-        $message = new PushDeerMessage($text, $desp, $type);
+        $message = new PushDeerMessage($type, $desp, $text);
 
         $channel->request($message);
         $this->assertTrue($channel->getStatus());

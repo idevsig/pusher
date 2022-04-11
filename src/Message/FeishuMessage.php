@@ -15,7 +15,13 @@ use Pusher\Message;
 
 class FeishuMessage extends Message
 {
-    private string $msgType = 'text'; // 消息类型 text,post,image,share_chat,interactive
+    public const TYPE_TEXT = 'text';
+    public const TYPE_POST = 'post';
+    public const TYPE_IMAGE = 'image';
+    public const TYPE_SHARE_CHAT = 'share_chat';
+    public const TYPE_INTERACTIVE = 'interactive';
+
+    private string $msgType = ''; // 消息类型 text,post,image,share_chat,interactive
     private string $title = '';     // 消息标题
 
     // text 文本类型
@@ -37,11 +43,35 @@ class FeishuMessage extends Message
     private array $interactiveHeader = []; // 卡片标题
 
     public function __construct(
-        string $msg_type = 'text',
+        string $msg_type = '',
         string $title = '',
     ) {
-        $this->msgType = $msg_type;
+        $this->msgType = $this->filter_message_type($msg_type);
         $this->title = $title;
+    }
+
+    public function setMsgType(string $type): self
+    {
+        $this->msgType = $this->filter_message_type($type);
+
+        return $this;
+    }
+
+    public function getMsgType(): string
+    {
+        return $this->msgType;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function setText(string $text): self
@@ -156,7 +186,7 @@ class FeishuMessage extends Message
         $params = [];
 
         switch ($this->msgType) {
-            case 'post':
+            case self::TYPE_POST:
                 $params = [
                     'content' => [
                         'post' => [
@@ -169,7 +199,7 @@ class FeishuMessage extends Message
                 ];
                 break;
 
-            case 'image':
+            case self::TYPE_IMAGE:
                 $params = [
                     'content' => [
                         'image_key' => $this->imageKey,
@@ -177,7 +207,7 @@ class FeishuMessage extends Message
                 ];
                 break;
 
-            case 'share_chat':
+            case self::TYPE_SHARE_CHAT:
                 $params = [
                     'content' => [
                         'share_chat_id' => $this->shareChatID,
@@ -185,7 +215,7 @@ class FeishuMessage extends Message
                 ];
                 break;
 
-            case 'interactive':
+            case self::TYPE_INTERACTIVE:
                 $params = [
                     'card' => [
                         'config' => $this->interactiveConfig,
@@ -199,7 +229,7 @@ class FeishuMessage extends Message
 
                 break;
 
-            case 'text':
+            case self::TYPE_TEXT:
             default:
                 $params = [
                     'content' => [
@@ -211,5 +241,16 @@ class FeishuMessage extends Message
         $this->params += $params;
         // echo json_encode($this->params);
         return $this;
+    }
+
+    public function filter_message_type(string $type): string
+    {
+        return in_array($type, [
+            self::TYPE_TEXT,
+            self::TYPE_POST,
+            self::TYPE_IMAGE,
+            self::TYPE_SHARE_CHAT,
+            self::TYPE_INTERACTIVE,
+            ]) ? $type : self::TYPE_TEXT;
     }
 }

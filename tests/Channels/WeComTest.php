@@ -55,10 +55,10 @@ class WeComTest extends TestCase
         $at3 = array_merge($at, [ 'mentionedMobileList' => [ '@all' ] ]);
 
         return [
-            ['text', 'TEXT 消息内容', '', $at],
-            ['text', 'TEXT 消息内容 at all uid', '', $at2],
-            ['text', 'TEXT 消息内容 at all mobile', '', $at3],
-            ['markdown', "#### 杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://p.qpic.cn/pic_wework/3887590517/1e18b50e1f1517a6328199454b42c9501fe22d7ddcc2457d/0)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", '', $at],
+            [WeComMessage::TYPE_TEXT, 'TEXT 消息内容', $at],
+            [WeComMessage::TYPE_TEXT, 'TEXT 消息内容 at all uid', $at2],
+            [WeComMessage::TYPE_TEXT, 'TEXT 消息内容 at all mobile', $at3],
+            [WeComMessage::TYPE_MARKDOWN, "#### 杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://p.qpic.cn/pic_wework/3887590517/1e18b50e1f1517a6328199454b42c9501fe22d7ddcc2457d/0)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", $at],
         ];
     }
 
@@ -80,7 +80,6 @@ class WeComTest extends TestCase
     public function testTextMarkdownCases(
         string $msgtype,
         string $content,
-        string $title = '',
         array $at = [],
     ): void {
         $this->skipTest(__METHOD__);
@@ -89,7 +88,7 @@ class WeComTest extends TestCase
         $channel = new WeCom();
         $channel->setToken($this->token);
 
-        $message = new WeComMessage($msgtype, $content, $title);
+        $message = new WeComMessage($msgtype, $content);
         $message->setMentionedList($at['mentionedList'])
             ->setMentionedMobileList($at['mentionedMobileList']);
 
@@ -110,7 +109,7 @@ class WeComTest extends TestCase
         $channel = new WeCom();
         $channel->setToken($this->token);
 
-        $message = new WeComMessage('image');
+        $message = new WeComMessage(WeComMessage::TYPE_IMAGE);
         $message->setImageBase64($base64)
             ->setImageMd5($md5);
 
@@ -153,7 +152,7 @@ class WeComTest extends TestCase
             ],
         ];
 
-        $message = new WeComMessage('news');
+        $message = new WeComMessage(WeComMessage::TYPE_NEWS);
         $message->setArticles($articles)
             ->addArticle('跳转到项目地址', 'https://jihulab.com/jetsung/pusher', '点击此链接，跳转到项目地址', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 

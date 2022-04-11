@@ -83,8 +83,9 @@ class BarkTest extends TestCase
                 ->setToken($this->customToken);
         }
 
-        $message = new BarkMessage($title, $body);
-        $message->setBadge($badge)
+        $message = new BarkMessage($body);
+        $message->setTitle($title)
+            ->setBadge($badge)
             ->setCopy($body)
             ->setSound($sound)
             ->setIcon($icon)

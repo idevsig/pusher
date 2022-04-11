@@ -15,9 +15,13 @@ use Pusher\Message;
 
 class WeComMessage extends Message
 {
-    private string $msgtype = 'text'; // 消息类型 text,markdown,image,news
+    public const TYPE_TEXT = 'text';
+    public const TYPE_MARKDOWN = 'markdown';
+    public const TYPE_IMAGE = 'image';
+    public const TYPE_NEWS = 'news';
+
+    private string $msgtype = ''; // 消息类型 text,markdown,image,news
     private string $content = '';     // 通知内容
-    private string $title = '';     // 消息标题
 
     // text 类型
     private array $mentionedList = [];       // userid 的列表，提醒群中的指定成员(@某个成员)，@all表示提醒所有人
@@ -25,19 +29,41 @@ class WeComMessage extends Message
 
     // image 类型
     private string $imageBase64 = ''; // 图片内容的 base64 编码（不可换行，不带图片识别头）：base64 -w 0 pic.jpg > encode.log
-    private string $imageMd5 = ''; // 图片内容（base64编码前）的md5值：md5sum pic.jpg
+    private string $imageMd5 = '';    // 图片内容（base64编码前）的md5值：md5sum pic.jpg
 
     // news 类型
     private array $articles = []; // 图文消息，一个图文消息支持1到8条图文
 
     public function __construct(
-        string $msgtype = 'text',
+        string $msgtype = '',
         string $content = '',
-        string $title = '',
     ) {
-        $this->msgtype = $msgtype;
+        $this->msgtype = $this->filter_message_type($msgtype);
         $this->content = $content;
-        $this->title = $title;
+    }
+
+    public function setMsgType(string $msgtype): self
+    {
+        $this->msgtype = $this->filter_message_type($msgtype);
+
+        return $this;
+    }
+
+    public function getMsgType(): string
+    {
+        return $this->msgtype;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
     }
 
     public function setMentionedList(array $list): self
@@ -158,7 +184,14 @@ class WeComMessage extends Message
         }
 
         $this->params += $params;
-        // var_dump($this->params);
+
         return $this;
+    }
+
+    private function filter_message_type(string $type): string
+    {
+        $type = strtolower($type);
+
+        return in_array($type, [ self::TYPE_TEXT, self::TYPE_MARKDOWN, self::TYPE_IMAGE, self::TYPE_NEWS ]) ? $type : self::TYPE_TEXT;
     }
 }

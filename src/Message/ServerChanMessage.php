@@ -15,25 +15,13 @@ use Pusher\Message;
 
 class ServerChanMessage extends Message
 {
-    private string $title = ''; // 通知标题
     private string $desp = '';  // 通知内容
+    private string $title = ''; // 通知标题
 
-    public function __construct(string $title = '', string $desp = '')
+    public function __construct(string $desp = '', string $title = '')
     {
-        $this->title = $title;
         $this->desp = $desp;
-    }
-
-    public function setTitle(string $title): self
-    {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
     }
 
     public function setDesp(string $desp): self
@@ -46,6 +34,18 @@ class ServerChanMessage extends Message
     public function getDesp(): string
     {
         return $this->desp;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function generateParams(): self

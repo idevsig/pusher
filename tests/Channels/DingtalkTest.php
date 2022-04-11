@@ -59,9 +59,9 @@ class DingtalkTest extends TestCase
         $at2 = array_merge($at, [ 'isAtAll' => false ]);
 
         return [
-            ['text', 'TEXT 消息内容', '', $at],
-            ['text', 'TEXT 消息内容 no at all', '', $at2],
-            ['markdown', "#### 杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", '首屏会话透出的展示内容', $at],
+            [DingtalkMessage::TYPE_TEXT, 'TEXT 消息内容', '', $at],
+            [DingtalkMessage::TYPE_TEXT, 'TEXT 消息内容 no at all', '', $at2],
+            [DingtalkMessage::TYPE_MARKDOWN, "#### 杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", '首屏会话透出的展示内容', $at],
         ];
     }
 
@@ -117,9 +117,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel = new Dingtalk();
         $channel->setSecret($this->secret)
             ->setToken($this->token);
-        // var_dump($channel);
 
-        $message = new DingtalkMessage('link', '这个即将发布的新版本，创始人xx称它为红树林。而在此之前，每当面临重大升级，产品经理们都会取一个应景的代号，这一次，为什么是红树林', '时代的火车向前开');
+        $message = new DingtalkMessage(DingtalkMessage::TYPE_LINK, '这个即将发布的新版本，创始人xx称它为红树林。而在此之前，每当面临重大升级，产品经理们都会取一个应景的代号，这一次，为什么是红树林', '时代的火车向前开');
         $message->setPicUrl('https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png')
             ->setMessageUrl('https://www.aliyun.com');
 
@@ -149,7 +148,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
             ],
         ];
 
-        $message = new DingtalkMessage('feedCard');
+        $message = new DingtalkMessage(DingtalkMessage::TYPE_FEED_CARD);
         $message->setLinks($links)
             ->addLink('跳转到项目地址', 'https://jihulab.com/jetsung/pusher', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
@@ -177,7 +176,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         $channel->setSecret($this->secret)
             ->setToken($this->token);
 
-        $message = new DingtalkMessage('actionCard', $content, $title);
+        $message = new DingtalkMessage(DingtalkMessage::TYPE_ACTION_CARD, $content, $title);
         $message->setBtnOrientation($btnOrientation);
 
         if (count($btns) > 0) {

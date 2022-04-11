@@ -49,7 +49,7 @@ class XizhiTest extends TestCase
     {
         return [
             [ '单点推送', '此消息为单点推送. [项目地址](https://github.com/jetsung/pusher)'],
-            [ '频道推送', '此消息为频道推送. [项目地址](https://github.com/jetsung/pusher)', 'channel'],
+            [ '频道推送', '此消息为频道推送. [项目地址](https://github.com/jetsung/pusher)', Xizhi::TYPE_CHANNEL],
         ];
     }
 
@@ -58,18 +58,18 @@ class XizhiTest extends TestCase
      *
      * @return void
      */
-    public function testCases(string $title, string $content, string $type = 'send'): void
+    public function testCases(string $title, string $content, string $type = ''): void
     {
         $this->skipTest(__METHOD__);
         $this->timeSleep(5);
 
-        $token = $type === 'send' ? $this->token : $this->token_channel;
+        $token = $type === Xizhi::TYPE_SEND ? $this->token : $this->token_channel;
 
         $channel = new Xizhi();
         $channel->setType($type)
             ->setToken($token);
 
-        $message = new XizhiMessage($title, $content);
+        $message = new XizhiMessage($content, $title);
 
         $channel->request($message);
         $this->assertTrue($channel->getStatus());

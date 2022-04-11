@@ -12,19 +12,18 @@
 namespace Pusher\Tests\Channels;
 
 use PHPUnit\Framework\TestCase;
-use Pusher\Channel\ServerChan;
-use Pusher\Message\ServerChanMessage;
+use Pusher\Channel\Miaomiao;
+use Pusher\Message\MiaomiaoMessage;
 
-class ServerChanTest extends TestCase
+class MiaomiaoTest extends TestCase
 {
     private string $token = '';
 
-    ## ServerChan 每天只能发 5 条信息，故跳过单元测试
-    private static bool $PASS = true;
+    private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $token = getenv('ServerChanToken');
+        $token = getenv('MiaomiaoToken');
         if ($token) {
             $this->token = $token;
         }
@@ -37,26 +36,14 @@ class ServerChanTest extends TestCase
         }
     }
 
-    public function additionProvider(): array
-    {
-        return [
-            [ 'Title', '**This** is desp. [项目地址](https://jihulab.com/jetsung/pusher)'],
-        ];
-    }
-
-    /**
-     * @dataProvider additionProvider
-     *
-     * @return void
-     */
-    public function testCases(string $text, string $desp = ''): void
+    public function testCases(): void
     {
         $this->skipTest(__METHOD__);
 
-        $channel = new ServerChan();
+        $channel = new Miaomiao();
         $channel->setToken($this->token);
 
-        $message = new ServerChanMessage($desp, $text);
+        $message = new MiaomiaoMessage('这个是喵喵通知消息。项目地址：https://jihulab.com/jetsung/pusher');
 
         $channel->request($message);
         $this->assertTrue($channel->getStatus());

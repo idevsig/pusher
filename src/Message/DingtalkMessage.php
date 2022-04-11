@@ -15,7 +15,13 @@ use Pusher\Message;
 
 class DingtalkMessage extends Message
 {
-    private string $msgtype = 'text'; // 消息类型 text,link,markdown,actionCard,feedCard
+    public const TYPE_TEXT = 'text';
+    public const TYPE_LINK = 'link';
+    public const TYPE_MARKDOWN = 'markdown';
+    public const TYPE_ACTION_CARD = 'actionCard';
+    public const TYPE_FEED_CARD = 'feedCard';
+
+    private string $msgtype = ''; // 消息类型 text,link,markdown,actionCard,feedCard
     private string $content = '';     // 通知内容
     private string $title = '';     // 消息标题
 
@@ -42,13 +48,49 @@ class DingtalkMessage extends Message
     private array $links = []; // M, 链接列表 [{'title', 'messageURL', 'picURL'}, {'title', 'messageURL', 'picURL'}]
 
     public function __construct(
-        string $msgtype = 'text',
+        string $msgtype = '',
         string $content = '',
         string $title = '',
     ) {
-        $this->msgtype = $msgtype;
+        $this->msgtype = $this->filter_message_type($msgtype);
         $this->content = $content;
         $this->title = $title;
+    }
+
+    public function setMsgType(string $type): self
+    {
+        $this->msgtype = $this->filter_message_type($type);
+
+        return $this;
+    }
+
+    public function getMsgType(): string
+    {
+        return $this->msgtype;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function setAtMobiles(array $mobile): self
@@ -201,7 +243,7 @@ class DingtalkMessage extends Message
         $params = [];
 
         switch ($this->msgtype) {
-            case 'link':
+            case self::TYPE_LINK:
                 $params = [
                     'link' => [
                         'title' => $this->title,
@@ -212,7 +254,7 @@ class DingtalkMessage extends Message
                 ];
                 break;
 
-            case 'markdown':
+            case self::TYPE_MARKDOWN:
                 $params = [
                     'markdown' => [
                         'title' => $this->title,
@@ -226,7 +268,7 @@ class DingtalkMessage extends Message
                 ];
                 break;
 
-            case 'actionCard':
+            case self::TYPE_ACTION_CARD:
                 $params = [
                     'actionCard' => [
                         'title' => $this->title,
@@ -243,7 +285,7 @@ class DingtalkMessage extends Message
                 }
                 break;
 
-            case 'feedCard':
+            case self::TYPE_FEED_CARD:
                 $params = [
                     'feedCard' => [
                         'links' => $this->links,
@@ -251,7 +293,7 @@ class DingtalkMessage extends Message
                 ];
                 break;
 
-            case 'text':
+            case self::TYPE_TEXT:
             default:
                 $params = [
                     'text' => [
@@ -268,5 +310,16 @@ class DingtalkMessage extends Message
         $this->params += $params;
 
         return $this;
+    }
+
+    private function filter_message_type(string $type): string
+    {
+        return in_array($type, [
+            self::TYPE_TEXT,
+            self::TYPE_LINK,
+            self::TYPE_MARKDOWN,
+            self::TYPE_ACTION_CARD,
+            self::TYPE_FEED_CARD,
+            ]) ? $type : self::TYPE_TEXT;
     }
 }

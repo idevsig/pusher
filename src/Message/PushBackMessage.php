@@ -15,17 +15,17 @@ use Pusher\Message;
 
 class PushBackMessage extends Message
 {
+    private string $body = '';  // 通知内容
     private string $title = ''; // 通知标题
-    private string $body = ''; // 通知内容
-    private string $id = ''; // id
+    private string $id = '';    // id
     private string $action1 = '';
     private string $action2 = '';
     private string $reply = '';
 
-    public function __construct(string $title = '', string $body = '')
+    public function __construct(string $body = '', string $title = '')
     {
-        $this->title = $title;
         $this->body = $body;
+        $this->title = $title;
     }
 
     public function setTitle(string $title): self
