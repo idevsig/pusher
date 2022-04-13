@@ -87,11 +87,10 @@ class PushbulletTest extends TestCase
         }
 
         $channel->request($message);
-        $status = $channel->getStatus();
-        if (!$status) {
-            echo $channel->getErrMessage();
-        }
-        $this->assertTrue($status);
+
+        echo "\n";
+        var_dump($channel->getErrMessage(), $channel->getContents());
+        $this->assertTrue($channel->getStatus());
     }
 
     /**
@@ -127,10 +126,9 @@ class PushbulletTest extends TestCase
         }
 
         $channel->request($message);
-        $status = $channel->getStatus();
-        if (!$status) {
-            var_dump($channel->getErrMessage());
-        }
-        $this->assertTrue($status);
+
+        echo "\n";
+        var_dump($channel->getErrMessage(), $channel->getContents());
+        $this->assertTrue($channel->getStatus());
     }
 }
