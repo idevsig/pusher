@@ -26,6 +26,8 @@ class PushbulletTest extends TestCase
         $token = getenv('PushbulletToken');
         if ($token) {
             $this->token = $token;
+        } else {
+            self::$PASS = true;
         }
     }
 
@@ -85,7 +87,11 @@ class PushbulletTest extends TestCase
         }
 
         $channel->request($message);
-        $this->assertTrue($channel->getStatus());
+        $status = $channel->getStatus();
+        if (!$status) {
+            echo $channel->getErrMessage();
+        }
+        $this->assertTrue($status);
     }
 
     /**
@@ -121,6 +127,10 @@ class PushbulletTest extends TestCase
         }
 
         $channel->request($message);
-        $this->assertTrue($channel->getStatus());
+        $status = $channel->getStatus();
+        if (!$status) {
+            var_dump($channel->getErrMessage());
+        }
+        $this->assertTrue($status);
     }
 }

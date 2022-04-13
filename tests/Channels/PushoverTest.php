@@ -31,6 +31,8 @@ class PushoverTest extends TestCase
             $this->token = $token;
             $this->user_key = getenv('PushoverUserKey');
             $this->group_key = getenv('PushoverGroupKey');
+        } else {
+            self::$PASS = true;
         }
     }
 

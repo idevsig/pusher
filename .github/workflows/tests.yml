@@ -92,6 +92,8 @@ jobs:
 
           PushPlusToken: ${{secrets.PUSHPLUS_TOKEN}}
 
+          PushsaferToken: ${{secrets.PUSHSAFER_TOKEN}}
+
           QQBotAppId: ${{secrets.QQBOT_APP_ID}}
           QQBotChannelId: ${{secrets.QQBOT_CHANNEL_ID}}
           QQBotToken: ${{secrets.QQBOT_TOKEN}}

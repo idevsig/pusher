@@ -30,6 +30,8 @@ class BarkTest extends TestCase
             $this->token = $token;
             $this->customURL = getenv('BarkCustomURL');
             $this->customToken = getenv('BarkCustomToken');
+        } else {
+            self::$PASS = true;
         }
     }
 

@@ -26,6 +26,8 @@ class MiaomiaoTest extends TestCase
         $token = getenv('MiaomiaoToken');
         if ($token) {
             $this->token = $token;
+        } else {
+            self::$PASS = true;
         }
     }
 
@@ -46,6 +48,10 @@ class MiaomiaoTest extends TestCase
         $message = new MiaomiaoMessage('这个是喵喵通知消息。项目地址：https://jihulab.com/jetsung/pusher');
 
         $channel->request($message);
-        $this->assertTrue($channel->getStatus());
+        $status = $channel->getStatus();
+        if (!$status) {
+            var_dump($channel->getErrMessage());
+        }
+        $this->assertTrue($status);
     }
 }
