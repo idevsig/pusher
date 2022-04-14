@@ -23,16 +23,30 @@ class Telegram extends \Pusher\Channel
     protected string $default_url = 'https://api.telegram.org';
     protected string $method = Pusher::METHOD_JSON;
 
+    private string $chat_id = '';  // 频道的用户名或唯一标识符
+
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
+    }
+
+    public function setChatID(string $id): self
+    {
+        $this->chat_id = $id;
+
+        return $this;
+    }
+
+    public function getChatID(): string
+    {
+        return $this->chat_id;
     }
 
     public function doCheck(Message $message): self
     {
         $this->params = $message->getParams();
         $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token);
-
+        $this->params['chat_id'] = $this->chat_id;
         return $this;
     }
 

@@ -11,6 +11,7 @@
 
 namespace Pusher\Tests\Channels;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Pusher\Channel\Telegram;
 use Pusher\Message\TelegramMessage;
@@ -25,7 +26,7 @@ class TelegramTest extends TestCase
     public function setUp(): void
     {
         $token = getenv('TelegramToken');
-        $chat_id = getenv('TelegramToken');
+        $chat_id = getenv('TelegramChatId');
         if ($token && $chat_id) {
             $this->token = $token;
             $this->chat_id = $chat_id;
@@ -65,11 +66,11 @@ class TelegramTest extends TestCase
         $this->skipTest(__METHOD__);
 
         $channel = new Telegram();
-        $channel->setToken($this->token);
+        $channel->setChatID($this->chat_id)
+            ->setToken($this->token);
 
-        // 使用代理
-        $ping = exec("ping -c 1 api.telegram.org");
-        if ($ping !== '') {
+        $ping = $this->notInChina();
+        if (!$ping) {
             $channel->setOptions([
                 'proxy' => [
                     'http' => 'http://127.0.0.1:1088',
@@ -79,13 +80,33 @@ class TelegramTest extends TestCase
         }
 
         $message = new TelegramMessage($text);
-        $message->setChatID($this->chat_id)
-            ->setSound($sound);
+        $message->setSound($sound);
 
         $channel->request($message);
 
         echo "\n";
-        var_dump($channel->getErrMessage(), $channel->getContents());
+        var_dump($channel->getErrMessage());//, $channel->getContents());
         $this->assertTrue($channel->getStatus());
+    }
+
+    private function notInChina(): bool
+    {
+        // 使用代理
+        $ping = exec("ping -c 1 api.telegram.org");
+        // $ping = false;
+        // try {
+        //     $opts = [
+        //         'http' => [
+        //             'method' => 'GET',
+        //             'timeout' => 5,
+        //         ],
+        //     ];
+        //     $context = stream_context_create($opts);
+        //     file_get_contents('https://api.telegram.org', false, $context);
+        //     $ping = true;
+        // } catch (Exception $e) {
+        //     $ping = false;
+        // }
+        return $ping;
     }
 }

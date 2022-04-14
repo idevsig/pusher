@@ -16,7 +16,6 @@ use Pusher\Message;
 class TelegramMessage extends Message
 {
     private string $text = '';     // 通知内容
-    private string $chat_id = '';  // 频道的用户名或唯一标识符
     private bool   $sound = false; // 通知声音
 
     public function __construct(string $text = '')
@@ -36,18 +35,6 @@ class TelegramMessage extends Message
         return $this->text;
     }
 
-    public function setChatID(string $id): self
-    {
-        $this->chat_id = $id;
-
-        return $this;
-    }
-
-    public function getChatID(): string
-    {
-        return $this->chat_id;
-    }
-
     public function setSound(bool $enable): self
     {
         $this->sound = $enable;
@@ -63,7 +50,6 @@ class TelegramMessage extends Message
     public function generateParams(): self
     {
         $this->params = [
-            'chat_id' => $this->chat_id,
             'text' => $this->text,
             'disable_notification' => !$this->sound,
         ];
