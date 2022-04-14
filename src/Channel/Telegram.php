@@ -42,11 +42,25 @@ class Telegram extends \Pusher\Channel
         return $this->chat_id;
     }
 
+    public function updateReqURL(string $url): self
+    {
+        $this->custom_url = $url;
+
+        return $this;
+    }
+
     public function doCheck(Message $message): self
     {
         $this->params = $message->getParams();
-        $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token);
+
+        if ($this->custom_url !== '') {
+            $this->request_url = sprintf('%s/bot%s%s', $this->config['url'], $this->token, $this->custom_url);
+            $this->custom_url = '';
+        } else {
+            $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token);
+        }
         $this->params['chat_id'] = $this->chat_id;
+
         return $this;
     }
 

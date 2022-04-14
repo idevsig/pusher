@@ -29,23 +29,24 @@ class MailerTest extends TestCase
 
     public function setUp(): void
     {
-        list($sender, $password) = explode(';', getenv('SMTPUser'));
-        if ($sender && $password) {
+        $user = getenv('SMTPUser');
+        if ($user) {
+            list($sender, $password) = explode(';', getenv('SMTPUser'));
             $this->sender = $sender;
             $this->password = $password;
+
+            list($this->host, $port) = explode(';', getenv('SMTPHostPort'));
+            $this->port = (int) $port;
+
+            $from = getenv('SMTPFrom');
+            if ($from !== '') {
+                list($this->from_addr, $this->from_name) = explode(';', $from);
+            }
+
+            $this->to_addr = explode(';', getenv('SMTPTo'));
         } else {
             self::$PASS = true;
         }
-
-        list($this->host, $port) = explode(';', getenv('SMTPHostPort'));
-        $this->port = (int) $port;
-
-        $from = getenv('SMTPFrom');
-        if ($from !== '') {
-            list($this->from_addr, $this->from_name) = explode(';', $from);
-        }
-
-        $this->to_addr = explode(';', getenv('SMTPTo'));
     }
 
     public function skipTest(string $func, bool $skip = false): void

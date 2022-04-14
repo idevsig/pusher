@@ -15,6 +15,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use Pusher\Channel\Telegram;
 use Pusher\Message\TelegramMessage;
+use Pusher\Pusher;
 
 class TelegramTest extends TestCase
 {
@@ -69,8 +70,8 @@ class TelegramTest extends TestCase
         $channel->setChatID($this->chat_id)
             ->setToken($this->token);
 
-        $ping = $this->notInChina();
-        if (!$ping) {
+        $ping = $this->inChina();
+        if ($ping) {
             $channel->setOptions([
                 'proxy' => [
                     'http' => 'http://127.0.0.1:1088',
@@ -85,14 +86,58 @@ class TelegramTest extends TestCase
         $channel->request($message);
 
         echo "\n";
-        var_dump($channel->getErrMessage());//, $channel->getContents());
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
         $this->assertTrue($channel->getStatus());
     }
 
-    private function notInChina(): bool
+    public function testRoomids(): void
+    {
+        $this->skipTest(__METHOD__);
+
+        $channel = new Telegram();
+        $channel->setChatID($this->chat_id)
+            ->updateReqURL('/getUpdates')
+            ->setToken($this->token)
+            ->setMethod(Pusher::METHOD_GET);
+
+        $ping = $this->inChina();
+        if ($ping) {
+            $channel->setOptions([
+                'proxy' => [
+                    'http' => 'http://127.0.0.1:1088',
+                    'https' => 'http://127.0.0.1:1088',
+                ],
+            ]);
+        }
+
+        $message = new TelegramMessage();
+
+        $response = $channel->request($message);
+
+        if ($channel->getStatus()) {
+            $obj = json_decode($response, true);
+            foreach ($obj['result'] as $result) {
+                if (isset($result['message']) && isset($result['message']['from']['is_bot'])) {
+                    if (isset($result['message']['sender_chat'])) {
+                        printf("\n\nTelegram Bot Id: %s", $result['message']['sender_chat']['id']);
+                    }
+                }
+            }
+        }
+
+        echo "\n";
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
+        $this->assertTrue($channel->getStatus());
+    }
+
+    private function inChina(): bool
     {
         // 使用代理
-        $ping = exec("ping -c 1 api.telegram.org");
+        $ping = exec("ping -c 1 api.telegram.org") === '';
         // $ping = false;
         // try {
         //     $opts = [
@@ -103,9 +148,9 @@ class TelegramTest extends TestCase
         //     ];
         //     $context = stream_context_create($opts);
         //     file_get_contents('https://api.telegram.org', false, $context);
-        //     $ping = true;
-        // } catch (Exception $e) {
         //     $ping = false;
+        // } catch (Exception $e) {
+        //     $ping = true;
         // }
         return $ping;
     }

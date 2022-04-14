@@ -6,4 +6,5 @@
 /vendor/
 
 .env
+.env.dev
 .runtest

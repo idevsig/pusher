@@ -20,6 +20,7 @@ class Channel implements ChannelInterface
 
     protected string $default_url = ''; // 默认 URL
     protected string $request_url = ''; // 请求 URL (已拼接的最终 URL)
+    protected string $custom_url = '';  // 定制请求 URL
     protected string $token = ''; // Token
 
     protected string $method = Pusher::METHOD_GET;    // 请求方式：GET,POST,JSON (POST)
