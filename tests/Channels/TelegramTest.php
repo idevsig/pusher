@@ -68,7 +68,8 @@ class TelegramTest extends TestCase
         $channel->setToken($this->token);
 
         // 使用代理
-        if (!exec("ping -c 1 www.google.com")) {
+        $ping = exec("ping -c 1 api.telegram.org");
+        if ($ping !== '') {
             $channel->setOptions([
                 'proxy' => [
                     'http' => 'http://127.0.0.1:1088',
