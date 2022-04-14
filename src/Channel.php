@@ -152,7 +152,7 @@ class Channel implements ChannelInterface
             $response = $client->request($method, $uri, $options);
         } catch (Exception $e) {
             $this->error_message = $e->getMessage();
-            $response = new Response(500);
+            $response = new Response($e->getCode());
         }
 
         return $response;
@@ -163,7 +163,7 @@ class Channel implements ChannelInterface
         $this->doCheck($message);
         $this->response = $this->send($this->method, $this->request_url, $this->params, $this->options);
 
-        if ($this->response->getStatusCode() !== 500) {
+        if ($this->response->getStatusCode() === 200) {
             $this->content = $this->response->getBody()->getContents();
             $this->doAfter();
         }

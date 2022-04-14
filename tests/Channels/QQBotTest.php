@@ -14,6 +14,7 @@ namespace Pusher\Tests\Channels;
 use PHPUnit\Framework\TestCase;
 use Pusher\Channel\QQBot;
 use Pusher\Message\QQBotMessage;
+use Pusher\Pusher;
 
 class QQBotTest extends TestCase
 {
@@ -35,14 +36,17 @@ class QQBotTest extends TestCase
         }
 
         // 304022 PUSH_TIME 推送消息时间限制
+        // 304045 push channel message reach limit
         // QQ 频道在晚上不可以推送消息
-        // 暂时设定为 00:00:00-09:00:00 不测试
         date_default_timezone_set('PRC');
-        $day = date('Y-m-d');
+        $current_day = date('Y-m-d');
         $current_time = time();
-        $zero_clock = strtotime($day . ' 00:00:00');
-        $nine_clock = strtotime($day . ' 09:00:00');
-        if ($zero_clock <= $current_time && $current_time <= $nine_clock) {
+
+        $clock_23 = strtotime($current_day . ' 23:00:00');
+        $clock_09 = strtotime($current_day . ' 09:00:00');
+
+        // 当前时间大于 23 点 或 当前时间小于 9 点
+        if ($current_time > $clock_23 || $current_time < $clock_09) {
             self::$PASS = true;
         }
     }
@@ -68,18 +72,23 @@ class QQBotTest extends TestCase
         $channel = new QQBot();
         $channel->setAppID($this->app_id)
             ->setChannelID($this->channel_id)
-            ->Sandbox(false)
+            ->Sandbox(true)
             ->setToken($this->token);
 
         $message = new QQBotMessage('文本类型 content 的消息发送');
 
         $channel->request($message);
+
+        echo "\n";
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
         $this->assertTrue($channel->getStatus());
     }
 
     public function testImageCases(): void
     {
-        $this->skipTest(__METHOD__);
+        $this->skipTest(__METHOD__, true);
         $this->timeSleep(10);
 
         $channel = new QQBot();
@@ -92,6 +101,11 @@ class QQBotTest extends TestCase
         $message->setImage('https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
         $channel->request($message);
+
+        echo "\n";
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
         $this->assertTrue($channel->getStatus());
     }
 
@@ -122,7 +136,7 @@ class QQBotTest extends TestCase
 
     public function testEmbedCases(): void
     {
-        $this->skipTest(__METHOD__);
+        $this->skipTest(__METHOD__, true);
         $this->timeSleep(10);
 
         $channel = new QQBot();
@@ -148,12 +162,17 @@ class QQBotTest extends TestCase
         $message->setEmbed($embed);
 
         $channel->request($message);
+
+        echo "\n";
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
         $this->assertTrue($channel->getStatus());
     }
 
     public function testArkCases(): void
     {
-        $this->skipTest(__METHOD__);
+        $this->skipTest(__METHOD__, true);
         $this->timeSleep(10);
 
         $channel = new QQBot();
@@ -258,29 +277,43 @@ class QQBotTest extends TestCase
         $message->setArk($ark);
 
         $channel->request($message);
+
+        echo "\n";
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
         $this->assertTrue($channel->getStatus());
     }
 
     // 获取用户频道列表 GET /users/@me/guilds
     public function testGuildsCases(): string
     {
-        $this->skipTest(__METHOD__, true);
+        $this->skipTest(__METHOD__);
 
         $channel = new QQBot();
         $channel->setReqURL('/users/@me/guilds')
             ->setAppID($this->app_id)
-            ->setMethod('GET')
+            ->setMethod(Pusher::METHOD_GET)
             ->setToken($this->token);
 
         $message = new QQBotMessage();
-        $channel->request($message);
+        $response = $channel->request($message);
+
+        echo "\n";
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
         $this->assertTrue($channel->getStatus());
 
-        $jsonData = json_decode($channel->getContents(), true);
+        $jsonData = json_decode($response, true);
         if (count($jsonData) > 0) {
-            var_dump($jsonData[0]);
+            $guild_id = $jsonData[0]['id'];
 
-            return $jsonData[0]['id'];
+            foreach ($jsonData as $data) {
+                printf("\n\n[ QQBot Guild Id ]: %s \nName: %s\n", $data['id'], $data['name']);
+            }
+
+            return $guild_id;
         }
 
         return '';
@@ -290,26 +323,26 @@ class QQBotTest extends TestCase
      * 获取子频道列表 GET /guilds/{guild_id}/channels
      * @depends testGuildsCases
      */
-    public function testChannelsCases(string $guildID): void
+    public function testChannelsCases(string $guildId): void
     {
-        $this->skipTest(__METHOD__, true);
+        $this->skipTest(__METHOD__);
 
-        $this->assertNotEmpty($guildID);
+        $this->assertNotEmpty($guildId);
 
         $channel = new QQBot();
-        $channel->setReqURL(sprintf('/guilds/%s/channels', $guildID))
+        $channel->setReqURL(sprintf('/guilds/%s/channels', $guildId))
             ->setAppID($this->app_id)
-            ->setMethod('GET')
+            ->setMethod(Pusher::METHOD_GET)
             ->setToken($this->token);
 
         $message = new QQBotMessage();
-        $channel->request($message);
+        $response = $channel->request($message);
 
         $this->assertTrue($channel->getStatus());
 
-        $jsonData = json_decode($channel->getContents(), true);
+        $jsonData = json_decode($response, true);
         if (count($jsonData) > 0) {
-            echo "\n" . implode(',', array_column($jsonData, 'id'));
+            echo "\n\n[ QQBot Channel Id ]: \n" . implode("\n", array_column($jsonData, 'id'));
         }
     }
 }

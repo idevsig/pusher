@@ -23,9 +23,10 @@ APP 推送通知
 
 |状态|**国外**平台|官网|文档|案例|备注|
 |:---|:---|:---|:---|:---|:---|
+|✔|**Gitter**|[https://developer.gitter.im/docs/](https://developer.gitter.im/docs/messages-resource)|-|[cases](tests/Channels/GitterTest.php)
 |✔|**Pushsafer**|[https://www.pushsafer.com/](https://www.pushsafer.com/en/pushapi#api-message)|-|[cases](tests/Channels/PushsaferTest.php)
 |✔|**Techulus**|[https://push.techulus.com/](https://docs.push.techulus.com/api-documentation)|-|[cases](tests/Channels/TechulusTest.php)
-|✔|**Telegram**|[https://core.telegram.org/bots/](https://core.telegram.org/bots/api#sendmessage)|-|[cases](tests/Channels/TelegramTest.php)
+|✔ **荐**|**Telegram**|[https://core.telegram.org/bots/](https://core.telegram.org/bots/api#sendmessage)|-|[cases](tests/Channels/TelegramTest.php)
 |✔|**NowPush**|[https://www.nowpush.app/](https://nowpush.io/api-docs/)|-|[cases](tests/Channels/NowPushTest.php)
 |✔|**PushBack**|[https://pushback.io/](https://pushback.io/docs/getting-started)|-|[cases](tests/Channels/PushBackTest.php)
 |✔|**Pushover**|[https://pushover.net/](https://pushover.net/api#messages)|-|[cases](tests/Channels/PushoverTest.php)
@@ -45,7 +46,6 @@ composer require jetsung/pusher:dev-main
 ## TODO
 ```bash
 Discord
-Gitter
 Google Chat
 Mattermost
 Rocket Chat

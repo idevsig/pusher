@@ -11,7 +11,6 @@
 
 namespace Pusher\Tests\Channels;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Pusher\Channel\Telegram;
 use Pusher\Message\TelegramMessage;
@@ -97,8 +96,8 @@ class TelegramTest extends TestCase
         $this->skipTest(__METHOD__);
 
         $channel = new Telegram();
-        $channel->setChatID($this->chat_id)
-            ->updateReqURL('/getUpdates')
+        $channel->setReqURL('/getUpdates')
+            ->setChatID($this->chat_id)
             ->setToken($this->token)
             ->setMethod(Pusher::METHOD_GET);
 
@@ -121,7 +120,7 @@ class TelegramTest extends TestCase
             foreach ($obj['result'] as $result) {
                 if (isset($result['message']) && isset($result['message']['from']['is_bot'])) {
                     if (isset($result['message']['sender_chat'])) {
-                        printf("\n\nTelegram Bot Id: %s", $result['message']['sender_chat']['id']);
+                        printf("\n\n[ Telegram Bot Id ]: %s", $result['message']['sender_chat']['id']);
                     }
                 }
             }

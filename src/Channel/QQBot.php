@@ -29,7 +29,6 @@ class QQBot extends \Pusher\Channel
     private string $appID = '';     // APP ID
     private string $channelID = ''; // 子频道 ID
     private string $wss_url = 'wss://api.sgroup.qq.com/websocket';
-    private string $req_uri = '';
 
     // 沙盒模式
     private bool $sandbox = false;
@@ -64,18 +63,18 @@ class QQBot extends \Pusher\Channel
         return $this;
     }
 
-    public function setReqURL(string $uri): self
+    public function setReqURL(string $url): self
     {
-        $this->req_uri = $uri;
+        $this->custom_url = $url;
 
         return $this;
     }
 
     public function doCheck(Message $message): self
     {
-        if ($this->req_uri !== '') {
-            $this->request_url = $this->config['url'] . $this->req_uri;
-            $this->req_uri = '';
+        if ($this->custom_url !== '') {
+            $this->request_url = sprintf('%s%s', $this->config['url'], $this->custom_url);
+            $this->custom_url = '';
         } else {
             $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->channelID);
         }
@@ -115,10 +114,14 @@ class QQBot extends \Pusher\Channel
         try {
             $resp = Utils::strToArray($this->content);
 
-            if ($this->method !== 'GET') {
-                $this->status = in_array($resp['code'], [ 200, 304023 ]) ?? false;
+            if ($this->method !== Pusher::METHOD_GET) {
+                if (in_array($resp['code'], [ 200, 304023 ])) {
+                    $this->status = true;
+                } else {
+                    new Exception($resp['message'], 401);
+                }
             } else {
-                $this->status = $this->response->getStatusCode() === 200 ?? false;
+                $this->status = true;
             }
         } catch (Exception $e) {
             $this->error_message = $e->getMessage();

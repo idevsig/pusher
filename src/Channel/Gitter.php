@@ -11,35 +11,33 @@
 
 namespace Pusher\Channel;
 
-use Exception;
 use Pusher\Message;
 use Pusher\Pusher;
-use Pusher\Utils;
 
-class Telegram extends \Pusher\Channel
+class Gitter extends \Pusher\Channel
 {
-    private string $uri_template = '%s/bot%s/sendMessage';
+    private string $uri_template = '%s/v1/rooms/%s/chatMessages';
 
-    protected string $default_url = 'https://api.telegram.org';
+    protected string $default_url = 'https://api.gitter.im';
     protected string $method = Pusher::METHOD_JSON;
 
-    private string $chat_id = '';  // 频道的用户名或唯一标识符
+    private string $room_id = '';  // 房间 ID
 
     public function __construct(array $config = [])
     {
         parent::configureDefaults($config);
     }
 
-    public function setChatID(string $id): self
+    public function setRoomID(string $id): self
     {
-        $this->chat_id = $id;
+        $this->room_id = $id;
 
         return $this;
     }
 
-    public function getChatID(): string
+    public function getRoomID(): string
     {
-        return $this->chat_id;
+        return $this->room_id;
     }
 
     public function setReqURL(string $url): self
@@ -54,25 +52,24 @@ class Telegram extends \Pusher\Channel
         $this->params = $message->getParams();
 
         if ($this->custom_url !== '') {
-            $this->request_url = sprintf('%s/bot%s%s', $this->config['url'], $this->token, $this->custom_url);
+            $this->request_url = $this->config['url'] . $this->custom_url;
             $this->custom_url = '';
         } else {
-            $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token);
+            $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->room_id);
         }
-        $this->params['chat_id'] = $this->chat_id;
+
+        $this->options = [
+            'headers' => [
+                'Authorization' => sprintf('Bearer %s', $this->token),
+            ],
+        ];
 
         return $this;
     }
 
     public function doAfter(): self
     {
-        try {
-            $resp = Utils::strToArray($this->content);
-            $this->status = $resp['ok'];
-        } catch (Exception $e) {
-            $this->error_message = $e->getMessage();
-            $this->status = false;
-        }
+        $this->status = true;
 
         return $this;
     }
