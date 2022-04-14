@@ -27,6 +27,8 @@ class ServerChanTest extends TestCase
         $token = getenv('ServerChanToken');
         if ($token) {
             $this->token = $token;
+        } else {
+            self::$PASS = true;
         }
     }
 
@@ -35,6 +37,12 @@ class ServerChanTest extends TestCase
         if (self::$PASS || $skip) {
             $this->markTestSkipped("skip ${func}");
         }
+    }
+
+    // 延时
+    public function timeSleep(int $time = 5): void
+    {
+        sleep($time);
     }
 
     public function additionProvider(): array
@@ -59,6 +67,9 @@ class ServerChanTest extends TestCase
         $message = new ServerChanMessage($desp, $text);
 
         $channel->request($message);
+
+        echo "\n";
+        var_dump($channel->getErrMessage(), $channel->getContents());
         $this->assertTrue($channel->getStatus());
     }
 }

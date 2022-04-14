@@ -12,20 +12,23 @@
 namespace Pusher\Tests\Channels;
 
 use PHPUnit\Framework\TestCase;
-use Pusher\Channel\Showdoc;
-use Pusher\Message\ShowdocMessage;
+use Pusher\Channel\Telegram;
+use Pusher\Message\TelegramMessage;
 
-class ShowdocTest extends TestCase
+class TelegramTest extends TestCase
 {
     private string $token = '';
+    private string $chat_id = '';
 
     private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $token = getenv('ShowdocToken');
-        if ($token) {
+        $token = getenv('TelegramToken');
+        $chat_id = getenv('TelegramToken');
+        if ($token && $chat_id) {
             $this->token = $token;
+            $this->chat_id = $chat_id;
         } else {
             self::$PASS = true;
         }
@@ -46,13 +49,9 @@ class ShowdocTest extends TestCase
 
     public function additionProvider(): array
     {
-        $markdown = "![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png) 
-### 乔布斯 20 年前想打造的苹果咖啡厅 
-Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划。
-**[项目地址](https://github.com/jetsung/pusher)**";
-
         return [
-            [ '这个是标题', $markdown],
+            [ 'Pusher [声音]测试.  项目地址：https://jihulab.com/jetsung/pusher', true ],
+            [ 'Pusher [无声]测试.  项目地址：https://jihulab.com/jetsung/pusher', false ],
         ];
     }
 
@@ -61,17 +60,31 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
      *
      * @return void
      */
-    public function testCases(string $title, string $content): void
+    public function testCases(string $text, bool $sound = false): void
     {
         $this->skipTest(__METHOD__);
-        $this->timeSleep(5);
 
-        $channel = new Showdoc();
+        $channel = new Telegram();
         $channel->setToken($this->token);
 
-        $message = new ShowdocMessage($content, $title);
+        // 使用代理
+        if (!exec("ping -c 1 www.google.com")) {
+            $channel->setOptions([
+                'proxy' => [
+                    'http' => 'http://127.0.0.1:1088',
+                    'https' => 'http://127.0.0.1:1088',
+                ],
+            ]);
+        }
+
+        $message = new TelegramMessage($text);
+        $message->setChatID($this->chat_id)
+            ->setSound($sound);
 
         $channel->request($message);
+
+        echo "\n";
+        var_dump($channel->getErrMessage(), $channel->getContents());
         $this->assertTrue($channel->getStatus());
     }
 }

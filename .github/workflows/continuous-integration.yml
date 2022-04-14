@@ -81,11 +81,9 @@ jobs:
         run: "composer require --dev friendsofphp/php-cs-fixer"
           
       - name: "Run PHP-CS-Fixer"
-        run: "vendor/bin/php-cs-fixer fix --verbose"
+        run: "vendor/bin/php-cs-fixer fix --verbose --allow-risky=yes"
 
       - name: Commit changes
-        uses: github-actions-x/commit@v2.9
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit-message: Fix styling
-          files: .
-          name: github-actions[bot]
+          commit_message: Fix styling

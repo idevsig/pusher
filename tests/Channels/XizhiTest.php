@@ -29,6 +29,8 @@ class XizhiTest extends TestCase
         if ($token && $token_channel) {
             $this->token = $token;
             $this->token_channel = $token_channel;
+        } else {
+            self::$PASS = true;
         }
     }
 

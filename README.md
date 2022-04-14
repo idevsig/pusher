@@ -25,6 +25,7 @@ APP 推送通知
 |:---|:---|:---|:---|:---|:---|
 |✔|**Pushsafer**|[https://www.pushsafer.com/](https://www.pushsafer.com/en/pushapi#api-message)|-|[cases](tests/Channels/PushsaferTest.php)
 |✔|**Techulus**|[https://push.techulus.com/](https://docs.push.techulus.com/api-documentation)|-|[cases](tests/Channels/TechulusTest.php)
+|✔|**Telegram**|[https://core.telegram.org/bots/](https://core.telegram.org/bots/api#sendmessage)|-|[cases](tests/Channels/TelegramTest.php)
 |✔|**NowPush**|[https://www.nowpush.app/](https://nowpush.io/api-docs/)|-|[cases](tests/Channels/NowPushTest.php)
 |✔|**PushBack**|[https://pushback.io/](https://pushback.io/docs/getting-started)|-|[cases](tests/Channels/PushBackTest.php)
 |✔|**Pushover**|[https://pushover.net/](https://pushover.net/api#messages)|-|[cases](tests/Channels/PushoverTest.php)
@@ -48,7 +49,6 @@ Gitter
 Google Chat
 Mattermost
 Rocket Chat
-Telegram
 xmpp
 
 

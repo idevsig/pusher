@@ -104,6 +104,9 @@ jobs:
 
           TechulusToken: "${{secrets.TECHULUS_TOKEN}}"
 
+          TelegramToken: "${{secrets.TELEGRAM_TOKEN}}"
+          TelegramChatId: "${{secrets.TELEGRAM_CHAT_ID}}"
+
           SMTPFrom: "${{secrets.SMTP_FROM}}"
           SMTPHostPort: "${{secrets.SMTP_HOST_PORT}}"
           SMTPTo: "${{secrets.SMTP_TO}}"

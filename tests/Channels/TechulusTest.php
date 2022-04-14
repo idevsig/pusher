@@ -27,6 +27,8 @@ class TechulusTest extends TestCase
         $token = getenv('TechulusToken');
         if ($token) {
             $this->token = $token;
+        } else {
+            self::$PASS = true;
         }
     }
 
