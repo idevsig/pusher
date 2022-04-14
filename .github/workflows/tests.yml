@@ -64,7 +64,6 @@ jobs:
           touch .env
           if [ "${SECRET_URL}x" != "x" ]; then
             curl -sSL -o .env ${SECRET_URL}
-          else
           fi
           
           source .env && vendor/bin/phpunit tests --verbose
