@@ -1,5 +1,4 @@
 name: "lint"
-
 on:
   push:
     paths-ignore:

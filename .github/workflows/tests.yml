@@ -1,4 +1,4 @@
-name: "Tests"
+name: "tests"
 
 on:
   push:
@@ -65,6 +65,8 @@ jobs:
           if [ "${SECRET_URL}x" != "x" ]; then
             curl -sSL -o .env ${SECRET_URL}
           fi
+
+          echo "\nmode: ${PUSHER_MODE}\n"
           
           source .env && vendor/bin/phpunit tests --verbose
 

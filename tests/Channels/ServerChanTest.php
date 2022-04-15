@@ -69,7 +69,9 @@ class ServerChanTest extends TestCase
         $channel->request($message);
 
         echo "\n";
-        var_dump($channel->getErrMessage(), $channel->getContents());
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
         $this->assertTrue($channel->getStatus());
     }
 }

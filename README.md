@@ -19,7 +19,6 @@ APP 推送通知
 |✔ **荐**|**企业微信群机器人**|[https://developer.work.weixin.qq.com](https://developer.work.weixin.qq.com/document/path/91770?notreplace=true)|-|[cases](tests/Channels/WeComTest.php)
 |✔|**WxPusher**|[https://wxpusher.zjiecode.com/](https://wxpusher.zjiecode.com/)|-|[cases](tests/Channels/WxPusherTest.php)
 |✔|**息知**|[https://xz.qqoq.net/](https://xz.qqoq.net/)|-|[cases](tests/Channels/XizhiTest.php)
-|ING|**Zulip Chat**|[https://github.com/zulip/zulip](https://github.com/zulip/zulip)|-|[cases](#)|**需自建**
 
 |状态|**国外**平台|官网|文档|案例|备注|
 |:---|:---|:---|:---|:---|:---|
@@ -31,7 +30,7 @@ APP 推送通知
 |✔|**PushBack**|[https://pushback.io/](https://pushback.io/docs/getting-started)|-|[cases](tests/Channels/PushBackTest.php)
 |✔|**Pushover**|[https://pushover.net/](https://pushover.net/api#messages)|-|[cases](tests/Channels/PushoverTest.php)
 |✔|**Pushbullet**|[https://www.pushbullet.com/](https://docs.pushbullet.com/#create-push)|-|[cases](tests/Channels/PushbulletTest.php)|不支持 `iOS`。小米手机无法正常接收，但 Chrome 插件可用。
-|ING|**Microsoft Teams**|[https://teams.microsoft.com/](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using?tabs=cURL#setting-up-a-custom-incoming-webhook)|-|[cases](#)
+|✔|**Zulip Chat**|[https://zulip.com/](https://zulip.com/api/send-message)|-|[cases](tests/Channels/ZulipTest.php)|**可[自建](https://zulip.readthedocs.io/en/stable/production/install.html)**
 
 ## 环境
 - **PHP**: `"^8.0 || ^8.1"`
