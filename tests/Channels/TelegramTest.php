@@ -11,6 +11,7 @@
 
 namespace Pusher\Tests\Channels;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Pusher\Channel\Telegram;
 use Pusher\Message\TelegramMessage;
@@ -136,21 +137,21 @@ class TelegramTest extends TestCase
     private function inChina(): bool
     {
         // 使用代理
-        $ping = exec("ping -c 1 api.telegram.org") === '';
-        // $ping = false;
-        // try {
-        //     $opts = [
-        //         'http' => [
-        //             'method' => 'GET',
-        //             'timeout' => 5,
-        //         ],
-        //     ];
-        //     $context = stream_context_create($opts);
-        //     file_get_contents('https://api.telegram.org', false, $context);
-        //     $ping = false;
-        // } catch (Exception $e) {
-        //     $ping = true;
-        // }
+        // $ping = exec("ping -c 1 api.telegram.org") === ''; // GitHub Action 无法使用
+        $ping = false;
+        try {
+            $opts = [
+                'http' => [
+                    'method' => 'GET',
+                    'timeout' => 5,
+                ],
+            ];
+            $context = stream_context_create($opts);
+            file_get_contents('https://api.telegram.org', false, $context);
+        } catch (Exception $e) {
+            $ping = true;
+        }
+
         return $ping;
     }
 }

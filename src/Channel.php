@@ -151,8 +151,12 @@ class Channel implements ChannelInterface
         try {
             $response = $client->request($method, $uri, $options);
         } catch (Exception $e) {
+            $status_code = $e->getCode();
+            if ($status_code === 0) {
+                $status_code = 408; // 请求超时 （比如 proxy 错误）
+            }
             $this->error_message = $e->getMessage();
-            $response = new Response($e->getCode());
+            $response = new Response($status_code);
         }
 
         return $response;
