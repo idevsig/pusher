@@ -70,6 +70,13 @@ class Channel implements ChannelInterface
         return $this->config['url'];
     }
 
+    public function setReqURL(string $url): self
+    {
+        $this->custom_url = $url;
+
+        return $this;
+    }
+
     public function setToken(string $token): self
     {
         $this->token = $token;
@@ -167,7 +174,9 @@ class Channel implements ChannelInterface
         $this->doCheck($message);
         $this->response = $this->send($this->method, $this->request_url, $this->params, $this->options);
 
-        if ($this->response->getStatusCode() === 200) {
+        $status_code = $this->response->getStatusCode();
+        if ($status_code >= 200 &&
+                $status_code <= 299) {
             $this->content = $this->response->getBody()->getContents();
             $this->doAfter();
         }

@@ -33,10 +33,8 @@ class Pushbullet extends \Pusher\Channel
         $this->params = $message->getParams();
         $this->request_url = sprintf($this->uri_template, $this->config['url']);
 
-        $this->options = [
-            'headers' => [
-                'Access-Token' => $this->token,
-            ],
+        $this->options['headers'] = [
+            'Access-Token' => $this->token,
         ];
 
         return $this;

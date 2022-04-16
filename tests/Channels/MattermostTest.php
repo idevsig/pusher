@@ -12,22 +12,25 @@
 namespace Pusher\Tests\Channels;
 
 use PHPUnit\Framework\TestCase;
-use Pusher\Channel\Gitter;
-use Pusher\Message\GitterMessage;
+use Pusher\Channel\Mattermost;
+use Pusher\Message\MattermostMessage;
 use Pusher\Pusher;
 
-class GitterTest extends TestCase
+class MattermostTest extends TestCase
 {
     private string $token = '';
-    private string $room_id = '6257fb0a6da037398494735d';
+    private string $customURL = '';
+    private string $channel_id = '3tzmjwfsxig6jfibteh9b7z1ae';
 
     private static bool $PASS = false;
 
     public function setUp(): void
     {
-        $token = getenv('GitterToken');
-        if ($token) {
+        $token = getenv('MattermostToken');
+        $customURL = getenv('MattermostCustomURL');
+        if ($token && $customURL) {
             $this->token = $token;
+            $this->customURL = $customURL;
         } else {
             self::$PASS = true;
         }
@@ -44,11 +47,12 @@ class GitterTest extends TestCase
     {
         $this->skipTest(__METHOD__);
 
-        $channel = new Gitter();
-        $channel->setRoomID($this->room_id)
-            ->setToken($this->token);
+        $channel = new Mattermost();
+        $channel->setChannelID($this->channel_id)
+            ->setToken($this->token)
+            ->setURL($this->customURL);
 
-        $message = new GitterMessage('这个是 Gitter 通知消息。项目地址：https://jihulab.com/jetsung/pusher');
+        $message = new MattermostMessage('这个是 Mattermost 通知消息。项目地址：https://jihulab.com/jetsung/pusher');
 
         $channel->request($message);
 
@@ -59,23 +63,24 @@ class GitterTest extends TestCase
         $this->assertTrue($channel->getStatus());
     }
 
-    public function testRoomsCases(): void
+    public function testChannelsCases(): void
     {
         $this->skipTest(__METHOD__);
 
-        $channel = new Gitter();
-        $channel->setReqURL('/v1/rooms')
+        $channel = new Mattermost();
+        $channel->setToken($this->token)
+            ->setURL($this->customURL)
             ->setMethod(Pusher::METHOD_GET)
-            ->setToken($this->token);
+            ->setReqURL('/api/v4/channels');
 
-        $message = new GitterMessage();
+        $message = new MattermostMessage();
 
         $response = $channel->request($message);
 
         if ($channel->getStatus()) {
             $obj = json_decode($response, true);
             foreach ($obj as $data) {
-                printf("\n\n[ Gitter Room Id ]: %s \nName: %s\n", $data['id'], $data['name']);
+                printf("\n\n[ Mattermost Channel Id ]: %s \nName: %s\n", $data['id'], $data['name']);
             }
         }
 

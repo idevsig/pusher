@@ -20,17 +20,15 @@ use Pusher\Pusher;
 class TelegramTest extends TestCase
 {
     private string $token = '';
-    private string $chat_id = '';
+    private string $chat_id = '-1001566256525';
 
     private static bool $PASS = false;
 
     public function setUp(): void
     {
         $token = getenv('TelegramToken');
-        $chat_id = getenv('TelegramChatId');
-        if ($token && $chat_id) {
+        if ($token) {
             $this->token = $token;
-            $this->chat_id = $chat_id;
         } else {
             self::$PASS = true;
         }
@@ -97,10 +95,10 @@ class TelegramTest extends TestCase
         $this->skipTest(__METHOD__);
 
         $channel = new Telegram();
-        $channel->setReqURL('/getUpdates')
-            ->setChatID($this->chat_id)
+        $channel->setChatID($this->chat_id)
             ->setToken($this->token)
-            ->setMethod(Pusher::METHOD_GET);
+            ->setMethod(Pusher::METHOD_GET)
+            ->setReqURL('/getUpdates');
 
         $ping = $this->inChina();
         if ($ping) {

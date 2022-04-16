@@ -55,13 +55,6 @@ class Zulip extends \Pusher\Channel
         return $this->api_key;
     }
 
-    public function setReqURL(string $url): self
-    {
-        $this->custom_url = $url;
-
-        return $this;
-    }
-
     public function doCheck(Message $message): self
     {
         $this->params = $message->getParams();

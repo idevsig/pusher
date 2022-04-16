@@ -23,6 +23,7 @@ APP 推送通知
 |状态|**国外**平台|官网|文档|案例|备注|
 |:---|:---|:---|:---|:---|:---|
 |✔|**Gitter**|[https://developer.gitter.im/docs/](https://developer.gitter.im/docs/messages-resource)|-|[cases](tests/Channels/GitterTest.php)
+|✔|**Mattermost Chat**|[https://mattermost.com/](https://api.mattermost.com/#operation/CreatePost)|-|[cases](tests/Channels/MattermostTest.php)|**需[自建](https://docs.mattermost.com/install/install-docker.html)**
 |✔|**Pushsafer**|[https://www.pushsafer.com/](https://www.pushsafer.com/en/pushapi#api-message)|-|[cases](tests/Channels/PushsaferTest.php)
 |✔|**Techulus**|[https://push.techulus.com/](https://docs.push.techulus.com/api-documentation)|-|[cases](tests/Channels/TechulusTest.php)
 |✔ **荐**|**Telegram**|[https://core.telegram.org/bots/](https://core.telegram.org/bots/api#sendmessage)|-|[cases](tests/Channels/TelegramTest.php)
@@ -44,9 +45,7 @@ composer require jetsung/pusher:dev-main
 
 ## TODO
 ```bash
-Discord
 Google Chat
-Mattermost
 Rocket Chat
 xmpp
 

@@ -21,6 +21,8 @@ interface ChannelInterface
 
     public function getURL(): string;
 
+    public function setReqURL(string $url): self;
+
     public function setToken(string $token): self;
 
     public function getToken(): string;

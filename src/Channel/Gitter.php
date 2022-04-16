@@ -57,11 +57,8 @@ class Gitter extends \Pusher\Channel
         } else {
             $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->room_id);
         }
-
-        $this->options = [
-            'headers' => [
-                'Authorization' => sprintf('Bearer %s', $this->token),
-            ],
+        $this->options['headers'] = [
+            'Authorization' => sprintf('Bearer %s', $this->token),
         ];
 
         return $this;

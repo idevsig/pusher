@@ -63,13 +63,6 @@ class QQBot extends \Pusher\Channel
         return $this;
     }
 
-    public function setReqURL(string $url): self
-    {
-        $this->custom_url = $url;
-
-        return $this;
-    }
-
     public function doCheck(Message $message): self
     {
         if ($this->custom_url !== '') {
@@ -114,15 +107,15 @@ class QQBot extends \Pusher\Channel
         try {
             $resp = Utils::strToArray($this->content);
 
+            // 非 GET 请求
             if ($this->method !== Pusher::METHOD_GET) {
-                if (in_array($resp['code'], [ 200, 304023 ])) {
-                    $this->status = true;
-                } else {
+                // 通用的 JSON 格式
+                if (isset($resp['code']) && !in_array($resp['code'], [ 200, 304023 ])) {
                     new Exception($resp['message'], 401);
                 }
-            } else {
-                $this->status = true;
             }
+
+            $this->status = true;
         } catch (Exception $e) {
             $this->error_message = $e->getMessage();
             $this->status = false;

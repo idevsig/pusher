@@ -33,10 +33,8 @@ class NowPush extends \Pusher\Channel
         $this->params = $message->getParams();
         $this->request_url = sprintf($this->uri_template, $this->config['url']);
 
-        $this->options = [
-            'headers' => [
-                'Authorization' => sprintf('Bearer %s', $this->token),
-            ],
+        $this->options['headers'] = [
+            'Authorization' => sprintf('Bearer %s', $this->token),
         ];
 
         return $this;

@@ -26,9 +26,9 @@ class ZulipTest extends TestCase
 
     public function setUp(): void
     {
-        $customURL = getenv('ZulipCustomURL');
         $email = getenv('ZulipEmail');
         $api_key = getenv('ZulipApiKey');
+        $customURL = getenv('ZulipCustomURL');
         if ($customURL && $email && $api_key) {
             $this->email = $email;
             $this->api_key = $api_key;
@@ -95,11 +95,11 @@ class ZulipTest extends TestCase
         $this->timeSleep(5);
 
         $channel = new Zulip();
-        $channel->setReqURL('/api/v1/users/me/subscriptions')
-            ->setEmail($this->email)
+        $channel->setEmail($this->email)
             ->setApiKey($this->api_key)
             ->setURL($this->customURL)
-            ->setMethod(Pusher::METHOD_GET);
+            ->setMethod(Pusher::METHOD_GET)
+            ->setReqURL('/api/v1/users/me/subscriptions');
 
         $message = new ZulipMessage();
 

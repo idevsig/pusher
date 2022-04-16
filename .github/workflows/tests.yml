@@ -65,10 +65,8 @@ jobs:
         run: |
           touch .env
           if [ "${SECRET_URL}x" != "x" ]; then
-            curl -sSL -o .env ${SECRET_URL}
+            wget -O .env ${SECRET_URL}
           fi
 
-          echo "\nmode: ${PUSHER_MODE}\n"
-          
           source .env && vendor/bin/phpunit tests --verbose
 

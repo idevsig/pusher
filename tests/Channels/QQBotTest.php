@@ -79,7 +79,7 @@ class QQBotTest extends TestCase
 
         $channel->request($message);
 
-        echo "\n";
+        printf("\n%s.%s\n", __CLASS__, __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -88,7 +88,7 @@ class QQBotTest extends TestCase
 
     public function testImageCases(): void
     {
-        $this->skipTest(__METHOD__, true);
+        $this->skipTest(__METHOD__);
         $this->timeSleep(10);
 
         $channel = new QQBot();
@@ -102,41 +102,16 @@ class QQBotTest extends TestCase
 
         $channel->request($message);
 
-        echo "\n";
+        printf("\n%s.%s\n", __CLASS__, __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
         $this->assertTrue($channel->getStatus());
     }
 
-    // 不允许发送源文本
-    // {"code":50056,"message":"raw markdown not allowed"}
-    public function testMarkdownCases(): void
-    {
-        $this->skipTest(__METHOD__, true);
-        $this->timeSleep(10);
-
-        $channel = new QQBot();
-        $channel->setAppID($this->app_id)
-            ->setChannelID($this->channel_id)
-            ->Sandbox(true)
-            ->setToken($this->token);
-
-//         $markdown = "![screenshot](https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png)
-        // ### 乔布斯 20 年前想打造的苹果咖啡厅
-        // Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划";
-        $markdown = '## 这是一个 Markdown 内容';
-
-        $message = new QQBotMessage();
-        $message->setMarkdown([ 'content' => $markdown]);
-
-        $channel->request($message);
-        $this->assertTrue($channel->getStatus());
-    }
-
     public function testEmbedCases(): void
     {
-        $this->skipTest(__METHOD__, true);
+        $this->skipTest(__METHOD__);
         $this->timeSleep(10);
 
         $channel = new QQBot();
@@ -163,7 +138,7 @@ class QQBotTest extends TestCase
 
         $channel->request($message);
 
-        echo "\n";
+        printf("\n%s.%s\n", __CLASS__, __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -172,7 +147,7 @@ class QQBotTest extends TestCase
 
     public function testArkCases(): void
     {
-        $this->skipTest(__METHOD__, true);
+        $this->skipTest(__METHOD__);
         $this->timeSleep(10);
 
         $channel = new QQBot();
@@ -278,7 +253,7 @@ class QQBotTest extends TestCase
 
         $channel->request($message);
 
-        echo "\n";
+        printf("\n%s.%s\n", __CLASS__, __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -291,15 +266,15 @@ class QQBotTest extends TestCase
         $this->skipTest(__METHOD__);
 
         $channel = new QQBot();
-        $channel->setReqURL('/users/@me/guilds')
-            ->setAppID($this->app_id)
+        $channel->setAppID($this->app_id)
+            ->setToken($this->token)
             ->setMethod(Pusher::METHOD_GET)
-            ->setToken($this->token);
+            ->setReqURL('/users/@me/guilds');
 
         $message = new QQBotMessage();
         $response = $channel->request($message);
 
-        echo "\n";
+        printf("\n%s.%s\n", __CLASS__, __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -330,19 +305,53 @@ class QQBotTest extends TestCase
         $this->assertNotEmpty($guildId);
 
         $channel = new QQBot();
-        $channel->setReqURL(sprintf('/guilds/%s/channels', $guildId))
-            ->setAppID($this->app_id)
+        $channel->setAppID($this->app_id)
+            ->setToken($this->token)
             ->setMethod(Pusher::METHOD_GET)
-            ->setToken($this->token);
+            ->setReqURL(sprintf('/guilds/%s/channels', $guildId));
 
         $message = new QQBotMessage();
         $response = $channel->request($message);
 
+        printf("\n%s.%s\n", __CLASS__, __METHOD__);
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
         $this->assertTrue($channel->getStatus());
 
         $jsonData = json_decode($response, true);
         if (count($jsonData) > 0) {
             echo "\n\n[ QQBot Channel Id ]: \n" . implode("\n", array_column($jsonData, 'id'));
         }
+    }
+
+    // 不允许发送源文本
+    // {"code":50056,"message":"raw markdown not allowed"}
+    public function testMarkdownCases(): void
+    {
+        $this->skipTest(__METHOD__, true);
+        $this->timeSleep(10);
+
+        $channel = new QQBot();
+        $channel->setAppID($this->app_id)
+            ->setChannelID($this->channel_id)
+            ->Sandbox(true)
+            ->setToken($this->token);
+
+//         $markdown = "![screenshot](https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png)
+        // ### 乔布斯 20 年前想打造的苹果咖啡厅
+        // Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划";
+        $markdown = '## 这是一个 Markdown 内容';
+
+        $message = new QQBotMessage();
+        $message->setMarkdown([ 'content' => $markdown]);
+
+        $channel->request($message);
+
+        printf("\n%s.%s\n", __CLASS__, __METHOD__);
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
+        $this->assertTrue($channel->getStatus());
     }
 }
