@@ -18,7 +18,7 @@ class Mattermost extends \Pusher\Channel
 {
     private string $uri_template = '%s/api/v4/posts';
 
-    protected string $default_url = '';
+    protected string $default_url = 'https://community.mattermost.com';
     protected string $method = Pusher::METHOD_JSON;
 
     private string $channel_id = ''; // 频道 ID

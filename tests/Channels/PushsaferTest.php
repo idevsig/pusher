@@ -19,7 +19,8 @@ class PushsaferTest extends TestCase
 {
     private string $token = '';
 
-    private static bool $PASS = false;
+    ## 50 条免费，故跳过测试
+    private static bool $PASS = true;
 
     public function setUp(): void
     {
