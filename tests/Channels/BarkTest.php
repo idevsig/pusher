@@ -51,7 +51,7 @@ class BarkTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ 'This is text', 'This is desp'],
+            [ '标题111', '这是标题111的内容。'],
             [ '自定义', '自定义声音和ICON', 1, 'bloom.caf', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'],
             [ '标题222', '分组，内容222', 1, 'bloom.caf', '', 'group'],
             [ '标题333', '分组，跳转到项目地址', 1, 'chime.caf', '', 'group', 'https://jihulab.com/jetsung/pusher'],

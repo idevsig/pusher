@@ -42,13 +42,3 @@ APP 推送通知
 # 主线版
 composer require jetsung/pusher:dev-main
 ```
-
-## TODO
-```bash
-Google Chat
-Rocket Chat
-xmpp
-
-
-Slack Chat
-```
