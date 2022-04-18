@@ -3,7 +3,7 @@
 /*
  * This file is part of Pusher.
  *
- * (c) Jetsung Chan <skiy@jetsung.com>
+ * (c) Jetsung Chan <jetsungchan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
