@@ -11,7 +11,6 @@ APP 推送通知
 |✔ **荐**|**电子邮件**|[https://github.com/phpmailer/phpmailer](https://github.com/phpmailer/phpmailer)|-|[cases](tests/Channels/MailerTest.php)
 |✔|**喵喵通知**|[https://apps.apple.com/cn/app/id1564699894](https://apps.apple.com/cn/app/id1564699894?l=zh)|-|[cases](tests/Channels/MiaomiaoTest.php)|仅支持 iOS。[点击查看此开源项目](https://github.com/vipheyue/pushpush)
 |✔ **荐**|**PushDeer**|http://pushdeer.com/|-|[cases](tests/Channels/PushDeerTest.php)
-|✔|**PushPlus**|[https://pushplus.hxtrip.com/](https://pushplus.hxtrip.com/)|-|[cases](tests/Channels/PushPlusTest.php)
 |✔|**QQ 频道机器人**|[https://bot.q.qq.com/wiki/](https://bot.q.qq.com/wiki/develop/api/openapi/message/post_messages.html)|-|[cases](tests/Channels/QQBotTest.php)
 |✔|**Server酱**|[https://sct.ftqq.com/](https://sct.ftqq.com/)|-|[cases](tests/Channels/ServerChanTest.php)
 |✔|**Showdoc**|[https://push.showdoc.com.cn/](https://push.showdoc.com.cn/)|-|[cases](tests/Channels/ShowdocTest.php)
