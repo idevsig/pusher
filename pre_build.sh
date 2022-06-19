@@ -14,3 +14,9 @@ vendor/bin/phpstan analyse src tests
 
 ## 修正语法
 vendor/bin/php-cs-fixer fix --verbose
+
+if [ -f ".env" ]; then
+    . .env
+    
+    vendor/bin/phpunit tests --verbose
+fi
