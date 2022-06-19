@@ -85,10 +85,10 @@ class PushoverTest extends TestCase
 
         $channel->request($message);
 
-        $status = $channel->getStatus();
-        if (!$status) {
-            echo $channel->getErrMessage();
+        echo "\n";
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
         }
-        $this->assertTrue($status);
+        $this->assertTrue($channel->getStatus());
     }
 }

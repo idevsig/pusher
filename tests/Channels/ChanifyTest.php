@@ -28,10 +28,15 @@ class ChanifyTest extends TestCase
         $token = getenv('ChanifyToken');
         if ($token) {
             $this->token = $token;
-            $this->customURL = getenv('ChanifyCustomURL');
-            $this->customToken = getenv('ChanifyCustomToken');
         } else {
             self::$PASS = true;
+        }
+
+        $customURL = getenv('ChanifyCustomURL');
+        $customToken = getenv('ChanifyCustomToken');
+        if ($customURL && $customToken) {
+            $this->customURL = $customURL;
+            $this->customToken = $customToken;
         }
     }
 

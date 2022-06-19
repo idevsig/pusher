@@ -28,10 +28,15 @@ class BarkTest extends TestCase
         $token = getenv("BarkToken");
         if ($token) {
             $this->token = $token;
-            $this->customURL = getenv('BarkCustomURL');
-            $this->customToken = getenv('BarkCustomToken');
         } else {
             self::$PASS = true;
+        }
+
+        $customURL = getenv('BarkCustomURL');
+        $customToken = getenv('BarkCustomToken');
+        if ($customURL && $customToken) {
+            $this->customURL = $customURL;
+            $this->customToken = $customToken;
         }
     }
 
@@ -51,8 +56,8 @@ class BarkTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ '标题111', '这是标题111的内容。'],
-            [ '自定义', '自定义声音和ICON', 1, 'bloom.caf', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'],
+            [ '标题000', '这是标题000的内容。'],
+            [ '标题111', '111自定义声音和ICON', 1, 'bloom.caf', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'],
             [ '标题222', '分组，内容222', 1, 'bloom.caf', '', 'group'],
             [ '标题333', '分组，跳转到项目地址', 1, 'chime.caf', '', 'group', 'https://jihulab.com/jetsung/pusher'],
             'custom url' => [ '自定义 URL 标题', '分组2，跳转到项目地址，自定义URL', 2, 'chime.caf', '', 'group2', 'https://jihulab.com/jetsung/pusher', true ],
@@ -81,6 +86,10 @@ class BarkTest extends TestCase
         $channel->setToken($this->token);
 
         if ($is_custom) {
+            if ($this->customURL === '' || $this->customToken === '') {
+                $this->skipTest(__METHOD__, true);
+            }
+
             $channel->setURL($this->customURL)
                 ->setToken($this->customToken);
         }
@@ -95,6 +104,11 @@ class BarkTest extends TestCase
             ->setURL($url);
 
         $channel->request($message);
+
+        echo "\n";
+        if (!$channel->getStatus()) {
+            var_dump($channel->getErrMessage());//, $channel->getContents());
+        }
         $this->assertTrue($channel->getStatus());
     }
 }

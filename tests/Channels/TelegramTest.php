@@ -21,6 +21,7 @@ class TelegramTest extends TestCase
 {
     private string $token = '';
     private string $chat_id = '-1001566256525';
+    private string $customURL = '';
 
     private static bool $PASS = false;
 
@@ -31,6 +32,11 @@ class TelegramTest extends TestCase
             $this->token = $token;
         } else {
             self::$PASS = true;
+        }
+
+        $customURL = getenv('TelegramCustomURL');
+        if ($customURL) {
+            $this->customURL = $customURL;
         }
     }
 
@@ -70,12 +76,7 @@ class TelegramTest extends TestCase
 
         $ping = $this->inChina();
         if ($ping) {
-            $channel->setOptions([
-                'proxy' => [
-                    'http' => 'http://127.0.0.1:1088',
-                    'https' => 'http://127.0.0.1:1088',
-                ],
-            ]);
+            $channel->setURL($this->customURL);
         }
 
         $message = new TelegramMessage($text);
@@ -102,12 +103,7 @@ class TelegramTest extends TestCase
 
         $ping = $this->inChina();
         if ($ping) {
-            $channel->setOptions([
-                'proxy' => [
-                    'http' => 'http://127.0.0.1:1088',
-                    'https' => 'http://127.0.0.1:1088',
-                ],
-            ]);
+            $channel->setURL($this->customURL);
         }
 
         $message = new TelegramMessage();

@@ -60,7 +60,7 @@ class MailerTest extends TestCase
     {
         return [
             [ '调试 Pusher 邮件发送功能', '这里是邮件 HTML 格式的正文内容，详情 <a href="https://github.com/jetsung/pusher" target="_blank"><strong>点击查看项目网站</strong></a>', '这里是纯文本格式的正文内容'],
-            [ '调试 Pusher 邮件发送功能（网页）', file_get_contents('https://getbootstrap.com/docs/5.1/examples/cover/'), '这里是纯文本格式的正文内容'],
+            [ '调试 Pusher 邮件发送功能（网页）', file_get_contents('https://v5.bootcss.com/docs/5.1/examples/cover/'), '这里是纯文本格式的正文内容'],
         ];
     }
 
