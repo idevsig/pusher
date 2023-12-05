@@ -3,14 +3,14 @@ name: "tests"
 on:
   push:
     paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'composer.json'
+      - "src/**"
+      - "tests/**"
+      - "composer.json"
 
   pull_request:
     paths:
-      - 'src'
-      - 'tests'
+      - "src"
+      - "tests"
 
   workflow_dispatch:
 
@@ -37,7 +37,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
@@ -47,7 +47,7 @@ jobs:
           ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
           php-version: ${{ matrix.php-version }}
           tools: composer
-          
+
       - name: "Install locked dependencies"
         if: "matrix.experimental == false"
         run: "composer config platform --unset && composer install ${{ env.COMPOSER_FLAGS }}"
@@ -69,4 +69,3 @@ jobs:
           fi
 
           source .env && vendor/bin/phpunit tests --verbose
-

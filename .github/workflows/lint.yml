@@ -2,10 +2,10 @@ name: "lint"
 on:
   push:
     paths-ignore:
-      - 'doc/**'
+      - "doc/**"
   pull_request:
     paths-ignore:
-      - 'doc/**'
+      - "doc/**"
 
 jobs:
   tests:
@@ -18,10 +18,10 @@ jobs:
         php-version:
           - "8.0"
           - "latest"
-          
+
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
