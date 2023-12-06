@@ -53,7 +53,7 @@ class WxPusherTest extends TestCase
                 1,
                 [ 5381 ],
                 [],
-                'https://jihulab.com/jetsung/pusher',
+                'https://github.com/idev-sig/pusher',
             ],
             [
                 '「HTML」<a href="https://apple.com">Apple Store</a> 的<strong>设计</strong>正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划',
@@ -61,7 +61,7 @@ class WxPusherTest extends TestCase
                 2,
                 [],
                 [ 'UID_PRN5fEHFZbhtyv3lyqd3neWlt0q5' ],
-                'https://jihulab.com/jetsung/pusher',
+                'https://github.com/idev-sig/pusher',
             ],
             [
                 '「Markdown」[Apple Store](https://apple.com) 的设计正从原来满满的**科技感**走向*生活化*，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划',
@@ -69,7 +69,7 @@ class WxPusherTest extends TestCase
                 3,
                 [ 5381 ],
                 [ 'UID_PRN5fEHFZbhtyv3lyqd3neWlt0q5' ],
-                'https://jihulab.com/jetsung/pusher',
+                'https://github.com/idev-sig/pusher',
             ],
         ];
     }

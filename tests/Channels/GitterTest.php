@@ -48,7 +48,7 @@ class GitterTest extends TestCase
         $channel->setRoomID($this->room_id)
             ->setToken($this->token);
 
-        $message = new GitterMessage('这个是 Gitter 通知消息。项目地址：https://jihulab.com/jetsung/pusher');
+        $message = new GitterMessage('这个是 Gitter 通知消息。项目地址：https://github.com/idev-sig/pusher');
 
         $channel->request($message);
 

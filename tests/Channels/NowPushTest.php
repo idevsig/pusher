@@ -47,10 +47,10 @@ class NowPushTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ NowPushMessage::TYPE_NOTE, '这个是 Note 推送的消息。项目地址：https://jihulab.com/jetsung/pusher', 'api', '' ],
+            [ NowPushMessage::TYPE_NOTE, '这个是 Note 推送的消息。项目地址：https://github.com/idev-sig/pusher', 'api', '' ],
             [ NowPushMessage::TYPE_IMG, '这个是 Note 推送的消息。', 'mobile', 'https://www.nowpush.app/assets/img/welcome/welcome-mockup.png' ],
-            [ NowPushMessage::TYPE_LINK, '这个是 Note 推送的消息。', 'browser', '项目地址：https://jihulab.com/jetsung/pusher' ],
-            [ '', '这是一条自定义类型的消息。', 'Test', 'https://jihulab.com/jetsung/pusher' ],
+            [ NowPushMessage::TYPE_LINK, '这个是 Note 推送的消息。', 'browser', '项目地址：https://github.com/idev-sig/pusher' ],
+            [ '', '这是一条自定义类型的消息。', 'Test', 'https://github.com/idev-sig/pusher' ],
         ];
     }
 

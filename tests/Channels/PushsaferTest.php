@@ -44,25 +44,25 @@ class PushsaferTest extends TestCase
         return [
             [
                 '标题一',
-                'Pushsafer 测试。项目地址：https://jihulab.com/jetsung/pusher <strong>测试一下</strong>',
+                'Pushsafer 测试。项目地址：https://github.com/idev-sig/pusher <strong>测试一下</strong>',
                 0,
                 2,
                 3,
                 '#FF0000',
                 'a',
-                'https://jihulab.com/jetsung/pusher',
+                'https://github.com/idev-sig/pusher',
                 '链接标题',
                 '',
             ],
             [
                 '标题二',
-                'Pushsafer 测试二。项目地址：https://jihulab.com/jetsung/pusher <strong>测试一下</strong>',
+                'Pushsafer 测试二。项目地址：https://github.com/idev-sig/pusher <strong>测试一下</strong>',
                 2,
                 1,
                 181,
                 '#0000FF',
                 'a',
-                'https://jihulab.com/jetsung/pusher',
+                'https://github.com/idev-sig/pusher',
                 '链接标题二',
                 '',
             ],
@@ -131,7 +131,7 @@ class PushsaferTest extends TestCase
         $channel = new Pushsafer();
         $channel->setToken($this->token);
 
-        $message = '<strong>这是一条图片消息，<a href="https://jihulab.com/jetsung/pusher">项目地址</a></strong>';
+        $message = '<strong>这是一条图片消息，<a href="https://github.com/idev-sig/pusher">项目地址</a></strong>';
         $title = '这是一条图片消息';
 
         $message = new PushsaferMessage($message, $title);

@@ -154,7 +154,7 @@ class WeComTest extends TestCase
 
         $message = new WeComMessage(WeComMessage::TYPE_NEWS);
         $message->setArticles($articles)
-            ->addArticle('跳转到项目地址', 'https://jihulab.com/jetsung/pusher', '点击此链接，跳转到项目地址', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
+            ->addArticle('跳转到项目地址', 'https://github.com/idev-sig/pusher', '点击此链接，跳转到项目地址', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
         $channel->request($message);
         $this->assertTrue($channel->getStatus());

@@ -41,8 +41,8 @@ class PushBackTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ 'Title User', '[用户方式]本[项目地址](https://jihulab.com/jetsung/pusher)', 'User_1856', '左侧', '右侧', '回复些消息'],
-            [ 'Title Channel', '[通道方式]本[项目地址](https://jihulab.com/jetsung/pusher)', 'Channel_2420', '左侧', '右侧', '回复些消息'],
+            [ 'Title User', '[用户方式]本[项目地址](https://github.com/idev-sig/pusher)', 'User_1856', '左侧', '右侧', '回复些消息'],
+            [ 'Title Channel', '[通道方式]本[项目地址](https://github.com/idev-sig/pusher)', 'Channel_2420', '左侧', '右侧', '回复些消息'],
         ];
     }
 

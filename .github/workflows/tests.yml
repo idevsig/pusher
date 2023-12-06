@@ -27,10 +27,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - php-version: "8.0"
+          - php-version: "8.1"
             os: "ubuntu-latest"
             experimental: false
-          - php-version: "8.1"
+          - php-version: "8.2"
+            os: "ubuntu-latest"
+            experimental: false
+          - php-version: "8.3"
             os: "ubuntu-latest"
             experimental: true
       fail-fast: true
@@ -64,7 +67,7 @@ jobs:
           SECRET_URL: "${{secrets.SECRET_URL}}"
         run: |
           touch .env
-          if [ "${SECRET_URL}x" != "x" ]; then
+          if [[ "${SECRET_URL}x" != "x" ]]; then
             wget -O .env ${SECRET_URL}
           fi
 

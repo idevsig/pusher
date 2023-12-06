@@ -95,7 +95,7 @@ class FeishuTest extends TestCase
             ],
             [
                 'tag' => 'a',
-                'href' => 'https://jihulab.com/jetsung/pusher',
+                'href' => 'https://github.com/idev-sig/pusher',
                 'text' => '项目地址',
             ],
             [
@@ -195,7 +195,7 @@ class FeishuTest extends TestCase
                             'content' => '点击查看项目: 玫瑰:',
                             'tag' => 'lark_md',
                         ],
-                        'url' => 'https://jihulab.com/jetsung/pusher',
+                        'url' => 'https://github.com/idev-sig/pusher',
                         'type' => 'default',
                         'value' => (object) [],
                     ],

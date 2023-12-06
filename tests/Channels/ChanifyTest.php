@@ -19,7 +19,6 @@ class ChanifyTest extends TestCase
 {
     private string $token = '';
     private string $customURL = '';
-    private string $customToken = '';
 
     private static bool $PASS = false;
 
@@ -33,10 +32,8 @@ class ChanifyTest extends TestCase
         }
 
         $customURL = getenv('ChanifyCustomURL');
-        $customToken = getenv('ChanifyCustomToken');
-        if ($customURL && $customToken) {
+        if ($customURL) {
             $this->customURL = $customURL;
-            $this->customToken = $customToken;
         }
     }
 
@@ -56,7 +53,7 @@ class ChanifyTest extends TestCase
     public function additionProvider(): array
     {
         $content = "不支持 Markdown 和 HTML。
-Pusher 项目地址：https://jihulab.com/jetsung/pusher  
+Pusher 项目地址：https://github.com/idev-sig/pusher
 ";
 
         return [
@@ -80,7 +77,6 @@ Pusher 项目地址：https://jihulab.com/jetsung/pusher
 
         if ($is_custom) {
             $channel->setURL($this->customURL);
-            $channel->setToken($this->customToken);
         }
 
         $message = new ChanifyMessage($title, $text);
@@ -100,7 +96,7 @@ Pusher 项目地址：https://jihulab.com/jetsung/pusher
         $message = new ChanifyMessage();
         $message->setSound(1)
             ->setPriority(10)
-            ->setLink('https://jihulab.com/jetsung/pusher');
+            ->setLink('https://github.com/idev-sig/pusher');
 
         $channel->request($message);
         $this->assertTrue($channel->getStatus());

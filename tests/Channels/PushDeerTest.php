@@ -52,7 +52,7 @@ class PushDeerTest extends TestCase
     {
         return [
             [ '', 'This is text', 'This is desp' ],
-            [ PushDeerMessage::TYPE_MARKDOWN, '## Markdown', '**Markdown** 类型数据. [项目地址](https://jihulab.com/jetsung/pusher)' ],
+            [ PushDeerMessage::TYPE_MARKDOWN, '## Markdown', '**Markdown** 类型数据. [项目地址](https://github.com/idev-sig/pusher)' ],
             [ PushDeerMessage::TYPE_IMAGE,  'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png', '' ],
             [ PushDeerMessage::TYPE_TEXT, '## 自定义', '**自定义 URL** 类型.', true ],
         ];

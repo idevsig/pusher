@@ -45,7 +45,7 @@ class MiaomiaoTest extends TestCase
         $channel = new Miaomiao();
         $channel->setToken($this->token);
 
-        $message = new MiaomiaoMessage('这个是喵喵通知消息。项目地址：https://jihulab.com/jetsung/pusher');
+        $message = new MiaomiaoMessage('这个是喵喵通知消息。项目地址：https://github.com/idev-sig/pusher');
 
         $channel->request($message);
         $status = $channel->getStatus();

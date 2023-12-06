@@ -61,10 +61,10 @@ class ZulipTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ ZulipMessage::TYPE_PRIVATE, 'tests@s.skiy.net', '私人、邮箱、字符串 **支持 Markdown**。[项目地址](https://jihulab.com/jetsung/pusher)' ],
-            [ ZulipMessage::TYPE_PRIVATE, '[ 494729, 494731 ]', '私人、ID、数字列表 **支持 Markdown**。[项目地址](https://jihulab.com/jetsung/pusher)' ],
-            // [ ZulipMessage::TYPE_STREAM, 322046, '流、频道、数字 **支持 Markdown**。[项目地址](https://jihulab.com/jetsung/pusher)', 'Pusher' ],
-            [ ZulipMessage::TYPE_STREAM, 'general', '流、频道、频道名 **支持 Markdown**。[项目地址](https://jihulab.com/jetsung/pusher)', 'Pusher' ],
+            [ ZulipMessage::TYPE_PRIVATE, 'tests@s.skiy.net', '私人、邮箱、字符串 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)' ],
+            [ ZulipMessage::TYPE_PRIVATE, '[ 494729, 494731 ]', '私人、ID、数字列表 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)' ],
+            // [ ZulipMessage::TYPE_STREAM, 322046, '流、频道、数字 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)', 'Pusher' ],
+            [ ZulipMessage::TYPE_STREAM, 'general', '流、频道、频道名 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)', 'Pusher' ],
         ];
     }
 

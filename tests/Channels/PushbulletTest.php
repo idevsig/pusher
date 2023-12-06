@@ -48,8 +48,8 @@ class PushbulletTest extends TestCase
     {
         return [
             [ PushbulletMessage::TYPE_NOTE, '这个是 NOTE 标题', '这个是 NOTE 内容。' ],
-            [ PushbulletMessage::TYPE_LINK, '这个是 LINK 标题', '这个是 LINK 内容。', 'https://jihulab.com/jetsung/pusher' ],
-            [ PushbulletMessage::TYPE_FILE, '这个是 FILE 标题', '这个是 FILE 内容。', 'https://jihulab.com/jetsung/pusher' ],
+            [ PushbulletMessage::TYPE_LINK, '这个是 LINK 标题', '这个是 LINK 内容。', 'https://github.com/idev-sig/pusher' ],
+            [ PushbulletMessage::TYPE_FILE, '这个是 FILE 标题', '这个是 FILE 内容。', 'https://github.com/idev-sig/pusher' ],
         ];
     }
 

@@ -79,8 +79,8 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
         ];
 
         return [
-            [ $content, $title, '0', '查看项目', 'https://jihulab.com/jetsung/pusher' ],
-            [ $content, $title, '1', '查看项目', 'https://jihulab.com/jetsung/pusher' ],
+            [ $content, $title, '0', '查看项目', 'https://github.com/idev-sig/pusher' ],
+            [ $content, $title, '1', '查看项目', 'https://github.com/idev-sig/pusher' ],
             [ $content, $title, '0', '', '', $btns ],
             [ $content, $title, '1', '', '', $btns ],
         ];
@@ -150,7 +150,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
         $message = new DingtalkMessage(DingtalkMessage::TYPE_FEED_CARD);
         $message->setLinks($links)
-            ->addLink('跳转到项目地址', 'https://jihulab.com/jetsung/pusher', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
+            ->addLink('跳转到项目地址', 'https://github.com/idev-sig/pusher', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
 
         $channel->request($message);
         $this->assertTrue($channel->getStatus());
@@ -181,7 +181,7 @@ Apple Store 的设计正从原来满满的科技感走向生活化，而其生�
 
         if (count($btns) > 0) {
             $message->setBtns($btns)
-                ->addBtn('项目地址', 'https://jihulab.com/jetsung/pusher');
+                ->addBtn('项目地址', 'https://github.com/idev-sig/pusher');
         } else {
             $message->setSingleTitle($singleTitle)
                 ->setSingleURL($singleURL);

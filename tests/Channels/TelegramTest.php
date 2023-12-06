@@ -56,8 +56,8 @@ class TelegramTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ 'Pusher [声音]测试.  项目地址：https://jihulab.com/jetsung/pusher', true ],
-            [ 'Pusher [无声]测试.  项目地址：https://jihulab.com/jetsung/pusher', false ],
+            [ 'Pusher [声音]测试.  项目地址：https://github.com/idev-sig/pusher', true ],
+            [ 'Pusher [无声]测试.  项目地址：https://github.com/idev-sig/pusher', false ],
         ];
     }
 

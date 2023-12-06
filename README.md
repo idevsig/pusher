@@ -2,10 +2,6 @@
 
 APP 推送通知
 
--   https://git.jetsung.com/idev/pusher
--   https://framagit.org/idev/pusher
--   https://github.com/idev-sig/pusher
-
 ## 支持平台
 
 | 状态     | **国内**平台         | 官网                                                                                                             | 文档 | 案例                                       | 备注                                                                   |
@@ -40,7 +36,7 @@ APP 推送通知
 
 ## 环境
 
--   **PHP**: `"^8.0 || ^8.1"`
+-   **PHP**: `"^8.1 || ^8.2"`
 
 ## 使用
 
@@ -50,3 +46,9 @@ APP 推送通知
 # 主线版
 composer require jetsung/pusher:dev-main
 ```
+
+## 仓库镜像
+
+-   https://git.jetsung.com/idev/pusher
+-   https://framagit.org/idev/pusher
+-   https://github.com/idev-sig/pusher

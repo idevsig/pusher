@@ -52,10 +52,10 @@ class PushoverTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            [ '', '这是第一条消息，不指定设备', '', false, 'https://jihulab.com/jetsung/pusher'],
-            [ '支持 HTML 的消息', '这是第二条消息，支持HTML。<a href="https://jihulab.com/jetsung/pusher">项目</a>"', '', true, 'https://jihulab.com/jetsung/pusher'],
-            [ '第三条信息', '这是第三条消息，不指定设备', 'iphone', false, 'https://jihulab.com/jetsung/pusher'],
-            [ '', '这是第四条消息，指定设备<strong>加粗了</strong>', 'Pusher', false, 'https://jihulab.com/jetsung/pusher'],
+            [ '', '这是第一条消息，不指定设备', '', false, 'https://github.com/idev-sig/pusher'],
+            [ '支持 HTML 的消息', '这是第二条消息，支持HTML。<a href="https://github.com/idev-sig/pusher">项目</a>"', '', true, 'https://github.com/idev-sig/pusher'],
+            [ '第三条信息', '这是第三条消息，不指定设备', 'iphone', false, 'https://github.com/idev-sig/pusher'],
+            [ '', '这是第四条消息，指定设备<strong>加粗了</strong>', 'Pusher', false, 'https://github.com/idev-sig/pusher'],
         ];
     }
 

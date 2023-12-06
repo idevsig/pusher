@@ -49,7 +49,7 @@ class ShowdocTest extends TestCase
         $markdown = "![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png) 
 ### 乔布斯 20 年前想打造的苹果咖啡厅 
 Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划。
-**[项目地址](https://github.com/jetsung/pusher)**";
+**[项目地址](https://github.com/idev-sig/pusher)**";
 
         return [
             [ '这个是标题', $markdown],

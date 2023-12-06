@@ -19,7 +19,6 @@ class BarkTest extends TestCase
 {
     private string $token = '';
     private string $customURL = '';
-    private string $customToken = '';
 
     private static bool $PASS = false;
 
@@ -33,10 +32,8 @@ class BarkTest extends TestCase
         }
 
         $customURL = getenv('BarkCustomURL');
-        $customToken = getenv('BarkCustomToken');
-        if ($customURL && $customToken) {
+        if ($customURL) {
             $this->customURL = $customURL;
-            $this->customToken = $customToken;
         }
     }
 
@@ -59,8 +56,8 @@ class BarkTest extends TestCase
             [ '标题000', '这是标题000的内容。'],
             [ '标题111', '111自定义声音和ICON', 1, 'bloom.caf', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'],
             [ '标题222', '分组，内容222', 1, 'bloom.caf', '', 'group'],
-            [ '标题333', '分组，跳转到项目地址', 1, 'chime.caf', '', 'group', 'https://jihulab.com/jetsung/pusher'],
-            'custom url' => [ '自定义 URL 标题', '分组2，跳转到项目地址，自定义URL', 2, 'chime.caf', '', 'group2', 'https://jihulab.com/jetsung/pusher', true ],
+            [ '标题333', '分组，跳转到项目地址', 1, 'chime.caf', '', 'group', 'https://github.com/idev-sig/pusher'],
+            'custom url' => [ '自定义 URL 标题', '分组2，跳转到项目地址，自定义URL', 2, 'chime.caf', '', 'group2', 'https://github.com/idev-sig/pusher', true ],
         ];
     }
 
@@ -86,12 +83,11 @@ class BarkTest extends TestCase
         $channel->setToken($this->token);
 
         if ($is_custom) {
-            if ($this->customURL === '' || $this->customToken === '') {
+            if ($this->customURL === '') {
                 $this->skipTest(__METHOD__, true);
             }
 
-            $channel->setURL($this->customURL)
-                ->setToken($this->customToken);
+            $channel->setURL($this->customURL);
         }
 
         $message = new BarkMessage($body);
