@@ -43,7 +43,7 @@ class TelegramTest extends TestCase
     public function skipTest(string $func, bool $skip = false): void
     {
         if (self::$PASS || $skip) {
-            $this->markTestSkipped("skip ${func}");
+            $this->markTestSkipped("skip {$func}");
         }
     }
 

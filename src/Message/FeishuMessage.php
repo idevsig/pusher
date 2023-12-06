@@ -239,6 +239,7 @@ class FeishuMessage extends Message
         }
 
         $this->params += $params;
+
         // echo json_encode($this->params);
         return $this;
     }

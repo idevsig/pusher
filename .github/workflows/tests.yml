@@ -27,9 +27,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - php-version: "8.1"
-            os: "ubuntu-latest"
-            experimental: false
           - php-version: "8.2"
             os: "ubuntu-latest"
             experimental: false
@@ -71,4 +68,4 @@ jobs:
             wget -O .env ${SECRET_URL}
           fi
 
-          source .env && vendor/bin/phpunit tests --verbose
+          source .env && vendor/bin/phpunit tests

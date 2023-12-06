@@ -338,7 +338,7 @@ class QQBotTest extends TestCase
             ->Sandbox(true)
             ->setToken($this->token);
 
-//         $markdown = "![screenshot](https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png)
+        //         $markdown = "![screenshot](https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png)
         // ### 乔布斯 20 年前想打造的苹果咖啡厅
         // Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划";
         $markdown = '## 这是一个 Markdown 内容';
