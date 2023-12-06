@@ -11,7 +11,6 @@
 
 namespace Pusher\Tests\Channels;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Pusher\Channel\Telegram;
 use Pusher\Message\TelegramMessage;
@@ -20,7 +19,7 @@ use Pusher\Pusher;
 class TelegramTest extends TestCase
 {
     private string $token = '';
-    private string $chat_id = '-1001566256525';
+    private string $chat_id = '';
     private string $customURL = '';
 
     private static bool $PASS = false;
@@ -28,11 +27,13 @@ class TelegramTest extends TestCase
     public function setUp(): void
     {
         $token = getenv('TelegramToken');
-        if ($token) {
-            $this->token = $token;
-        } else {
+        $chat_id = getenv('TelegramChatId');
+        if (!$token || !$chat_id) {
             self::$PASS = true;
         }
+
+        $this->token = $token;
+        $this->chat_id = $chat_id;
 
         $customURL = getenv('TelegramCustomURL');
         if ($customURL) {
@@ -53,7 +54,7 @@ class TelegramTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
             [ 'Pusher [声音]测试.  项目地址：https://github.com/idev-sig/pusher', true ],
@@ -73,11 +74,6 @@ class TelegramTest extends TestCase
         $channel = new Telegram();
         $channel->setChatID($this->chat_id)
             ->setToken($this->token);
-
-        $ping = $this->inChina();
-        if ($ping) {
-            $channel->setURL($this->customURL);
-        }
 
         $message = new TelegramMessage($text);
         $message->setSound($sound);
@@ -101,11 +97,6 @@ class TelegramTest extends TestCase
             ->setMethod(Pusher::METHOD_GET)
             ->setReqURL('/getUpdates');
 
-        $ping = $this->inChina();
-        if ($ping) {
-            $channel->setURL($this->customURL);
-        }
-
         $message = new TelegramMessage();
 
         $response = $channel->request($message);
@@ -126,26 +117,5 @@ class TelegramTest extends TestCase
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
         $this->assertTrue($channel->getStatus());
-    }
-
-    private function inChina(): bool
-    {
-        // 使用代理
-        // $ping = exec("ping -c 1 api.telegram.org") === ''; // GitHub Action 无法使用
-        $ping = false;
-        try {
-            $opts = [
-                'http' => [
-                    'method' => 'GET',
-                    'timeout' => 5,
-                ],
-            ];
-            $context = stream_context_create($opts);
-            file_get_contents('https://api.telegram.org', false, $context);
-        } catch (Exception $e) {
-            $ping = true;
-        }
-
-        return $ping;
     }
 }

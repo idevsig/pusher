@@ -42,7 +42,7 @@ class Feishu extends \Pusher\Channel
         if ($this->secret !== '') {
             $timestamp = time();
             $this->params['timestamp'] = $timestamp;
-            $this->params['sign'] = Utils::generateSign($this->secret, $timestamp);
+            $this->params['sign'] = Utils::generateSign2($this->secret, $timestamp);
         }
 
         $this->request_url = sprintf($this->uri_template, $this->config['url'], $this->token);

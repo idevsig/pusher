@@ -47,11 +47,11 @@ class XizhiTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
-            [ '单点推送', '此消息为单点推送. [项目地址](https://github.com/idev-sig/pusher)', Xizhi::TYPE_SEND ],
-            [ '频道推送', '此消息为频道推送. [项目地址](https://github.com/idev-sig/pusher)', Xizhi::TYPE_CHANNEL],
+            [ 'Pusher通知单点推送', '此消息为单点推送. [项目地址](https://github.com/idev-sig/pusher)', Xizhi::TYPE_SEND ],
+            [ 'Pusher通知频道推送', '此消息为频道推送. [项目地址](https://github.com/idev-sig/pusher)', Xizhi::TYPE_CHANNEL],
         ];
     }
 

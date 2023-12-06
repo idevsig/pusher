@@ -44,20 +44,20 @@ class PushbulletTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
-            [ PushbulletMessage::TYPE_NOTE, '这个是 NOTE 标题', '这个是 NOTE 内容。' ],
-            [ PushbulletMessage::TYPE_LINK, '这个是 LINK 标题', '这个是 LINK 内容。', 'https://github.com/idev-sig/pusher' ],
-            [ PushbulletMessage::TYPE_FILE, '这个是 FILE 标题', '这个是 FILE 内容。', 'https://github.com/idev-sig/pusher' ],
+            [ PushbulletMessage::TYPE_NOTE, 'Pusher通知 NOTE 标题', '这个是 NOTE 内容。' ],
+            [ PushbulletMessage::TYPE_LINK, 'Pusher通知 LINK 标题', '这个是 LINK 内容。', 'https://github.com/idev-sig/pusher' ],
+            [ PushbulletMessage::TYPE_FILE, 'Pusher通知 FILE 标题', '这个是 FILE 内容。', 'https://github.com/idev-sig/pusher' ],
         ];
     }
 
-    public function additionOneProvider(): array
+    public static function additionOneProvider(): array
     {
         return [
-            [ 1, 'ujxWFWA0namsjvRQFTHzOe' ], //  xiaomi ujxWFWA0namsjAGpzVXSbk
-            [ 2, 'tests@s.skiy.net'], // 邮箱
+            // [ 9, 'ujxWFWA0namsjvRQFTHzOe' ], //  Android Idenkey
+            [ 2, 'snowany@outlook.com'], // 邮箱
             // [ 4, 'client_iden' ], // client iden 无法测
             // [ 5, 'channel_tag' ], // channel_tag 无法测
         ];
@@ -81,9 +81,9 @@ class PushbulletTest extends TestCase
         if ($type === PushbulletMessage::TYPE_LINK) {
             $message->setURL($url);
         } elseif ($type === PushbulletMessage::TYPE_FILE) {
-            $message->setFileName('baidu.png')
+            $message->setFileName('meinv.png')
                 ->setType('image/png')
-                ->setFileURL('https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
+                ->setFileURL('https://tse3-mm.cn.bing.net/th/id/OIP-C.NXnqTLAq_jjNimN3iiqVEAHaQD');
         }
 
         $channel->request($message);
@@ -111,6 +111,10 @@ class PushbulletTest extends TestCase
         $message = new PushbulletMessage(PushbulletMessage::TYPE_NOTE, '这个是消息内容： ' . $num, '标题');
 
         switch ($num) {
+            case 1:
+                $message->setDeviceIden($iden);
+                break;
+
             case 2:
                 $message->setEmail($iden);
                 break;
@@ -124,7 +128,7 @@ class PushbulletTest extends TestCase
                 break;
 
             default:
-                $message->setDeviceIden($iden);
+                $this->assertTrue(false);
         }
 
         $channel->request($message);

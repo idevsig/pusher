@@ -44,11 +44,11 @@ class WxPusherTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
             [
-                '「TEXT」Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划',
+                'Pusher通知「TEXT」Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划',
                 '乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身',
                 1,
                 [ 5381 ],
@@ -56,7 +56,7 @@ class WxPusherTest extends TestCase
                 'https://github.com/idev-sig/pusher',
             ],
             [
-                '「HTML」<a href="https://apple.com">Apple Store</a> 的<strong>设计</strong>正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划',
+                'Pusher通知「HTML」<a href="https://apple.com">Apple Store</a> 的<strong>设计</strong>正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划',
                 '## 乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身',
                 2,
                 [],
@@ -64,7 +64,7 @@ class WxPusherTest extends TestCase
                 'https://github.com/idev-sig/pusher',
             ],
             [
-                '「Markdown」[Apple Store](https://apple.com) 的设计正从原来满满的**科技感**走向*生活化*，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划',
+                'Pusher通知「Markdown」[Apple Store](https://apple.com) 的设计正从原来满满的**科技感**走向*生活化*，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划',
                 '',
                 3,
                 [ 5381 ],

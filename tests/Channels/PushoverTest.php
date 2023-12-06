@@ -27,10 +27,12 @@ class PushoverTest extends TestCase
     public function setUp(): void
     {
         $token = getenv('PushoverToken');
-        if ($token) {
+        $user_key = getenv('PushoverUserKey');
+        $group_key = getenv('PushoverGroupKey');
+        if ($token && ($user_key || $group_key)) {
             $this->token = $token;
-            $this->user_key = getenv('PushoverUserKey');
-            $this->group_key = getenv('PushoverGroupKey');
+            $this->user_key = $user_key;
+            $this->group_key = $group_key;
         } else {
             self::$PASS = true;
         }
@@ -49,13 +51,13 @@ class PushoverTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
-            [ '', '这是第一条消息，不指定设备', '', false, 'https://github.com/idev-sig/pusher'],
-            [ '支持 HTML 的消息', '这是第二条消息，支持HTML。<a href="https://github.com/idev-sig/pusher">项目</a>"', '', true, 'https://github.com/idev-sig/pusher'],
-            [ '第三条信息', '这是第三条消息，不指定设备', 'iphone', false, 'https://github.com/idev-sig/pusher'],
-            [ '', '这是第四条消息，指定设备<strong>加粗了</strong>', 'Pusher', false, 'https://github.com/idev-sig/pusher'],
+            [ 'Pusher通知', 'Pusher通知第一条消息，指定User', 'User', false, 'https://github.com/idev-sig/pusher'],
+            [ 'Pusher通知支持 HTML 的消息', 'Pusher通知第二条消息，指定User，支持HTML。<strong>加粗了</strong> <a href="https://github.com/idev-sig/pusher">项目</a>"', 'User', true, 'https://github.com/idev-sig/pusher'],
+            [ 'Pusher通知第三条信息', 'Pusher通知第三条消息，指定设备「iphone」', 'iphone', false, 'https://github.com/idev-sig/pusher'],
+            [ 'Pusher通知', 'Pusher通知第四条消息，指定群组「Pusher」', 'Group', false, 'https://github.com/idev-sig/pusher'],
         ];
     }
 
@@ -64,7 +66,7 @@ class PushoverTest extends TestCase
      *
      * @return void
      */
-    public function testCases(string $title, string $message = '', string $device = '', bool $html = false, string $url = ''): void
+    public function testCases(string $title, string $message = '', string $mode = '', bool $html = false, string $url = ''): void
     {
         $this->skipTest(__METHOD__);
         $this->timeSleep(10);
@@ -72,16 +74,26 @@ class PushoverTest extends TestCase
         $channel = new Pushover();
         $channel->setToken($this->token);
 
-        if ($device === 'Pusher') {
+        if (!$mode) {
+            $this->assertTrue(false);
+        }
+
+        if ($mode === 'Group') { // group
             $channel->setUser($this->group_key);
+        } elseif ($mode === 'User') {
+            $channel->setUser($this->user_key);
         } else {
+            $channel->setUser($this->group_key);
             $channel->setUser($this->user_key);
         }
 
         $message = new PushoverMessage($message, $title);
-        $message->setDevice($device)
-            ->setHtml($html)
+        $message->setHtml($html)
             ->setURL($url);
+
+        if (!in_array($mode, ['User', 'Group'])) {
+            $message->setDevice($mode);
+        }
 
         $channel->request($message);
 

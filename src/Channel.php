@@ -173,7 +173,7 @@ class Channel implements ChannelInterface
     {
         $this->doCheck($message);
         $this->response = $this->send($this->method, $this->request_url, $this->params, $this->options);
-
+        // var_dump($this->request_url, $this->params);
         $status_code = $this->response->getStatusCode();
         if ($status_code >= 200 &&
                 $status_code <= 299) {

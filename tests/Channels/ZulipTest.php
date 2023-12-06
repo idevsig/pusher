@@ -11,7 +11,6 @@
 
 namespace Pusher\Tests\Channels;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Pusher\Channel\Zulip;
 use Pusher\Message\ZulipMessage;
@@ -22,7 +21,6 @@ class ZulipTest extends TestCase
     private string $email = '';
     private string $api_key = '';
     private string $customURL = '';
-    private string $customProxyURL = '';
 
     private static bool $PASS = false;
 
@@ -37,11 +35,6 @@ class ZulipTest extends TestCase
             $this->customURL = $customURL;
         } else {
             self::$PASS = true;
-        }
-
-        $customProxyURL = getenv('ZulipCustomProxyURL');
-        if ($customProxyURL) {
-            $this->customProxyURL = $customProxyURL;
         }
     }
 
@@ -58,13 +51,13 @@ class ZulipTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
-            [ ZulipMessage::TYPE_PRIVATE, 'tests@s.skiy.net', '私人、邮箱、字符串 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)' ],
-            [ ZulipMessage::TYPE_PRIVATE, '[ 494729, 494731 ]', '私人、ID、数字列表 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)' ],
+            [ ZulipMessage::TYPE_PRIVATE, 'snowany@outlook.com', 'Pusher通知私人、邮箱地址、字符串 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)' ],
+            [ ZulipMessage::TYPE_PRIVATE, '[ 494729, 494731 ]', 'Pusher通知私人、ID、数字列表 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)' ],
             // [ ZulipMessage::TYPE_STREAM, 322046, '流、频道、数字 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)', 'Pusher' ],
-            [ ZulipMessage::TYPE_STREAM, 'general', '流、频道、频道名 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)', 'Pusher' ],
+            [ ZulipMessage::TYPE_STREAM, 'general', 'Pusher通知流、频道、频道名 **支持 Markdown**。[项目地址](https://github.com/idev-sig/pusher)', 'Pusher' ],
         ];
     }
 
@@ -82,11 +75,6 @@ class ZulipTest extends TestCase
         $channel->setEmail($this->email)
             ->setApiKey($this->api_key)
             ->setURL($this->customURL);
-
-        $ping = $this->inChina();
-        if ($ping) {
-            $channel->setURL($this->customProxyURL);
-        }
 
         $message = new ZulipMessage($type, $content);
         $message->setTo($to)
@@ -113,11 +101,6 @@ class ZulipTest extends TestCase
             ->setMethod(Pusher::METHOD_GET)
             ->setReqURL('/api/v1/users/me/subscriptions');
 
-        $ping = $this->inChina();
-        if ($ping) {
-            $channel->setURL($this->customProxyURL);
-        }
-
         $message = new ZulipMessage();
 
         $response = $channel->request($message);
@@ -137,26 +120,5 @@ class ZulipTest extends TestCase
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
         $this->assertTrue($channel->getStatus());
-    }
-
-    private function inChina(): bool
-    {
-        // 使用代理
-        // $ping = exec("ping -c 1 api.telegram.org") === ''; // GitHub Action 无法使用
-        $ping = false;
-        try {
-            $opts = [
-                'http' => [
-                    'method' => 'GET',
-                    'timeout' => 5,
-                ],
-            ];
-            $context = stream_context_create($opts);
-            file_get_contents($this->customURL, false, $context);
-        } catch (Exception $e) {
-            $ping = true;
-        }
-
-        return $ping;
     }
 }

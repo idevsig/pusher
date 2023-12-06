@@ -25,13 +25,16 @@ class PushDeerTest extends TestCase
 
     public function setUp(): void
     {
-        $token = getenv('PushDeerToken');
+        $token = getenv("PushDeerToken");
         if ($token) {
             $this->token = $token;
-            $this->customURL = getenv('PushDeerCustomURL');
-            $this->customToken = getenv('PushDeerCustomToken');
         } else {
             self::$PASS = true;
+        }
+
+        $customURL = getenv('PushDeerCustomURL');
+        if ($customURL) {
+            $this->customURL = $customURL;
         }
     }
 
@@ -48,13 +51,13 @@ class PushDeerTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
-            [ '', 'This is text', 'This is desp' ],
-            [ PushDeerMessage::TYPE_MARKDOWN, '## Markdown', '**Markdown** 类型数据. [项目地址](https://github.com/idev-sig/pusher)' ],
-            [ PushDeerMessage::TYPE_IMAGE,  'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png', '' ],
-            [ PushDeerMessage::TYPE_TEXT, '## 自定义', '**自定义 URL** 类型.', true ],
+            [ '', 'Pusher通知', 'This is desp' ],
+            [ PushDeerMessage::TYPE_MARKDOWN, '## Pusher通知Markdown', '**Markdown** 类型数据. [项目地址](https://github.com/idev-sig/pusher)' ],
+            [ PushDeerMessage::TYPE_IMAGE,  'https://tse3-mm.cn.bing.net/th/id/OIP-C.NXnqTLAq_jjNimN3iiqVEAHaQD', '' ],
+            [ PushDeerMessage::TYPE_TEXT, 'Pusher通知自定义内容', '自定义文本内容描述.', true ],
         ];
     }
 
@@ -72,8 +75,7 @@ class PushDeerTest extends TestCase
         $channel->setToken($this->token);
 
         if ($is_custom) {
-            $channel->setURL($this->customURL)
-                ->setToken($this->customToken);
+            $channel->setURL($this->customURL);
         }
 
         $message = new PushDeerMessage($type, $desp, $text);

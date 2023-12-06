@@ -45,10 +45,10 @@ class ServerChanTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
-            [ 'Title', '**This** is desp. [项目地址](https://github.com/idev-sig/pusher)'],
+            [ 'Pusher通知', '**This** is desp. [项目地址](https://github.com/idev-sig/pusher)'],
         ];
     }
 

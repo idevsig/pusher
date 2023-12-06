@@ -27,34 +27,37 @@ class QQBotTest extends TestCase
     public function setUp(): void
     {
         $token = getenv('QQBotToken');
-        if ($token) {
-            $this->token = $token;
-            $this->app_id = getenv('QQBotAppId');
-            $this->channel_id = getenv('QQBotChannelId');
-        } else {
+        $app_id = getenv('QQBotAppId');
+        $channel_id = getenv('QQBotChannelId');
+
+        if (!$token || !$app_id || !$channel_id) {
             self::$PASS = true;
         }
 
-        // 304022 PUSH_TIME 推送消息时间限制
-        // 304045 push channel message reach limit
-        // QQ 频道在晚上不可以推送消息
-        date_default_timezone_set('PRC');
-        $current_day = date('Y-m-d');
-        $current_time = time();
+        $this->token = $token;
+        $this->app_id = $app_id;
+        $this->channel_id = $channel_id;
 
-        $clock_23 = strtotime($current_day . ' 23:00:00');
-        $clock_09 = strtotime($current_day . ' 09:00:00');
+        // // 304022 PUSH_TIME 推送消息时间限制
+        // // 304045 push channel message reach limit
+        // // QQ 频道在晚上不可以推送消息
+        // date_default_timezone_set('PRC');
+        // $current_day = date('Y-m-d');
+        // $current_time = time();
 
-        // 当前时间大于 23 点 或 当前时间小于 9 点
-        if ($current_time > $clock_23 || $current_time < $clock_09) {
-            self::$PASS = true;
-        }
+        // $clock_23 = strtotime($current_day . ' 23:00:00');
+        // $clock_09 = strtotime($current_day . ' 09:00:00');
+
+        // // 当前时间大于 23 点 或 当前时间小于 9 点
+        // if ($current_time > $clock_23 || $current_time < $clock_09) {
+        //     self::$PASS = false;
+        // }
     }
 
     public function skipTest(string $func, bool $skip = false): void
     {
         if (self::$PASS || $skip) {
-            $this->markTestSkipped("skip ${func}");
+            $this->markTestSkipped("skip {$func}");
         }
     }
 
@@ -75,11 +78,12 @@ class QQBotTest extends TestCase
             ->Sandbox(true)
             ->setToken($this->token);
 
-        $message = new QQBotMessage('文本类型 content 的消息发送');
+        $message = new QQBotMessage('Pusher通知文本类型 content 的消息发送');
 
         $channel->request($message);
 
-        printf("\n%s.%s\n", __CLASS__, __METHOD__);
+        // printf("\n%s%s\n", __CLASS__, __METHOD__);
+        printf("\nmethod: %s\n", __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -98,11 +102,11 @@ class QQBotTest extends TestCase
             ->setToken($this->token);
 
         $message = new QQBotMessage();
-        $message->setImage('https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png');
+        $message->setImage('https://tse3-mm.cn.bing.net/th/id/OIP-C.NXnqTLAq_jjNimN3iiqVEAHaQD');
 
         $channel->request($message);
 
-        printf("\n%s.%s\n", __CLASS__, __METHOD__);
+        printf("\nmethod: %s\n", __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -121,10 +125,10 @@ class QQBotTest extends TestCase
             ->setToken($this->token);
 
         $embed = [
-            'title' => '这个是标题：Embed',
+            'title' => 'Pusher通知：Embed',
             'prompt' => '这个是弹窗内容。',
             'thumbnail' => [
-                'url' => 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
+                'url' => 'https://tse3-mm.cn.bing.net/th/id/OIP-C.NXnqTLAq_jjNimN3iiqVEAHaQD',
             ],
             'fields' => [
                 [ 'name' => '当前等级：黄金' ],
@@ -138,7 +142,7 @@ class QQBotTest extends TestCase
 
         $channel->request($message);
 
-        printf("\n%s.%s\n", __CLASS__, __METHOD__);
+        printf("\nmethod: %s\n", __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -174,7 +178,7 @@ class QQBotTest extends TestCase
                         'obj_kv' => [
                         [
                             'key' => 'desc',
-                            'value' => '此消息标题：ark 类型',
+                            'value' => 'Pusher通知：ark 类型',
                         ],
                         ],
                     ],
@@ -253,7 +257,7 @@ class QQBotTest extends TestCase
 
         $channel->request($message);
 
-        printf("\n%s.%s\n", __CLASS__, __METHOD__);
+        printf("\nmethod: %s\n", __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -274,7 +278,7 @@ class QQBotTest extends TestCase
         $message = new QQBotMessage();
         $response = $channel->request($message);
 
-        printf("\n%s.%s\n", __CLASS__, __METHOD__);
+        printf("\nmethod: %s\n", __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -313,7 +317,7 @@ class QQBotTest extends TestCase
         $message = new QQBotMessage();
         $response = $channel->request($message);
 
-        printf("\n%s.%s\n", __CLASS__, __METHOD__);
+        printf("\nmethod: %s\n", __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }
@@ -321,7 +325,8 @@ class QQBotTest extends TestCase
 
         $jsonData = json_decode($response, true);
         if (count($jsonData) > 0) {
-            echo "\n\n[ QQBot Channel Id ]: \n" . implode("\n", array_column($jsonData, 'id'));
+            echo "\n\n[ QQBot Channel]: \n"; //. implode("\n", array_column($jsonData, 'id'));
+            print_r(array_map(null, array_column($jsonData, 'id'), array_column($jsonData, 'name')));
         }
     }
 
@@ -348,7 +353,7 @@ class QQBotTest extends TestCase
 
         $channel->request($message);
 
-        printf("\n%s.%s\n", __CLASS__, __METHOD__);
+        printf("\nmethod: %s\n", __METHOD__);
         if (!$channel->getStatus()) {
             var_dump($channel->getErrMessage());//, $channel->getContents());
         }

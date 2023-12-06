@@ -50,15 +50,15 @@ class ChanifyTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         $content = "不支持 Markdown 和 HTML。
 Pusher 项目地址：https://github.com/idev-sig/pusher
 ";
 
         return [
-            [ '这里是标题', $content],
-            [ '文本，自定义 URL', $content, true],
+            [ 'Pusher通知', $content],
+            [ 'Pusher通知文本，自定义 URL', $content, true],
         ];
     }
 

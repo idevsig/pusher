@@ -39,7 +39,7 @@ class TechulusTest extends TestCase
         }
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
             [ '文本标题一', '不支持 HTML 和 Markdown。项目地址：https://github.com/idev-sig/pusher', 'https://github.com/idev-sig/pusher', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'],

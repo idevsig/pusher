@@ -56,13 +56,13 @@ class MailerTest extends TestCase
         }
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         $content = file_get_contents('https://getbootstrap.com/docs/5.1/examples/cover/') ?? '';
 
         return [
-            [ '调试 Pusher 邮件发送功能', '这里是邮件 HTML 格式的正文内容，详情 <a href="https://github.com/idev-sig/pusher" target="_blank"><strong>点击查看项目网站</strong></a>', '这里是纯文本格式的正文内容'],
-            [ '调试 Pusher 邮件发送功能（网页）', $content, '这里是纯文本格式的正文内容'],
+            [ 'Pusher通知邮件发送功能', '这里是邮件 HTML 格式的正文内容，详情 <a href="https://github.com/idev-sig/pusher" target="_blank"><strong>点击查看项目网站</strong></a>', '这里是纯文本格式的正文内容'],
+            [ 'Pusher通知邮件发送功能（网页）', $content, '这里是纯文本格式的正文内容'],
         ];
     }
 

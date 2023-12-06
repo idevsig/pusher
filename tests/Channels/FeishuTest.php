@@ -26,9 +26,9 @@ class FeishuTest extends TestCase
     {
         $token = getenv('FeishuToken');
         $secret = getenv('FeishuSecret');
-        if ($token && $secret) {
+        if ($token) {
             $this->token = $token;
-            $this->secret = $secret;
+            $secret && $this->secret = $secret;
         } else {
             self::$PASS = true;
         }
@@ -47,12 +47,12 @@ class FeishuTest extends TestCase
         sleep($time);
     }
 
-    public function additionProviderText(): array
+    public static function additionProviderText(): array
     {
         return [
-            [ 'text', '文本类型内容推送' ],
+            [ 'text', 'Pusher通知文本类型内容推送' ],
             // [ 'text', '<at user_id="ou_xxx">用户名</at> 文本类型内容推送给指定用户' ], // 需"自建应用"
-            [ 'text', '<at user_id="all">所有人</at> 文本类型内容推送给全部' ],
+            [ 'text', '<at user_id="all">所有人</at> Pusher通知文本类型内容推送给全部' ],
         ];
     }
 
@@ -211,7 +211,7 @@ class FeishuTest extends TestCase
             ])
             ->setInteractiveHeader([
                 'title' => [
-                    'content' => '今日旅游推荐',
+                    'content' => 'Pusher通知今日旅游推荐',
                     'tag' => 'plain_text',
                 ],
             ])

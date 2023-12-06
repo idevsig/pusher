@@ -13,12 +13,26 @@ namespace Pusher;
 
 class Utils
 {
+    /**
+     * 钉钉 签名
+     */
     public static function generateSign(string $secret, int $timestamp): string
     {
         $stringToSign = sprintf("%s\n%s", $timestamp, $secret);
         $signData = hash_hmac('sha256', $stringToSign, $secret, true);
 
         return urlencode(base64_encode($signData));
+    }
+
+    /**
+     * 飞书 Lark 签名
+     */
+    public static function generateSign2(string $secret, int $timestamp): string
+    {
+        $stringToSign = sprintf("%s\n%s", $timestamp, $secret);
+        $signData = hash_hmac('sha256', '', $stringToSign, true);
+
+        return base64_encode($signData);
     }
 
     public static function strToArray(string $message): array

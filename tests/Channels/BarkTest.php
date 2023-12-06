@@ -50,14 +50,14 @@ class BarkTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
-            [ '标题000', '这是标题000的内容。'],
-            [ '标题111', '111自定义声音和ICON', 1, 'bloom.caf', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'],
-            [ '标题222', '分组，内容222', 1, 'bloom.caf', '', 'group'],
-            [ '标题333', '分组，跳转到项目地址', 1, 'chime.caf', '', 'group', 'https://github.com/idev-sig/pusher'],
-            'custom url' => [ '自定义 URL 标题', '分组2，跳转到项目地址，自定义URL', 2, 'chime.caf', '', 'group2', 'https://github.com/idev-sig/pusher', true ],
+            [ '标题000', 'Pusher通知000'],
+            [ '标题111', 'Pusher通知111自定义声音和ICON', 1, 'bloom.caf', 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'],
+            [ '标题222', 'Pusher通知分组，内容222', 1, 'bloom.caf', '', 'group'],
+            [ '标题333', 'Pusher通知分组，跳转到项目地址', 1, 'chime.caf', '', 'group', 'https://github.com/idev-sig/pusher'],
+            'custom url' => [ 'Pusher通知自定义 URL 标题', '分组2，跳转到项目地址，自定义URL', 2, 'chime.caf', '', 'group2', 'https://github.com/idev-sig/pusher', true ],
         ];
     }
 

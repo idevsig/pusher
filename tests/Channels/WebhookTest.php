@@ -51,12 +51,12 @@ class WebhookTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
-            [ Pusher::METHOD_GET, [ 'text' => '[PushDeer]这个是 WebHook 消息内容。' ]],
-            [ Pusher::METHOD_POST, [ 'text' => '[Chanify]这个是 WebHook 消息内容。' ]],
-            [ Pusher::METHOD_JSON, [ 'title' => '这个是 POST_JSON 标题', 'content' => '[PushPlus]这个是 WebHook 消息内容。' ]],
+            [ Pusher::METHOD_GET, [ 'text' => 'Pusher通知[PushDeer]这个是 WebHook 消息内容。' ]],
+            [ Pusher::METHOD_POST, [ 'text' => 'Pusher通知[Chanify]这个是 WebHook 消息内容。' ]],
+            [ Pusher::METHOD_JSON, [ 'title' => 'Pusher通知[PushPlus]这个是 POST_JSON 标题', 'content' => '[PushPlus]这个是 WebHook 消息内容。' ]],
         ];
     }
 
@@ -100,6 +100,9 @@ class WebhookTest extends TestCase
 
         $token = getenv('QQBotToken');
         $app_id = getenv('QQBotAppId');
+        if (!$token || !$app_id) {
+            $this->skipTest(__METHOD__, true);
+        }
 
         $options = [
             'headers' => [

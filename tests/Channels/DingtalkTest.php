@@ -27,9 +27,9 @@ class DingtalkTest extends TestCase
     {
         $token = getenv('DingtalkToken');
         $secret = getenv('DingtalkSecret');
-        if ($token && $secret) {
+        if ($token) {
             $this->token = $token;
-            $this->secret = $secret;
+            $secret && $this->secret = $secret;
         } else {
             self::$PASS = true;
         }
@@ -48,29 +48,29 @@ class DingtalkTest extends TestCase
         sleep($time);
     }
 
-    public function additionProviderTextMarkdown(): array
+    public static function additionProviderTextMarkdown(): array
     {
         $at = [
             'atMobiles' => [],
-            'atUserIds' => [ 'skiychan' ],
+            'atUserIds' => [ 'jetsung' ],
             'isAtAll' => true,
         ];
 
         $at2 = array_merge($at, [ 'isAtAll' => false ]);
 
         return [
-            [DingtalkMessage::TYPE_TEXT, 'TEXT 消息内容', '', $at],
-            [DingtalkMessage::TYPE_TEXT, 'TEXT 消息内容 no at all', '', $at2],
-            [DingtalkMessage::TYPE_MARKDOWN, "#### 杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", '首屏会话透出的展示内容', $at],
+            [DingtalkMessage::TYPE_TEXT, 'Pusher通知TEXT 消息内容', '', $at],
+            [DingtalkMessage::TYPE_TEXT, 'Pusher通知TEXT 消息内容 no at all', '', $at2],
+            [DingtalkMessage::TYPE_MARKDOWN, "#### Pusher通知杭州天气 @150XXXXXXXX \n > 9度，西北风1级，空气良89，相对温度73%\n > ![screenshot](https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png)\n > ###### 10点20分发布 [天气](https://www.dingtalk.com) \n", '首屏会话透出的展示内容', $at],
         ];
     }
 
-    public function additionProviderActionCard(): array
+    public static function additionProviderActionCard(): array
     {
         $content = "![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png) 
 ### 乔布斯 20 年前想打造的苹果咖啡厅 
 Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划";
-        $title = '乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身';
+        $title = 'Pusher通知乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身';
 
         $btns = [
             [ 'title' => '百度网址', 'actionURL' => 'https://www.baidu.com' ],

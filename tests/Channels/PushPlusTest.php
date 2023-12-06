@@ -44,12 +44,12 @@ class PushPlusTest extends TestCase
         sleep($time);
     }
 
-    public function additionProvider(): array
+    public static function additionProvider(): array
     {
         return [
-            [ '标题一', '一对一，<a href="https://github.com/idev-sig/pusher" target="_blank">项目地址</a>'],
-            [ '标题二', '一对多，<a href="https://github.com/idev-sig/pusher" target="_blank">项目地址</a>', '001'],
-            [ '标题三 JSON', '{"标题": "这个是标题", "消息内容": "这个是消息内容"}', '001', 'json'],
+            [ 'Pusher通知', '一对一，<a href="https://github.com/idev-sig/pusher" target="_blank">项目地址</a>'],
+            [ 'Pusher通知', '一对多，<a href="https://github.com/idev-sig/pusher" target="_blank">项目地址</a>', '001'],
+            [ 'Pusher通知 JSON', '{"标题": "这个是标题", "消息内容": "这个是消息内容"}', '001', 'json'],
             // [ '标题四 阿里云监控', '一对多推送，<a href="https://github.com/idev-sig/pusher" target="_blank">项目地址</a>', '001', 'cloudMonitor'],
         ];
     }
