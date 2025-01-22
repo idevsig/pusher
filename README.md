@@ -32,7 +32,7 @@ APP 推送通知
 | ✔        | **Zulip Chat** | [https://zulip.com/](https://zulip.com/api/send-message)                                | -    | [cases](tests/Channels/ZulipTest.php)      | **可[自建](https://zulip.readthedocs.io/en/stable/production/install.html)**           |
 
 **TODO:**
-> 
+>
 
 ## 环境
 
@@ -49,6 +49,7 @@ composer require jetsung/pusher:dev-main
 
 ## 仓库镜像
 
--   https://git.jetsung.com/idev/pusher
--   https://framagit.org/idev/pusher
--   https://github.com/idev-sig/pusher
+- https://git.jetsung.com/idev/pusher
+- https://framagit.org/idev/pusher
+- https://gitcode.com/idev/pusher
+- https://github.com/idevsig/pusher
