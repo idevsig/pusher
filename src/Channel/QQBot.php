@@ -75,7 +75,7 @@ class QQBot extends \Pusher\Channel
         // 非 GET 请求，需要连接 WS
         if ($this->method !== 'GET') {
             $wssURL = $this->sandbox ? $this->wss_sandbox_url : $this->wss_url;
-            $this->wsClient = new \WebSocket\Client($wssURL);
+            $this->wsClient = new Client($wssURL);
             // $client->text("Hello WebSocket.org!");
             $this->wsClient->text(json_encode([
                 'op' => 2,
